@@ -14,8 +14,8 @@ export const metadata: Metadata = {
 };
 
 const include = [
-  "Which products you need (for example sliding windows, French doors, mesh doors)",
-  "How many windows or doors, and rough sizes if you know them",
+  "Which window types you need (for example sliding, casement or mesh windows), or UPVC profiles",
+  "How many windows, and rough sizes if you know them",
   "Whether it is a new building or a replacement",
   "Your area in Bengaluru",
   "Photos of the openings, if you have them (send on WhatsApp)",

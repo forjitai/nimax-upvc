@@ -29,7 +29,7 @@ const swatches = [
 
 const samples = [1, 2, 3, 4, 5, 6].map((i) => ({
   src: `/images/samples/sample-${i}.jpg`, width: 1200, height: 900,
-  alt: `Sample placeholder ${i}`, caption: `Sample ${i}`, category: i % 2 ? "Windows" : "Doors",
+  alt: `Sample placeholder ${i}`, caption: `Sample ${i}`, category: i % 2 ? "Sliding" : "Casement",
 }));
 
 function Block({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
@@ -89,7 +89,7 @@ export default function DesignSystemPage() {
             <div><p className="nx-caption">Section heading · Archivo 750</p><p className="nx-h2">Sliding, casement and tilt and turn</p></div>
             <div><p className="nx-caption">Product name · Archivo 700</p><p className="nx-h3">UPVC Casement Windows</p></div>
             <div><p className="nx-caption">Eyebrow</p><p className="nx-eyebrow">Products & services</p></div>
-            <div><p className="nx-caption">Lead · Manrope</p><p className="nx-lead">Every window and door is fabricated to the size of the opening at your site.</p></div>
+            <div><p className="nx-caption">Lead · Manrope</p><p className="nx-lead">Every window is fabricated to the size of the opening at your site.</p></div>
             <div><p className="nx-caption">Body · Manrope 400</p><p className="max-w-[68ch]">UPVC frames do not need painting and do not rust or rot. A sliding window opens without taking up room inside or outside, which suits balconies and rooms where a swinging sash would get in the way.</p></div>
           </div>
         </Block>
@@ -120,7 +120,7 @@ export default function DesignSystemPage() {
             {allProducts.map((p) => (
               <li key={p.slug} className="rounded-brand border border-line bg-bg-alt p-2">
                 <ProductIllustration type={p.illustration} title={p.name} className="aspect-square w-full" />
-                <p className="mt-1 text-center text-[0.7rem] leading-tight text-body">{p.name.replace(/^UPVC |^Aluminium /, "")}</p>
+                <p className="mt-1 text-center text-[0.7rem] leading-tight text-body">{p.name.replace(/^UPVC /, "")}</p>
               </li>
             ))}
             <li className="rounded-brand border border-line bg-bg-alt p-2">

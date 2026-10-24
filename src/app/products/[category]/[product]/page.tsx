@@ -50,6 +50,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[cate
   const { category, product } = hit;
   const related = category.products.filter((p) => p.slug !== product.slug).slice(0, 4);
   const quoteText = `Hello ${business.name}, I would like a quotation for ${product.name}.`;
+  const isProfile = category.slug === "upvc-profiles";
 
   return (
     <>
@@ -77,9 +78,9 @@ export default async function ProductPage({ params }: PageProps<"/products/[cate
             </div>
           ) : (
             <figure className="rounded-brand-lg border border-line bg-bg-alt p-6 sm:p-10">
-              <ProductIllustration type={product.illustration} title={`Drawing of ${product.name.toLowerCase()} showing how it opens`} className="mx-auto aspect-square w-full max-w-[420px]" />
+              <ProductIllustration type={product.illustration} title={isProfile ? "Cross-section of a UPVC window profile" : `Drawing of ${lower(product.name)} showing how it opens`} className="mx-auto aspect-square w-full max-w-[420px]" />
               <figcaption className="nx-caption mt-4 text-center">
-                Drawing: dashed lines point to the hinge side; arrows show the sliding direction.
+                {isProfile ? "Drawing: cross-section of a frame profile showing its hollow chambers and steel reinforcement." : "Drawing: dashed lines point to the hinge side; arrows show the sliding direction."}
               </figcaption>
             </figure>
           )}
@@ -89,7 +90,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[cate
           <h2 id="overview-title" className="nx-h2">About {lower(product.name)}</h2>
           <p className="mt-4 max-w-[64ch] text-[1.04rem]">{product.details}</p>
 
-          <h3 className="nx-h3 mt-8 flex items-center gap-2"><MoveHorizontal aria-hidden size={20} className="text-accent" /> How it opens</h3>
+          <h3 className="nx-h3 mt-8 flex items-center gap-2"><MoveHorizontal aria-hidden size={20} className="text-accent" /> {isProfile ? "How profiles are used" : "How it opens"}</h3>
           <p className="mt-2 max-w-[64ch]">{product.howItOpens}</p>
 
           {product.variants && (
@@ -103,7 +104,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[cate
             </>
           )}
 
-          <h3 className="nx-h3 mt-8">Where it suits</h3>
+          <h3 className="nx-h3 mt-8">{isProfile ? "Used for" : "Where it suits"}</h3>
           <ul className="mt-3 space-y-2">
             {product.suitedFor.map((s) => (
               <li key={s} className="flex gap-2.5"><Check aria-hidden size={18} className="mt-1 shrink-0 text-primary" /> {s}</li>
@@ -125,7 +126,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[cate
 
           <div className="mt-10 rounded-brand-lg border border-line bg-bg-alt p-5">
             <p className="font-semibold text-heading">Get a quotation for {lower(product.name)}</p>
-            <p className="mt-1 text-sm">Sizes, glass and colour are discussed when we measure your openings.</p>
+            <p className="mt-1 text-sm">{isProfile ? "Tell us the window types and quantities you need." : "Sizes, glass and colour are discussed when we measure your openings."}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               <ButtonLink href={telHref(business.primaryPhone)} variant="primary" icon={<Phone aria-hidden size={17} />}>Call {business.primaryPhone.display}</ButtonLink>
               <ButtonLink href={whatsappHref(business.primaryPhone, quoteText)} variant="whatsapp" icon={<WhatsAppIcon size={17} />}>WhatsApp</ButtonLink>

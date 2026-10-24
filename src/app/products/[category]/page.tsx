@@ -47,8 +47,8 @@ export default async function CategoryPage({ params }: PageProps<"/products/[cat
           {c.products.map((p) => <ProductCard key={p.slug} product={p} categorySlug={c.slug} headingLevel={2} />)}
         </div>
       </section>
-      <CtaSection title={`Need help choosing ${c.shortName.toLowerCase() === "glass" ? "a glass system" : c.name}?`}
-        text="Tell us about the rooms and openings and we will suggest the styles that suit them." />
+      <CtaSection title={c.slug === "upvc-profiles" ? "Need UPVC profiles?" : "Need help choosing a window style?"}
+        text={c.slug === "upvc-profiles" ? "Call or WhatsApp us with your requirement." : "Tell us about the rooms and openings and we will suggest the styles that suit them."} />
     </>
   );
 }

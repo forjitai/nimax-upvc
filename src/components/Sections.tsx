@@ -18,7 +18,7 @@ export function SectionHeading({ eyebrow, title, lead, align = "left", id }: {
 }
 
 /** Dark call-to-action band with call, WhatsApp and quote actions */
-export function CtaSection({ title = "Planning new windows or doors?", text = "Tell us the number of openings and your location. We will arrange a site visit and give you a quotation." }: { title?: string; text?: string }) {
+export function CtaSection({ title = "Planning new UPVC windows?", text = "Tell us the number of openings and your location. We will arrange a site visit and give you a quotation." }: { title?: string; text?: string }) {
   return (
     <section aria-labelledby="cta-title" className="bg-bg-dark text-on-dark">
       <div className="nx-container grid items-center gap-8 py-14 md:grid-cols-[1.4fr_1fr]">

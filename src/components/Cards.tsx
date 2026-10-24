@@ -53,7 +53,7 @@ export function CategoryCard({ category }: { category: Category }) {
           <li key={p.slug}>
             <Link href={productHref(category.slug, p.slug)}
               className="inline-block rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-primary hover:bg-secondary-hover">
-              {p.name.replace(/^UPVC |^Aluminium /, "")}
+              {p.name.replace(/^UPVC /, "")}
             </Link>
           </li>
         ))}

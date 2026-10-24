@@ -85,3 +85,13 @@ Concept: a window frame whose two glazing bars and brass diagonal form the lette
 - No photos yet: product drawings stand in. The gallery demo uses images labelled "SAMPLE PHOTO", which must not appear on the live gallery.
 - No domain: canonical URLs use the Vercel production URL until `NEXT_PUBLIC_SITE_URL` is set.
 - Service area: Bengaluru only (the business address).
+
+## Scope change (24 Oct 2026, Phase 4)
+
+Owner confirmed the business is **UPVC profiles and UPVC windows only**.
+- Removed: UPVC doors (8 pages), aluminium windows and doors, glass partitions, skylights.
+- Added: UPVC Profiles category with a "UPVC Window Profiles" page (general information only; no brand, sizes or colours until supplied).
+- Installation page now covers UPVC windows only.
+- Logo subline changed to "UPVC PROFILES & WINDOWS".
+- Old URLs for removed products permanently redirect to `/products` (see `next.config.ts`).
+- Site now has 20 indexable pages (see `/sitemap.xml`).

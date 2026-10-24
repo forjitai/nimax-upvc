@@ -26,10 +26,10 @@ const isProduction = process.env.VERCEL_ENV ? process.env.VERCEL_ENV === "produc
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `UPVC Windows & Doors in ${business.address.city} | ${business.name}`,
+    default: `UPVC Windows & Profiles in ${business.address.city} | ${business.name}`,
     template: `%s | ${business.name}`,
   },
-  description: `${business.name} supplies and installs UPVC windows, UPVC doors, aluminium windows and doors, glass partitions and skylights in ${business.address.city}.`,
+  description: `${business.name} supplies and installs UPVC windows and supplies UPVC profiles in ${business.address.city}.`,
   applicationName: business.name,
   openGraph: { type: "website", siteName: business.name, locale: "en_IN" },
   // Vercel preview deployments are never indexed; production is.

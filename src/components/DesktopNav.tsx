@@ -44,15 +44,15 @@ export function DesktopNav({ items, productMenu }: Props) {
                 </button>
               </div>
               <div id="products-menu" hidden={!open}
-                className="absolute left-1/2 top-full z-50 w-[min(920px,calc(100vw-3rem))] -translate-x-1/2 pt-3">
-                <div className="grid grid-cols-4 gap-6 rounded-brand-lg border border-line bg-bg p-6 shadow-[0_24px_48px_-24px_rgba(15,34,48,0.35)]">
+                className="absolute left-1/2 top-full z-50 w-[min(640px,calc(100vw-3rem))] -translate-x-1/2 pt-3">
+                <div className="grid grid-cols-[2fr_1fr] gap-8 rounded-brand-lg border border-line bg-bg p-6 shadow-[0_24px_48px_-24px_rgba(15,34,48,0.35)]">
                   {productMenu.map((g) => (
                     <div key={g.href} className="min-w-0">
                       <Link href={g.href} onClick={() => setOpen(false)}
                         className="mb-2 block border-b border-line pb-2 font-display text-[0.95rem] font-bold text-heading hover:text-primary">
                         {g.label}
                       </Link>
-                      <ul className="space-y-1">
+                      <ul className={g.items.length > 6 ? "grid grid-cols-2 gap-x-4 gap-y-1" : "space-y-1"}>
                         {g.items.map((l) => (
                           <li key={l.href}>
                             <Link href={l.href} onClick={() => setOpen(false)}

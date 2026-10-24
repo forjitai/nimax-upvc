@@ -14,23 +14,23 @@ import { CtaSection, SectionHeading } from "@/components/Sections";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
 export const metadata: Metadata = {
-  title: { absolute: `UPVC Windows & Doors in ${business.address.city} | ${business.name}` },
-  description: `UPVC sliding and casement windows, UPVC doors, aluminium windows, glass partitions and skylights, supplied and installed in ${business.address.city}. Call ${business.primaryPhone.display}.`,
+  title: { absolute: `UPVC Windows & Profiles in ${business.address.city} | ${business.name}` },
+  description: `UPVC sliding, casement, tilt and turn and other UPVC windows, plus UPVC profiles, supplied and installed in ${business.address.city}. Call ${business.primaryPhone.display}.`,
   alternates: { canonical: "/" },
   openGraph: {
-    title: `UPVC Windows & Doors in ${business.address.city} | ${business.name}`,
-    description: `UPVC windows, UPVC doors, aluminium systems, glass partitions and skylights in ${business.address.city}.`,
+    title: `UPVC Windows & Profiles in ${business.address.city} | ${business.name}`,
+    description: `UPVC windows in every common opening style and UPVC profiles in ${business.address.city}.`,
     url: "/",
     images: [{ url: "/icons/icon-512.png", width: 512, height: 512, alt: business.name }],
   },
 };
 
-const [windows, doors] = categories;
+const [windows, profiles] = categories;
 
 const quickLinks = [
   ["upvc-windows", "sliding-windows"], ["upvc-windows", "casement-windows"], ["upvc-windows", "tilt-and-turn-windows"],
-  ["upvc-doors", "sliding-doors"], ["upvc-doors", "french-doors"], ["upvc-doors", "mesh-doors"],
-  ["upvc-windows", "mesh-windows"], ["glass-systems", "glass-partitions"],
+  ["upvc-windows", "fixed-windows"], ["upvc-windows", "french-windows"], ["upvc-windows", "mesh-windows"],
+  ["upvc-windows", "ventilator-windows"], ["upvc-profiles", "upvc-window-profiles"],
 ].map(([c, s]) => {
   const cat = categories.find((x) => x.slug === c)!;
   const p = cat.products.find((x) => x.slug === s)!;
@@ -48,10 +48,10 @@ const benefits = [
 ];
 
 const steps = [
-  { title: "Call or WhatsApp", text: `Tell us how many windows or doors you need and where your site is.` },
+  { title: "Call or WhatsApp", text: `Tell us how many windows you need and where your site is.` },
   { title: "Site measurement", text: "Each opening is measured, and we talk through the styles that suit each room." },
   { title: "Quotation", text: "You receive a quotation for the products you choose." },
-  { title: "Installation", text: "The windows and doors are fixed, sealed and finished at your site." },
+  { title: "Installation", text: "The windows are fixed, sealed and finished at your site." },
 ];
 
 export default function Home() {
@@ -67,10 +67,10 @@ export default function Home() {
               <MapPin aria-hidden size={14} className="text-accent" /> {business.address.locality}, {business.address.city}
             </p>
             <h1 id="hero-title" className="nx-display !text-on-dark lg:!text-[3.1rem] xl:!text-[3.4rem]">
-              UPVC windows and doors for homes and offices in <span className="text-accent">{business.address.city}</span>
+              UPVC windows for homes and offices in <span className="text-accent">{business.address.city}</span>
             </h1>
             <p className="mt-6 max-w-[58ch] text-lg leading-relaxed text-on-dark-muted">
-              {business.name} supplies and installs UPVC sliding and casement windows, UPVC doors, aluminium windows and doors, glass partitions and skylights.
+              {business.name} supplies and installs UPVC sliding, casement, tilt and turn and other UPVC windows, and supplies UPVC profiles.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <ButtonLink href={telHref(business.primaryPhone)} variant="accent" size="lg" icon={<Phone aria-hidden size={18} />}>
@@ -103,12 +103,11 @@ export default function Home() {
       <section aria-labelledby="intro-title" className="nx-container grid gap-10 py-16 md:py-20 lg:grid-cols-[1.3fr_1fr]">
         <div>
           <p className="nx-eyebrow mb-3">Welcome to {business.name}</p>
-          <h2 id="intro-title" className="nx-h2">Windows, doors and glass systems, from one team</h2>
+          <h2 id="intro-title" className="nx-h2">UPVC windows and profiles, from one team</h2>
           <div className="nx-prose mt-5 space-y-4 text-[1.04rem]">
             <p>
-              {business.name} is based on Kadabagere Road at Kittanahalli, Bengaluru. We supply UPVC windows and doors in
-              all the common opening styles, along with aluminium windows and doors, aluminium glass partitions and glass
-              skylights, and we install them at your site.
+              {business.name} is based on Kadabagere Road at Kittanahalli, Bengaluru. We supply UPVC windows in all the common
+              opening styles, and UPVC profiles, the sections windows are made from. We also install the windows at your site.
             </p>
             <p>
               Whether it is one bathroom ventilator or every window in a new building, call or WhatsApp us with your
@@ -122,7 +121,7 @@ export default function Home() {
         <dl className="grid content-start gap-0 rounded-brand-lg border border-line bg-bg-alt p-6 text-sm">
           {[
             ["Business", business.name],
-            ["Products", "UPVC windows & doors, aluminium windows & doors, glass partitions, skylights"],
+            ["Products", "UPVC windows, UPVC profiles"],
             ["Service", "Supply and installation"],
             ["Area", business.areaServed.join(", ")],
             ["Address", business.addressOneLine],
@@ -147,8 +146,8 @@ export default function Home() {
       <section aria-labelledby="cats-title" className="bg-bg-alt py-16 md:py-20">
         <div className="nx-container">
           <SectionHeading id="cats-title" eyebrow="Products & services" title="What we supply and install"
-            lead="Four product families, each in several opening styles. Open a category to see every option." />
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            lead="UPVC windows in eleven opening styles, and the UPVC profiles they are made from." />
+          <div className="grid gap-5 sm:grid-cols-2">
             {categories.map((c) => <CategoryCard key={c.slug} category={c} />)}
           </div>
         </div>
@@ -171,17 +170,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. UPVC doors */}
-      <section aria-labelledby="doors-title" className="border-t border-line py-16 md:py-20">
-        <div className="nx-container">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <SectionHeading id="doors-title" eyebrow="UPVC doors" title="Doors for balconies, patios and bathrooms" />
-            <Link href={categoryHref(doors.slug)} className="mb-10 inline-flex items-center gap-1.5 font-semibold text-primary hover:underline underline-offset-4">
-              All {doors.products.length} door types <ArrowRight aria-hidden size={16} />
-            </Link>
+      {/* 6. UPVC profiles */}
+      <section aria-labelledby="profiles-title" className="border-t border-line py-16 md:py-20">
+        <div className="nx-container grid items-center gap-10 md:grid-cols-[1fr_1.2fr]">
+          <div className="rounded-brand-lg border border-line bg-bg-alt p-8">
+            <ProductIllustration type="profile" title="Cross-section of a UPVC window profile" className="mx-auto aspect-square w-full max-w-[320px]" />
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {doors.products.slice(0, 4).map((p) => <ProductCard key={p.slug} product={p} categorySlug={doors.slug} />)}
+          <div>
+            <SectionHeading id="profiles-title" eyebrow="UPVC profiles" title="UPVC profiles for window fabrication"
+              lead={profiles.products[0].details} />
+            <ButtonLink href={productHref(profiles.slug, profiles.products[0].slug)} variant="outline">
+              About UPVC profiles
+            </ButtonLink>
           </div>
         </div>
       </section>
@@ -191,7 +191,7 @@ export default function Home() {
         <div className="nx-container grid gap-12 lg:grid-cols-[1fr_1.6fr]">
           <div>
             <SectionHeading id="benefits-title" eyebrow="Why UPVC" title="Why homeowners choose UPVC"
-              lead="UPVC (unplasticised polyvinyl chloride) is a rigid, long-lasting material used for window and door frames." />
+              lead="UPVC (unplasticised polyvinyl chloride) is a rigid, long-lasting material used for window frames." />
             <ProductIllustration type="casement" className="hidden w-full max-w-xs lg:block" />
           </div>
           <ul className="grid gap-x-8 gap-y-7 sm:grid-cols-2">

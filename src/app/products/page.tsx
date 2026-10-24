@@ -9,8 +9,8 @@ import { CtaSection } from "@/components/Sections";
 export const ensureStatic = "navigation";
 
 export const metadata: Metadata = {
-  title: `UPVC Windows, Doors & Glass Systems in ${business.address.city}`,
-  description: `All products from ${business.name}: UPVC windows, UPVC doors, aluminium windows and doors, glass partitions and skylights, with installation in ${business.address.city}.`,
+  title: `UPVC Windows & UPVC Profiles in ${business.address.city}`,
+  description: `All products from ${business.name}: UPVC windows in eleven opening styles, UPVC profiles, and window installation in ${business.address.city}.`,
   alternates: { canonical: "/products" },
   openGraph: { title: `Products | ${business.name}`, url: "/products" },
 };
@@ -20,11 +20,11 @@ export default function ProductsPage() {
     <>
       <PageHeader crumbs={[{ label: "Products", href: "/products" }]} eyebrow="Products & services"
         title="Products and services"
-        lead={`UPVC windows and doors in every common opening style, aluminium systems, glass partitions and skylights, all supplied and installed by ${business.name}.`} />
+        lead={`UPVC windows in every common opening style, supplied and installed by ${business.name}, and the UPVC profiles they are made from.`} />
 
       <section aria-labelledby="cats-title" className="nx-container py-14">
         <h2 id="cats-title" className="nx-h2 mb-8">Browse by category</h2>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-2">
           {categories.map((c) => <CategoryCard key={c.slug} category={c} />)}
         </div>
       </section>
@@ -32,7 +32,7 @@ export default function ProductsPage() {
       <section aria-labelledby="all-title" className="border-t border-line bg-bg-alt py-14">
         <div className="nx-container">
           <h2 id="all-title" className="nx-h2 mb-8">Every product</h2>
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-8 sm:grid-cols-2">
             {categories.map((c) => (
               <div key={c.slug} className="min-w-0">
                 <h3 className="nx-h3 mb-3 border-b border-line pb-2">

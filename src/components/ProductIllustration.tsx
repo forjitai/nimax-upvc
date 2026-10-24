@@ -246,6 +246,19 @@ const drawings: Record<Illustration, () => ReactNode> = {
     </g>
     <line x1={10} y1={180} x2={230} y2={180} stroke={C.line} strokeWidth={2} />
   </>),
+  profile: () => (<>
+    {/* Cross-section of a multi-chamber UPVC frame profile with steel reinforcement */}
+    <path d="M40 40 H200 V70 H186 V160 H200 V170 H40 Z" fill={C.streak} stroke={C.frame} strokeWidth={6} strokeLinejoin="round" />
+    <g fill="none" stroke={C.frame} strokeWidth={3.5}>
+      <rect x={52} y={52} width={40} height={106} rx={2} />
+      <rect x={100} y={52} width={74} height={106} rx={2} />
+      <rect x={182} y={48} width={10} height={14} rx={1} />
+    </g>
+    <rect x={110} y={64} width={54} height={82} fill="none" stroke={C.accent} strokeWidth={4} rx={1} />
+    <g stroke={C.frame} strokeWidth={2.5}><line x1={52} y1={105} x2={92} y2={105} /></g>
+    <g fill={C.line}><rect x={20} y={70} width={20} height={10} rx={2} /><rect x={20} y={130} width={20} height={10} rx={2} /></g>
+    <text x={137} y={190} textAnchor="middle" fontSize={11} fontWeight={700} fill={C.accent} style={{ letterSpacing: "0.08em" }}>STEEL</text>
+  </>),
   installation: () => (<>
     <Sash x={50} y={40} w={140} h={110} />
     <OuterFrame x={44} y={34} w={152} h={122} />

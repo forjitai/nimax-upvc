@@ -7,7 +7,7 @@ export type NavGroup = { label: string; href: string; items: NavLink[] };
 export const productMenu: NavGroup[] = categories.map((c) => ({
   label: c.name,
   href: categoryHref(c.slug),
-  items: c.products.map((p) => ({ label: p.name.replace(/^UPVC |^Aluminium /, ""), href: productHref(c.slug, p.slug) })),
+  items: c.products.map((p) => ({ label: p.name.replace(/^UPVC /, ""), href: productHref(c.slug, p.slug) })),
 }));
 
 export const mainNav: (NavLink & { mega?: boolean })[] = [

@@ -84,7 +84,7 @@ export function EnquiryForm({ defaultProduct = "" }: { defaultProduct?: string }
       </div>
       <div className="min-w-0 sm:col-span-2">
         <label htmlFor={`${uid}-message`} className={label}>Requirement</label>
-        <textarea id={`${uid}-message`} name="message" rows={4} placeholder="Number of windows or doors, approximate sizes, new building or replacement"
+        <textarea id={`${uid}-message`} name="message" rows={4} placeholder="Number of windows, approximate sizes, new building or replacement"
           className={field} />
       </div>
       <fieldset className="min-w-0 sm:col-span-2">

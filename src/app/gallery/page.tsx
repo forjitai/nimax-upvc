@@ -14,8 +14,8 @@ export const ensureStatic = "navigation";
 const hasPhotos = galleryImages.length > 0;
 
 export const metadata: Metadata = {
-  title: `Our Work: UPVC Windows & Doors Gallery`,
-  description: `Photos of UPVC windows, doors and glass systems supplied and installed by ${business.name} in ${business.address.city}.`,
+  title: `Our Work: UPVC Windows Gallery`,
+  description: `Photos of UPVC windows supplied and installed by ${business.name} in ${business.address.city}.`,
   alternates: { canonical: "/gallery" },
   // Keep an empty gallery out of search results until real photos are added.
   robots: hasPhotos ? undefined : { index: false, follow: true },
@@ -25,7 +25,7 @@ export default function GalleryPage() {
   return (
     <>
       <PageHeader crumbs={[{ label: "Gallery", href: "/gallery" }]} eyebrow="Gallery" title="Our work"
-        lead={hasPhotos ? `Windows, doors and glass systems supplied and installed by ${business.name}.` : undefined} />
+        lead={hasPhotos ? `UPVC windows supplied and installed by ${business.name}.` : undefined} />
       <section aria-label="Photos" className="nx-container py-14">
         {hasPhotos ? (
           <ImageGallery images={galleryImages} />

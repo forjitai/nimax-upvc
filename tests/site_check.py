@@ -56,7 +56,7 @@ with sync_playwright() as p:
         ctx.close()
     b.close()
 
-check("pages crawled", len(pages) >= 35, str(len(pages)))
+check("pages crawled", len(pages) >= 20, str(len(pages)))
 bad = {k: v["status"] for k, v in pages.items() if v["status"] != 200}
 check("every linked page returns 200", not bad, json.dumps(bad))
 indexable = {k: v for k, v in pages.items() if v.get("status") == 200 and "noindex" not in v.get("robots", "")}

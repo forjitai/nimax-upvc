@@ -41,7 +41,7 @@ const addressOneLine = `${address.street}, ${address.city}, ${address.locality},
 export const business = {
   name: "NIMAX UPVC",
   shortName: "NIMAX",
-  tagline: "UPVC Windows & Doors",
+  tagline: "UPVC Profiles & Windows",
   /** Only the city of the business address. Add areas here once confirmed. */
   areaServed: ["Bengaluru"],
   address,
@@ -58,7 +58,7 @@ export const business = {
   directionsUrl: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(addressOneLine)}`,
 
   /** Message pre-filled when a visitor taps a WhatsApp button */
-  whatsappGreeting: "Hello NIMAX UPVC, I would like a quote for UPVC windows / doors.",
+  whatsappGreeting: "Hello NIMAX UPVC, I would like a quote for UPVC windows.",
 } as const;
 
 export function telHref(p: Phone) {

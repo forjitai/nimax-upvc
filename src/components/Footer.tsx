@@ -13,7 +13,7 @@ export function Footer() {
         <div className="min-w-0">
           <Logo variant="white" height={48} />
           <p className="mt-5 max-w-[34ch] text-sm leading-relaxed">
-            UPVC and aluminium windows, doors, glass partitions and skylights, supplied and installed in {business.areaServed.join(", ")}.
+            UPVC windows supplied and installed in {business.areaServed.join(", ")}, and UPVC profiles for window fabrication.
           </p>
         </div>
 

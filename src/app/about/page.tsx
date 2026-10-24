@@ -10,7 +10,7 @@ export const ensureStatic = "navigation";
 
 export const metadata: Metadata = {
   title: `About ${business.name} | UPVC Windows ${business.address.city}`,
-  description: `${business.name} supplies and installs UPVC windows and doors, aluminium windows and doors, glass partitions and skylights from Kittanahalli, ${business.address.city}.`,
+  description: `${business.name} supplies and installs UPVC windows and supplies UPVC profiles, from Kittanahalli on Kadabagere Road, ${business.address.city}.`,
   alternates: { canonical: "/about" },
   openGraph: { title: `About ${business.name}`, url: "/about" },
 };
@@ -23,7 +23,7 @@ export default function AboutPage() {
   return (
     <>
       <PageHeader crumbs={[{ label: "About Us", href: "/about" }]} eyebrow="About us" title={`About ${business.name}`}
-        lead={`A ${business.address.city} business supplying and installing UPVC windows, UPVC doors and aluminium glass systems.`}
+        lead={`A ${business.address.city} business supplying UPVC profiles and supplying and installing UPVC windows.`}
         aside={<ProductIllustration type="combination" className="mx-auto hidden w-full max-w-[280px] md:block" />} />
 
       <section aria-labelledby="who-title" className="nx-container grid gap-12 py-14 lg:grid-cols-[1.4fr_1fr]">
@@ -31,12 +31,12 @@ export default function AboutPage() {
           <h2 id="who-title" className="nx-h2">Who we are</h2>
           <p className="mt-4 text-[1.04rem]">
             {business.name} is located at Kittanahalli on Kadabagere Road, Byandahalli, in {business.address.city}. We supply
-            UPVC windows and UPVC doors in the common opening styles, together with aluminium windows and doors,
-            aluminium glass partitions and glass skylights.
+            UPVC windows in the common opening styles, and UPVC profiles, the frame and sash sections
+            that UPVC windows are made from.
           </p>
           <p className="mt-4 text-[1.04rem]">
-            We also install what we supply, so the same team handles your order from the first measurement to the
-            finished, sealed window or door.
+            We also install the windows we supply, so the same team handles your order from the first measurement to the
+            finished, sealed window.
           </p>
 
           <h2 className="nx-h2 mt-12">What we offer</h2>
@@ -61,7 +61,7 @@ export default function AboutPage() {
               {[
                 ["Business name", business.name],
                 ["Nature of business", "Supply and installation"],
-                ["Products", "UPVC windows & doors, aluminium windows & doors, glass partitions, skylights"],
+                ["Products", "UPVC windows, UPVC profiles"],
                 ["Area served", business.areaServed.join(", ")],
                 ["Address", business.addressOneLine],
               ].map(([k, v]) => (
