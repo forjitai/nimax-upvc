@@ -89,6 +89,17 @@
   .nx-prose p { max-width: 68ch; }
 }
 
+/* Homepage hero window */
+.nx-hero-sky { background: linear-gradient(180deg, #9cc6dc 0%, #cfe3ec 55%, #e9f1f4 100%); }
+.nx-hero-hills { background:
+  radial-gradient(120% 90% at 20% 100%, #5f8a6a 0 45%, transparent 46%),
+  radial-gradient(110% 80% at 85% 100%, #4f7a5c 0 42%, transparent 43%),
+  linear-gradient(0deg, #6c9474, #6c9474); clip-path: polygon(0 40%, 18% 18%, 35% 34%, 55% 10%, 75% 30%, 100% 14%, 100% 100%, 0 100%); opacity: .9; }
+.nx-hero-streak { background: linear-gradient(115deg, transparent 0 28%, rgba(255,255,255,.38) 28% 36%, transparent 36% 44%, rgba(255,255,255,.22) 44% 47%, transparent 47%); }
+.nx-hero-sash { transform: translateX(0); animation: nx-slide-open 1.6s cubic-bezier(.6,.05,.2,1) .5s both; }
+@keyframes nx-slide-open { from { transform: translateX(0); } to { transform: translateX(-38%); } }
+
 @media (prefers-reduced-motion: reduce) {
+  .nx-hero-sash { animation: none; transform: translateX(-38%); }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
