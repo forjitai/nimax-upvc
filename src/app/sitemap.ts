@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { siteUrl } from "@/config/business";
 import { categories, categoryHref, productHref, installation } from "@/config/products";
 import { galleryImages } from "@/config/gallery";
+import { posts } from "@/content/blog";
 
 /**
  * XML sitemap: only canonical, indexable pages.
@@ -20,6 +21,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page(`/services/${installation.slug}`, 0.8),
     page("/about", 0.6),
     page("/contact", 0.7),
+    page("/blog", 0.6),
+    ...posts.map((p) => page(`/blog/${p.slug}`, 0.5)),
     ...(galleryImages.length > 0 ? [page("/gallery", 0.5)] : []),
     page("/privacy", 0.2),
   ];

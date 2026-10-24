@@ -13,9 +13,8 @@ export const productMenu: NavGroup[] = categories.map((c) => ({
 export const mainNav: (NavLink & { mega?: boolean })[] = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
-  { label: "Products", href: "/products", mega: true },
-  { label: "Installation", href: `/services/${installation.slug}` },
-  { label: "Gallery", href: "/gallery" },
+  { label: "Our Products", href: "/products", mega: true },
+  { label: "Blog & Insights", href: "/blog" },
   { label: "Contact Us", href: "/contact" },
 ];
 
@@ -25,6 +24,7 @@ export const footerNav: NavLink[] = [
   { label: "Products", href: "/products" },
   { label: "Installation", href: `/services/${installation.slug}` },
   { label: "Gallery", href: "/gallery" },
+  { label: "Blog & Insights", href: "/blog" },
   { label: "Contact Us", href: "/contact" },
   { label: "Privacy Policy", href: "/privacy" },
 ];

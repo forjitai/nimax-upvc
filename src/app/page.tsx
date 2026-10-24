@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Check, MapPin, Phone } from "lucide-react";
+import { ArrowRight, Check, CloudRain, Flame, Bug, Sparkles, Thermometer, Volume2, Phone } from "lucide-react";
 import { business, siteUrl, telHref, whatsappHref } from "@/config/business";
-import { categories, categoryHref, installation, productHref } from "@/config/products";
+import { categories, categoryHref, productHref } from "@/config/products";
 import { ButtonLink } from "@/components/Button";
-import { CategoryCard, ProductCard } from "@/components/Cards";
-import { ContactDetails } from "@/components/ContactDetails";
-import { EnquiryForm } from "@/components/EnquiryForm";
+import { ProductCard } from "@/components/Cards";
 import { HeroWindow } from "@/components/HeroWindow";
 import { JsonLd } from "@/components/JsonLd";
 import { ProductIllustration } from "@/components/ProductIllustration";
-import { CtaSection, SectionHeading } from "@/components/Sections";
+import { FeatureBlock, VisualPanel } from "@/components/FeatureBlock";
+import { Slideshow, type Slide } from "@/components/Slideshow";
+import { Faq, type FaqItem } from "@/components/Faq";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
 export const metadata: Metadata = {
@@ -26,32 +26,49 @@ export const metadata: Metadata = {
 };
 
 const [windows, profiles] = categories;
+const profile = profiles.products[0];
+const w = (slug: string) => windows.products.find((p) => p.slug === slug)!;
 
-const quickLinks = [
-  ["upvc-windows", "sliding-windows"], ["upvc-windows", "casement-windows"], ["upvc-windows", "tilt-and-turn-windows"],
-  ["upvc-windows", "fixed-windows"], ["upvc-windows", "french-windows"], ["upvc-windows", "mesh-windows"],
-  ["upvc-windows", "ventilator-windows"], ["upvc-profiles", "upvc-window-profiles"],
-].map(([c, s]) => {
-  const cat = categories.find((x) => x.slug === c)!;
-  const p = cat.products.find((x) => x.slug === s)!;
-  return { href: productHref(c, s), label: p.name };
-});
-
-/** General properties of UPVC as a material. No brand or performance figures. */
-const benefits = [
-  { title: "No painting, no rust", text: "UPVC frames do not rust, rot or attract termites, and never need repainting." },
-  { title: "Easy to clean", text: "A wipe with water and mild soap keeps the frames looking new." },
-  { title: "Sealed against weather", text: "Gaskets around each sash help keep out rain, wind and dust when the window is shut." },
-  { title: "Quieter rooms", text: "Well-sealed UPVC windows can cut down noise from traffic and the street." },
-  { title: "Stays cooler", text: "UPVC is a poor conductor of heat, which helps keep rooms comfortable." },
-  { title: "Many opening styles", text: "Sliding, casement, tilt and turn, fixed, folding and more, to suit each room." },
+const slides: Slide[] = [
+  { key: "sliding", label: "Profiles · Windows · Installation", title: "Sliding windows", text: w("sliding-windows").details.split(". ")[0] + ".",
+    visual: <ProductIllustration type="sliding" className="w-full" /> },
+  { key: "casement", label: "Profiles · Windows · Installation", title: "Casement windows", text: w("casement-windows").summary,
+    visual: <ProductIllustration type="casement" className="w-full" /> },
+  { key: "tilt", label: "Profiles · Windows · Installation", title: "Tilt and turn windows", text: w("tilt-and-turn-windows").summary,
+    visual: <ProductIllustration type="tilt-turn" className="w-full" /> },
+  { key: "profile", label: "Profiles · Windows · Installation", title: "UPVC profiles", text: profile.summary,
+    visual: <ProductIllustration type="profile" className="w-full" /> },
 ];
 
-const steps = [
-  { title: "Call or WhatsApp", text: `Tell us how many windows you need and where your site is.` },
-  { title: "Site measurement", text: "Each opening is measured, and we talk through the styles that suit each room." },
-  { title: "Quotation", text: "You receive a quotation for the products you choose." },
-  { title: "Installation", text: "The windows are fixed, sealed and finished at your site." },
+const offer = ["UPVC window profiles", "UPVC windows in 11 styles", "Window installation", "Mesh and ventilator windows"];
+
+/** What working with NIMAX means. Only things that follow from confirmed facts. */
+const values = [
+  { title: "Profiles and windows in one place", text: "Buy UPVC profiles for fabrication, or finished windows, from the same supplier." },
+  { title: "Measured for your openings", text: "Windows are made to the size of each opening, not picked off a shelf." },
+  { title: "Supply and installation", text: "One team from the first measurement to the sealed, finished window." },
+  { title: "Easy to reach", text: `Two phone numbers, both on WhatsApp, and a base on Kadabagere Road, ${business.address.city}.` },
+];
+
+/** General properties of UPVC as a material. No brand or test figures. */
+const benefits = [
+  { icon: CloudRain, title: "Weather proof", text: "Sealed frames with gaskets help keep out rain, wind and dust." },
+  { icon: Bug, title: "No rot or termites", text: "UPVC does not rot, rust or attract termites the way wood and steel can." },
+  { icon: Sparkles, title: "Low maintenance", text: "No painting or polishing. A wipe with water keeps frames clean." },
+  { icon: Thermometer, title: "Thermal insulation", text: "UPVC is a poor conductor of heat, helping rooms stay cooler." },
+  { icon: Volume2, title: "Acoustic insulation", text: "Well-sealed windows reduce noise from traffic and the street." },
+  { icon: Flame, title: "Self-extinguishing", text: "Rigid UPVC does not keep burning once a flame is taken away." },
+];
+
+const faqs: FaqItem[] = [
+  { q: `What does ${business.name} supply?`, a: "UPVC windows in eleven opening styles (sliding, casement, tilt and turn, fixed, top hung, French, combination, folding, bay, ventilator and mesh windows) and UPVC profiles for window fabrication. We also install the windows we supply." },
+  { q: "Which UPVC window type should I choose?", a: "Sliding windows save space and suit balconies and bedrooms. Casement and French windows open fully for the most airflow. Tilt and turn windows add secure ventilation. Fixed windows bring in light where no opening is needed. Tell us about the room and we will suggest options." },
+  { q: "Can you make windows to custom sizes?", a: "Yes. Each window is made to the size of its opening, so every opening is measured before fabrication." },
+  { q: "How much do UPVC windows cost?", a: "The price depends on the window type, size, glass and the number of windows. Call or WhatsApp us with your requirement and we will give you a quotation." },
+  { q: "What details should I send for a quotation?", a: "The window types you want, the number of windows, approximate sizes if you know them, whether it is a new building or a replacement, and your area. Photos of the openings on WhatsApp help too." },
+  { q: "Do you supply UPVC profiles in bulk to fabricators?", a: "Yes, we supply UPVC profiles. Contact us with the profile types and quantities you need." },
+  { q: "Which areas do you serve?", a: `We are based at Kittanahalli, Kadabagere Road, ${business.address.city}, and serve customers in ${business.areaServed.join(", ")}.` },
+  { q: "Do you also replace old wooden or aluminium windows?", a: "Yes. The old frame is removed, the opening is prepared, and the new UPVC window is fixed, sealed and finished." },
 ];
 
 export default function Home() {
@@ -61,104 +78,97 @@ export default function Home() {
       <section aria-labelledby="hero-title" className="relative overflow-hidden bg-bg-dark text-on-dark">
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.07]"
           style={{ backgroundImage: "linear-gradient(var(--nx-on-dark) 1px, transparent 1px), linear-gradient(90deg, var(--nx-on-dark) 1px, transparent 1px)", backgroundSize: "56px 56px" }} />
-        <div className="nx-container relative grid items-center gap-12 py-14 md:py-20 lg:grid-cols-[1.15fr_1fr]">
+        <div className="nx-container relative grid items-center gap-12 py-16 md:py-24 lg:grid-cols-[1.15fr_1fr]">
           <div>
-            <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-on-dark/20 px-3 py-1 text-[0.8rem] font-semibold text-on-dark-muted">
-              <MapPin aria-hidden size={14} className="text-accent" /> {business.address.locality}, {business.address.city}
-            </p>
-            <h1 id="hero-title" className="nx-display !text-on-dark lg:!text-[3.1rem] xl:!text-[3.4rem]">
-              UPVC windows for homes and offices in <span className="text-accent">{business.address.city}</span>
+            <p className="mb-6 text-xs font-bold uppercase tracking-[0.2em] text-accent">{business.name} · UPVC Solutions</p>
+            <h1 id="hero-title" className="font-display text-[clamp(2.4rem,5.4vw,4.2rem)] font-extrabold leading-[1.02] tracking-[-0.02em] !text-on-dark">
+              UPVC windows,<br /><em className="font-medium italic text-accent">built around</em> your home.
             </h1>
-            <p className="mt-6 max-w-[58ch] text-lg leading-relaxed text-on-dark-muted">
-              {business.name} supplies and installs UPVC sliding, casement, tilt and turn and other UPVC windows, and supplies UPVC profiles.
+            <p className="mt-6 max-w-[54ch] text-lg leading-relaxed text-on-dark-muted">
+              {business.name} supplies UPVC profiles and supplies and installs UPVC windows in every common opening style, made to the size of each opening in {business.address.city}.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <ButtonLink href={telHref(business.primaryPhone)} variant="accent" size="lg" icon={<Phone aria-hidden size={18} />}>
-                Call {business.primaryPhone.display}
-              </ButtonLink>
-              <ButtonLink href={whatsappHref(business.primaryPhone)} variant="whatsapp" size="lg" icon={<WhatsAppIcon size={18} />}>
-                WhatsApp
-              </ButtonLink>
-              <ButtonLink href="/products" variant="outline-light" size="lg">Explore products</ButtonLink>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <ButtonLink href="/products" variant="accent" size="lg">Explore products</ButtonLink>
+              <ButtonLink href="/contact" variant="outline-light" size="lg">Get a quote</ButtonLink>
             </div>
           </div>
           <HeroWindow />
         </div>
       </section>
 
-      {/* 2. Popular products strip */}
-      <nav aria-label="Popular products" className="border-b border-line bg-bg">
-        <div className="nx-container flex items-center gap-3 overflow-x-auto py-4 [scrollbar-width:none]">
-          <span className="shrink-0 text-xs font-bold uppercase tracking-[0.14em] text-muted">Popular</span>
-          {quickLinks.map((l) => (
-            <Link key={l.href} href={l.href}
-              className="shrink-0 rounded-full border border-line px-3.5 py-1.5 text-sm font-semibold text-heading hover:border-primary hover:text-primary">
-              {l.label}
-            </Link>
-          ))}
-        </div>
-      </nav>
+      {/* 2–4. Feature blocks */}
+      <FeatureBlock id="f-windows" eyebrow="UPVC windows"
+        title={<>Windows for <em>every room</em></>}
+        visual={<VisualPanel><ProductIllustration type="combination" title="UPVC combination window" className="w-full" /></VisualPanel>}
+        actions={<>
+          <ButtonLink href={categoryHref(windows.slug)}>Explore windows</ButtonLink>
+          <ButtonLink href={whatsappHref(business.primaryPhone, `Hello ${business.name}, I would like to discuss UPVC windows for my project.`)} variant="outline">Discuss your project</ButtonLink>
+        </>}>
+        <p>Sliding, casement, fixed and tilt and turn windows, plus top hung, French, combination, folding, bay, ventilator and mesh windows.</p>
+        <p>Each one is made to the size of its opening, for new buildings and replacements.</p>
+      </FeatureBlock>
 
-      {/* 3. Company introduction */}
-      <section aria-labelledby="intro-title" className="nx-container grid gap-10 py-16 md:py-20 lg:grid-cols-[1.3fr_1fr]">
-        <div>
-          <p className="nx-eyebrow mb-3">Welcome to {business.name}</p>
-          <h2 id="intro-title" className="nx-h2">UPVC windows and profiles, from one team</h2>
-          <div className="nx-prose mt-5 space-y-4 text-[1.04rem]">
-            <p>
-              {business.name} is based on Kadabagere Road at Kittanahalli, Bengaluru. We supply UPVC windows in all the common
-              opening styles, and UPVC profiles, the sections windows are made from. We also install the windows at your site.
-            </p>
-            <p>
-              Whether it is one bathroom ventilator or every window in a new building, call or WhatsApp us with your
-              requirement and we will take it from there.
-            </p>
+      <FeatureBlock id="f-profiles" eyebrow="For fabricators" reverse tone="alt"
+        title={<>UPVC profiles, <em>ready to fabricate</em></>}
+        visual={<VisualPanel><ProductIllustration type="profile" title="Cross-section of a UPVC profile" className="w-full" /></VisualPanel>}
+        actions={<>
+          <ButtonLink href={productHref(profiles.slug, profile.slug)}>View UPVC profiles</ButtonLink>
+          <ButtonLink href={whatsappHref(business.primaryPhone, `Hello ${business.name}, I have a bulk enquiry for UPVC profiles.`)} variant="outline">Bulk enquiry</ButtonLink>
+        </>}>
+        <p>Frame, sash, mullion and bead sections that UPVC windows are built from, supplied for window fabrication.</p>
+      </FeatureBlock>
+
+      <FeatureBlock id="f-plan" eyebrow="New build or renovation"
+        title={<>Planning a project? <em>Start with a call.</em></>}
+        visual={<VisualPanel><ProductIllustration type="installation" title="Window measurement and installation" className="w-full" /></VisualPanel>}
+        actions={<>
+          <ButtonLink href="/contact">Request a quotation</ButtonLink>
+          <ButtonLink href="/about" variant="outline">About {business.name}</ButtonLink>
+        </>}>
+        <p>Tell us how many windows you need and where your site is. We measure each opening, help you choose the styles, quote, and install.</p>
+      </FeatureBlock>
+
+      {/* 5. Slideshow */}
+      <section aria-label="Highlights" className="nx-container py-16 md:py-20">
+        <Slideshow slides={slides} />
+      </section>
+
+      {/* 6–7. Intro + about with checklist */}
+      <section aria-labelledby="about-title" className="bg-bg-alt py-16 md:py-24">
+        <div className="nx-container grid gap-12 lg:grid-cols-[1fr_1.2fr]">
+          <div>
+            <p className="nx-eyebrow mb-4">Quality &amp; design</p>
+            <h2 id="about-title" className="nx-split">Windows that <em>fit</em>, profiles that <em>last</em></h2>
           </div>
-          <Link href="/about" className="mt-6 inline-flex items-center gap-1.5 font-semibold text-primary hover:underline underline-offset-4">
-            About {business.name} <ArrowRight aria-hidden size={16} />
-          </Link>
-        </div>
-        <dl className="grid content-start gap-0 rounded-brand-lg border border-line bg-bg-alt p-6 text-sm">
-          {[
-            ["Business", business.name],
-            ["Products", "UPVC windows, UPVC profiles"],
-            ["Service", "Supply and installation"],
-            ["Area", business.areaServed.join(", ")],
-            ["Address", business.addressOneLine],
-          ].map(([k, v]) => (
-            <div key={k} className="grid grid-cols-[96px_1fr] gap-3 border-b border-line py-3 last:border-0">
-              <dt className="font-semibold text-muted">{k}</dt>
-              <dd className="text-heading">{v}</dd>
-            </div>
-          ))}
-          <div className="grid grid-cols-[96px_1fr] gap-3 pt-3">
-            <dt className="font-semibold text-muted">Phone</dt>
-            <dd className="space-y-1">
-              {business.phones.map((p) => (
-                <a key={p.e164} href={telHref(p)} className="block font-semibold tabular-nums text-primary hover:underline">{p.display}</a>
+          <div>
+            <p className="text-[1.05rem]">
+              {business.name} is based at Kittanahalli on Kadabagere Road, {business.address.city}. We supply UPVC profiles and
+              supply and install UPVC windows for homes and offices.
+            </p>
+            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+              {offer.map((o) => (
+                <li key={o} className="flex items-center gap-3 rounded-brand border border-line bg-bg px-4 py-3 font-semibold text-heading">
+                  <Check aria-hidden size={18} className="shrink-0 text-accent" /> {o}
+                </li>
               ))}
-            </dd>
-          </div>
-        </dl>
-      </section>
-
-      {/* 4. Product categories */}
-      <section aria-labelledby="cats-title" className="bg-bg-alt py-16 md:py-20">
-        <div className="nx-container">
-          <SectionHeading id="cats-title" eyebrow="Products & services" title="What we supply and install"
-            lead="UPVC windows in eleven opening styles, and the UPVC profiles they are made from." />
-          <div className="grid gap-5 sm:grid-cols-2">
-            {categories.map((c) => <CategoryCard key={c.slug} category={c} />)}
+            </ul>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <ButtonLink href="/about">More about {business.name}</ButtonLink>
+              <ButtonLink href="/products" variant="outline">Explore our products</ButtonLink>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 5. UPVC windows */}
-      <section aria-labelledby="windows-title" className="nx-container py-16 md:py-20">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <SectionHeading id="windows-title" eyebrow="UPVC windows" title="A window style for every room" />
-          <Link href={categoryHref(windows.slug)} className="mb-10 inline-flex items-center gap-1.5 font-semibold text-primary hover:underline underline-offset-4">
-            All {windows.products.length} window types <ArrowRight aria-hidden size={16} />
+      {/* 8. Product showcase */}
+      <section aria-labelledby="range-title" className="nx-container py-16 md:py-24">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="nx-eyebrow mb-4">Our range</p>
+            <h2 id="range-title" className="nx-split">Our <em>UPVC windows</em></h2>
+          </div>
+          <Link href="/products" className="inline-flex items-center gap-1.5 font-semibold text-primary hover:underline underline-offset-4">
+            View all products <ArrowRight aria-hidden size={16} />
           </Link>
         </div>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -170,79 +180,71 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. UPVC profiles */}
-      <section aria-labelledby="profiles-title" className="border-t border-line py-16 md:py-20">
-        <div className="nx-container grid items-center gap-10 md:grid-cols-[1fr_1.2fr]">
-          <div className="rounded-brand-lg border border-line bg-bg-alt p-8">
-            <ProductIllustration type="profile" title="Cross-section of a UPVC window profile" className="mx-auto aspect-square w-full max-w-[320px]" />
-          </div>
+      {/* 9–10. Why NIMAX */}
+      <section aria-labelledby="why-title" className="bg-bg-dark py-16 text-on-dark md:py-24">
+        <div className="nx-container grid gap-12 lg:grid-cols-[1fr_1.5fr]">
           <div>
-            <SectionHeading id="profiles-title" eyebrow="UPVC profiles" title="UPVC profiles for window fabrication"
-              lead={profiles.products[0].details} />
-            <ButtonLink href={productHref(profiles.slug, profiles.products[0].slug)} variant="outline">
-              About UPVC profiles
-            </ButtonLink>
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-accent">Why {business.name}</p>
+            <h2 id="why-title" className="nx-split !text-on-dark [&_em]:!text-accent">Profiles and windows, <em>from one team</em></h2>
           </div>
-        </div>
-      </section>
-
-      {/* 7. Benefits of UPVC */}
-      <section aria-labelledby="benefits-title" className="bg-bg-alt py-16 md:py-20">
-        <div className="nx-container grid gap-12 lg:grid-cols-[1fr_1.6fr]">
-          <div>
-            <SectionHeading id="benefits-title" eyebrow="Why UPVC" title="Why homeowners choose UPVC"
-              lead="UPVC (unplasticised polyvinyl chloride) is a rigid, long-lasting material used for window frames." />
-            <ProductIllustration type="casement" className="hidden w-full max-w-xs lg:block" />
-          </div>
-          <ul className="grid gap-x-8 gap-y-7 sm:grid-cols-2">
-            {benefits.map((b) => (
-              <li key={b.title} className="flex gap-4">
-                <span className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-white">
-                  <Check aria-hidden size={18} />
-                </span>
-                <div>
-                  <h3 className="nx-h3 text-[1.08rem]">{b.title}</h3>
-                  <p className="mt-1.5 text-[0.95rem]">{b.text}</p>
-                </div>
+          <ul className="grid gap-8 sm:grid-cols-2">
+            {values.map((v, n) => (
+              <li key={v.title} className="border-t border-on-dark/20 pt-5">
+                <p className="font-display text-sm font-bold tabular-nums text-accent">0{n + 1}</p>
+                <h3 className="nx-h3 mt-2 !text-on-dark">{v.title}</h3>
+                <p className="mt-2 text-on-dark-muted">{v.text}</p>
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      {/* 8. How to get started */}
-      <section aria-labelledby="steps-title" className="nx-container py-16 md:py-20">
-        <SectionHeading id="steps-title" eyebrow="How it works" title="From first call to fitted window" />
-        <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((s, i) => (
-            <li key={s.title} className="border-t-[3px] border-accent pt-5">
-              <p className="font-display text-sm font-bold tabular-nums text-muted">Step {i + 1}</p>
-              <h3 className="nx-h3 mt-1">{s.title}</h3>
-              <p className="mt-2 text-[0.95rem]">{s.text}</p>
+      {/* 12. Benefits grid */}
+      <section aria-labelledby="benefits-title" className="nx-container py-16 md:py-24">
+        <div className="mx-auto mb-12 max-w-2xl text-center">
+          <p className="nx-eyebrow mb-4">Why UPVC</p>
+          <h2 id="benefits-title" className="nx-split">Built for <em>Bengaluru weather</em></h2>
+        </div>
+        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {benefits.map(({ icon: Icon, title, text }) => (
+            <li key={title} className="rounded-brand-lg border border-line bg-bg p-7">
+              <span className="inline-flex size-12 items-center justify-center rounded-full bg-secondary text-primary"><Icon aria-hidden size={22} /></span>
+              <h3 className="nx-h3 mt-5">{title}</h3>
+              <p className="mt-2 text-[0.96rem]">{text}</p>
             </li>
           ))}
-        </ol>
-        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-brand-lg border border-line p-5">
-          <ProductIllustration type="installation" className="size-16 shrink-0" />
-          <p className="min-w-0 flex-1 text-heading"><strong>{installation.name}.</strong> {installation.summary}</p>
-          <ButtonLink href={`/services/${installation.slug}`} variant="outline" size="sm">About installation</ButtonLink>
+        </ul>
+      </section>
+
+      {/* 13. FAQ */}
+      <section aria-labelledby="faq-title" className="border-t border-line bg-bg-alt py-16 md:py-24">
+        <div className="nx-container grid gap-12 lg:grid-cols-[1fr_1.6fr]">
+          <div>
+            <p className="nx-eyebrow mb-4">FAQ</p>
+            <h2 id="faq-title" className="nx-split">Questions, <em>answered</em></h2>
+            <div className="mt-8 rounded-brand-lg bg-bg-dark p-6 text-on-dark">
+              <p className="font-display text-lg font-bold">Planning a project?</p>
+              <p className="mt-2 text-sm text-on-dark-muted">Call or WhatsApp us with your requirement.</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <ButtonLink href={telHref(business.primaryPhone)} variant="accent" size="sm" icon={<Phone aria-hidden size={15} />}>Call</ButtonLink>
+                <ButtonLink href={whatsappHref(business.primaryPhone)} variant="whatsapp" size="sm" icon={<WhatsAppIcon size={15} />}>WhatsApp</ButtonLink>
+              </div>
+            </div>
+          </div>
+          <Faq items={faqs} />
         </div>
       </section>
 
-      {/* 9. Contact + enquiry */}
-      <section aria-labelledby="contact-title" className="border-t border-line bg-bg-alt py-16 md:py-20">
-        <div className="nx-container">
-          <SectionHeading id="contact-title" eyebrow="Contact us" title="Tell us what you are looking for"
-            lead="Call, WhatsApp, or fill in the form and it opens in WhatsApp with your details ready to send." />
-          <div className="grid gap-8 lg:grid-cols-[1fr_1.5fr]">
-            <ContactDetails />
-            <EnquiryForm />
+      {/* 14. Closing CTA */}
+      <section aria-labelledby="close-title" className="bg-primary text-white">
+        <div className="nx-container flex flex-col items-start gap-6 py-16 md:flex-row md:items-center md:justify-between">
+          <h2 id="close-title" className="nx-split !text-white">Let&rsquo;s build <em className="!text-accent">better spaces</em>.</h2>
+          <div className="flex flex-wrap gap-3">
+            <ButtonLink href="/contact" variant="accent" size="lg">Request a quote</ButtonLink>
+            <ButtonLink href={telHref(business.primaryPhone)} variant="outline-light" size="lg" icon={<Phone aria-hidden size={18} />}>{business.primaryPhone.display}</ButtonLink>
           </div>
         </div>
       </section>
-
-      {/* 10. Closing CTA */}
-      <CtaSection />
 
       <JsonLd data={{
         "@context": "https://schema.org",

@@ -5,10 +5,14 @@ import { business, siteUrl } from "@/config/business";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
+import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
 
 // Self-hosted variable fonts (SIL Open Font License). No request to Google at runtime.
 const archivo = localFont({
-  src: "../fonts/archivo-variable.woff2",
+  src: [
+    { path: "../fonts/archivo-variable.woff2", style: "normal" },
+    { path: "../fonts/archivo-variable-italic.woff2", style: "italic" },
+  ],
   variable: "--font-archivo",
   weight: "100 900",
   display: "swap",
@@ -51,6 +55,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Header />
         <main id="main" className="flex-1">{children}</main>
         <Footer />
+        <FloatingWhatsApp />
         <JsonLd data={{
           "@context": "https://schema.org",
           "@type": "Organization",

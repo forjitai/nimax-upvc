@@ -86,6 +86,9 @@
   .nx-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--nx-primary); }
   .nx-lead { font-size: 1.125rem; color: var(--nx-body); max-width: 62ch; }
   .nx-caption { font-size: 0.85rem; color: var(--nx-muted); }
+  /* Fenstas-style split heading: large, tight, with an italic accent phrase in <em> */
+  .nx-split { font-family: var(--font-display); font-weight: 750; font-stretch: 100%; font-size: clamp(1.9rem, 3.6vw, 2.9rem); line-height: 1.08; letter-spacing: -0.015em; }
+  .nx-split em, .nx-display em { font-style: italic; font-weight: 500; color: var(--nx-accent-text, var(--nx-primary)); font-stretch: 100%; }
   .nx-prose p { max-width: 68ch; }
 }
 
