@@ -54,7 +54,7 @@ export const posts: Post[] = [
     date: "2026-10-25",
     illustration: "profile",
     related: [
-      { label: "UPVC window profiles", href: "/products/upvc-profiles/upvc-window-profiles" },
+      { label: "UPVC profile catalogue", href: "/products/upvc-profiles" },
       { label: "All UPVC windows", href: "/products/upvc-windows" },
     ],
     sections: [

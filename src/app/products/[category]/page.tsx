@@ -6,6 +6,11 @@ import { PageHeader } from "@/components/PageHeader";
 import { ProductCard } from "@/components/Cards";
 import { ProductIllustration } from "@/components/ProductIllustration";
 import { CtaSection } from "@/components/Sections";
+import { ProfileCatalogue } from "@/components/ProfileCatalogue";
+import { profileGroups } from "@/config/profiles";
+import { ButtonLink } from "@/components/Button";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { whatsappHref } from "@/config/business";
 
 export const ensureStatic = "navigation";
 
@@ -23,7 +28,7 @@ export async function generateMetadata({ params }: PageProps<"/products/[categor
   if (!c) return {};
   return {
     title: `${c.name} in ${business.address.city}`,
-    description: `${c.summary} ${c.products.length} styles from ${business.name}, ${business.address.city}.`.slice(0, 160),
+    description: (c.slug === "upvc-profiles" ? `${c.products.length} UPVC profiles from ${business.name}: frames, tracks, sashes, mullions, couplers, glazing beads and mesh profiles for fabrication.` : `${c.summary} ${c.products.length} styles from ${business.name}, ${business.address.city}.`).slice(0, 160),
     alternates: { canonical: `/products/${c.slug}` },
     openGraph: { title: `${c.name} | ${business.name}`, url: `/products/${c.slug}` },
   };
@@ -37,16 +42,42 @@ export default async function CategoryPage({ params }: PageProps<"/products/[cat
     <>
       <PageHeader
         crumbs={[{ label: "Products", href: "/products" }, { label: c.name, href: `/products/${c.slug}` }]}
-        eyebrow={`${c.products.length} ${c.products.length === 1 ? "style" : "styles"}`}
+        eyebrow={c.slug === "upvc-profiles" ? `${c.products.length} profiles` : `${c.products.length} ${c.products.length === 1 ? "style" : "styles"}`}
         title={c.name}
         lead={c.summary}
         aside={<ProductIllustration type={c.illustration} className="mx-auto hidden w-full max-w-[280px] md:block" />}
       />
-      <section aria-label={`${c.name} styles`} className="nx-container py-14">
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {c.products.map((p) => <ProductCard key={p.slug} product={p} categorySlug={c.slug} headingLevel={2} />)}
-        </div>
-      </section>
+      {c.slug === "upvc-profiles" ? (
+        <>
+          <section aria-label="Profile catalogue" className="nx-container py-14">
+            <ProfileCatalogue groups={profileGroups.map((g) => ({ id: g.id, name: g.name }))}
+              items={c.products.map((p) => ({ slug: p.slug, name: p.name, group: p.group!, card: <ProductCard product={p} categorySlug={c.slug} headingLevel={2} /> }))} />
+          </section>
+          <section aria-labelledby="types-title" className="border-t border-line bg-bg-alt py-14">
+            <div className="nx-container">
+              <h2 id="types-title" className="nx-h2 mb-8">Profile types explained</h2>
+              <dl className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {profileGroups.map((g) => (
+                  <div key={g.id} className="rounded-brand-lg border border-line bg-bg p-6">
+                    <dt className="nx-h3 text-[1.1rem]">{g.name}</dt>
+                    <dd className="mt-2 text-[0.95rem]">{g.description}</dd>
+                  </div>
+                ))}
+              </dl>
+              <div className="mt-10 flex flex-wrap items-center gap-4 rounded-brand-lg bg-bg-dark p-6 text-on-dark">
+                <p className="min-w-0 flex-1 font-semibold">Fabricator? Send your profile list and quantities for a bulk quotation.</p>
+                <ButtonLink href={whatsappHref(business.primaryPhone, `Hello ${business.name}, I have a bulk enquiry for UPVC profiles.`)} variant="whatsapp" icon={<WhatsAppIcon size={17} />}>Bulk enquiry</ButtonLink>
+              </div>
+            </div>
+          </section>
+        </>
+      ) : (
+        <section aria-label={`${c.name} styles`} className="nx-container py-14">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {c.products.map((p) => <ProductCard key={p.slug} product={p} categorySlug={c.slug} headingLevel={2} />)}
+          </div>
+        </section>
+      )}
       <CtaSection title={c.slug === "upvc-profiles" ? "Need UPVC profiles?" : "Need help choosing a window style?"}
         text={c.slug === "upvc-profiles" ? "Call or WhatsApp us with your requirement." : "Tell us about the rooms and openings and we will suggest the styles that suit them."} />
     </>

@@ -1,3 +1,5 @@
+import { profiles, profileGroup, type ProfileGroup, type ProfileItem } from "./profiles";
+
 /**
  * NIMAX UPVC — product catalogue.
  *
@@ -13,7 +15,8 @@ export type Illustration =
   | "combination" | "folding" | "bay" | "ventilator" | "mesh-window"
   | "door-sliding" | "door-casement" | "door-french" | "door-folding"
   | "door-tilt-slide" | "door-patio" | "door-bathroom" | "door-mesh"
-  | "alu-window" | "alu-door" | "partition" | "skylight" | "installation" | "profile";
+  | "alu-window" | "alu-door" | "partition" | "skylight" | "installation" | "profile"
+  | "profile-frames" | "profile-sashes" | "profile-mullions" | "profile-beads" | "profile-mesh" | "profile-panels";
 
 export type Spec = { label: string; value: string };
 
@@ -35,6 +38,8 @@ export type Product = {
   specs: Spec[];
   /** Photo files in /public/images/products/. Empty until supplied. */
   photos: { src: string; alt: string; width: number; height: number }[];
+  /** Profile catalogue only: which group the profile belongs to */
+  group?: ProfileGroup;
 };
 
 export type Category = {
@@ -47,6 +52,27 @@ export type Category = {
 };
 
 const p = (x: Omit<Product, "specs" | "photos">): Product => ({ ...x, specs: [], photos: [] });
+
+/** Turn a catalogue profile into a product page entry. Specs only list values we have. */
+const fromProfile = (x: ProfileItem): Product => {
+  const g = profileGroup(x.group);
+  const specs: Spec[] = [
+    { label: "Material", value: "UPVC" },
+    { label: "Profile type", value: x.type },
+    ...(x.width ? [{ label: "Width / depth", value: x.width }] : []),
+    ...(x.thickness ? [{ label: "Wall thickness", value: x.thickness }] : []),
+    { label: "Colour", value: "White" },
+  ];
+  return {
+    slug: x.slug, name: x.name, group: x.group,
+    summary: [x.type, x.width, x.thickness && `${x.thickness} wall`].filter(Boolean).join(" · "),
+    details: `${x.name} is a ${x.type.toLowerCase().replace(/ profile$/, "")} profile for ${x.usedFor.charAt(0).toLowerCase()}${x.usedFor.slice(1)}. ${g.description}`,
+    howItOpens: g.use,
+    suitedFor: [x.usedFor],
+    illustration: `profile-${x.group}` as Illustration,
+    specs, photos: [],
+  };
+};
 
 export const categories: Category[] = [
   {
@@ -106,16 +132,9 @@ export const categories: Category[] = [
     slug: "upvc-profiles",
     name: "UPVC Profiles",
     shortName: "Profiles",
-    summary: "UPVC profiles, the frame, sash and mullion sections that UPVC windows are made from.",
+    summary: "Frames, tracks, sashes, mullions, couplers, glazing beads and mesh profiles for UPVC window fabrication.",
     illustration: "profile",
-    products: [
-      p({ slug: "upvc-window-profiles", illustration: "profile",
-        name: "UPVC Window Profiles",
-        details: "A UPVC window is fabricated from lengths of extruded UPVC profile: the outer frame, the sash that holds the glass, the mullions that divide the window and the glazing beads that hold the glass in place. Inside, each profile is divided into hollow chambers, and many profiles carry a steel reinforcement in the main chamber for strength. The profile chosen sets how the window looks and how it opens.",
-        summary: "Frame, sash, mullion and bead sections for fabricating UPVC windows.",
-        howItOpens: "Profiles are cut to length, welded at the corners and assembled into sliding, casement and other window types.",
-        suitedFor: ["Fabricating sliding windows", "Fabricating casement and fixed windows", "Window fabricators and builders"] }),
-    ],
+    products: profiles.map(fromProfile),
   },
 ];
 

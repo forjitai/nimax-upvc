@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
       { source: "/products/upvc-doors/:path*", destination: "/products", permanent: true },
       { source: "/products/aluminium/:path*", destination: "/products", permanent: true },
       { source: "/products/glass-systems/:path*", destination: "/products", permanent: true },
+      { source: "/products/upvc-profiles/upvc-window-profiles", destination: "/products/upvc-profiles", permanent: true },
       { source: "/products/upvc-doors", destination: "/products", permanent: true },
       { source: "/products/aluminium", destination: "/products", permanent: true },
       { source: "/products/glass-systems", destination: "/products", permanent: true },

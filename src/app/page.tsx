@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check, CloudRain, Flame, Bug, Sparkles, Thermometer, Volume2, Phone } from "lucide-react";
 import { business, siteUrl, telHref, whatsappHref } from "@/config/business";
-import { categories, categoryHref, productHref } from "@/config/products";
+import { categories, categoryHref } from "@/config/products";
 import { ButtonLink } from "@/components/Button";
 import { ProductCard } from "@/components/Cards";
 import { HeroWindow } from "@/components/HeroWindow";
@@ -26,7 +26,8 @@ export const metadata: Metadata = {
 };
 
 const [windows, profiles] = categories;
-const profile = profiles.products[0];
+const featuredProfiles = ["55mm-sliding", "57mm-sliding-sash", "90mm-2-track", "60mm-casement", "88mm-sash-mullion", "5mm-sliding-bead", "52mm-mesh-sliding", "t-mullion"]
+  .map((s) => profiles.products.find((p) => p.slug === s)!).filter(Boolean);
 const w = (slug: string) => windows.products.find((p) => p.slug === slug)!;
 
 const slides: Slide[] = [
@@ -36,7 +37,7 @@ const slides: Slide[] = [
     visual: <ProductIllustration type="casement" className="w-full" /> },
   { key: "tilt", label: "Profiles · Windows · Installation", title: "Tilt and turn windows", text: w("tilt-and-turn-windows").summary,
     visual: <ProductIllustration type="tilt-turn" className="w-full" /> },
-  { key: "profile", label: "Profiles · Windows · Installation", title: "UPVC profiles", text: profile.summary,
+  { key: "profile", label: "Profiles · Windows · Installation", title: "UPVC profiles", text: `${profiles.products.length} profiles: frames, tracks, sashes, mullions, couplers, glazing beads and mesh.`,
     visual: <ProductIllustration type="profile" className="w-full" /> },
 ];
 
@@ -112,10 +113,10 @@ export default function Home() {
         title={<>UPVC profiles, <em>ready to fabricate</em></>}
         visual={<VisualPanel><ProductIllustration type="profile" title="Cross-section of a UPVC profile" className="w-full" /></VisualPanel>}
         actions={<>
-          <ButtonLink href={productHref(profiles.slug, profile.slug)}>View UPVC profiles</ButtonLink>
+          <ButtonLink href={categoryHref(profiles.slug)}>View UPVC profiles</ButtonLink>
           <ButtonLink href={whatsappHref(business.primaryPhone, `Hello ${business.name}, I have a bulk enquiry for UPVC profiles.`)} variant="outline">Bulk enquiry</ButtonLink>
         </>}>
-        <p>Frame, sash, mullion and bead sections that UPVC windows are built from, supplied for window fabrication.</p>
+        <p>{profiles.products.length} profiles for window fabrication: frames and tracks, sliding and out-swing sashes, mullions and couplers, glazing beads and mesh profiles.</p>
       </FeatureBlock>
 
       <FeatureBlock id="f-plan" eyebrow="New build or renovation"
@@ -177,6 +178,28 @@ export default function Home() {
               <ProductCard product={p} categorySlug={windows.slug} />
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* 8b. Profile showcase (Fenstas "Our uPVC Profiles") */}
+      <section aria-labelledby="profiles-range-title" className="border-t border-line bg-bg-alt py-16 md:py-24">
+        <div className="nx-container">
+          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="nx-eyebrow mb-4">For fabricators</p>
+              <h2 id="profiles-range-title" className="nx-split">Our <em>UPVC profiles</em></h2>
+            </div>
+            <Link href={categoryHref(profiles.slug)} className="inline-flex items-center gap-1.5 font-semibold text-primary hover:underline underline-offset-4">
+              All {profiles.products.length} profiles <ArrowRight aria-hidden size={16} />
+            </Link>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {featuredProfiles.map((p, i) => (
+              <div key={p.slug} className={`grid ${i >= 4 ? "max-sm:hidden" : ""}`}>
+                <ProductCard product={p} categorySlug={profiles.slug} />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

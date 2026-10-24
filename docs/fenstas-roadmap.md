@@ -15,3 +15,16 @@ Each phase ends with screenshots, test results and a request for approval.
 | 9 | **SEO** | Titles, descriptions, Product + Breadcrumb + FAQ structured data, sitemap, Search Console guide | Domain (optional) | — |
 | 10 | **Speed, accessibility, QA** | Lighthouse scores recorded, full Playwright run on live site | — | — |
 | 11 | **Handover** | Guides: add a profile, add a photo, change colours, write a blog post | — | — |
+
+## Phase 4 delivered (25 Oct 2026): profile catalogue
+
+- 44 UPVC profiles from the Fenstas product list (same business: shared phone numbers), in 6 groups:
+  Frames & tracks (13), Sashes & sash covers (10), Mullions/couplers/connectors (9), Glazing beads (6), Mesh (5), Door panels (1).
+- `/products/upvc-profiles`: filter chips by group (also via `#frames`, `#beads` … links in the menu) and search.
+- One page per profile: spec table (Material, Profile type, Width/depth, Wall thickness, Colour), use, group description,
+  typical cross-section drawing, previous/next links, related profiles from the same group, product-specific WhatsApp enquiry.
+- Data: `src/config/profiles.ts`. Values contradicting their own name on Fenstas were left out:
+  2.5 Track (no width given), 82mm 2.5 Track Window (listed as 80mm), 90mm 2.5 Track (listed as 68mm),
+  60 Out Swing Door Sash (listed as 60″), 20/150mm Door Panel (listed as 15mm).
+  "90mm UPVC Windows Profile" (listed as a door profile) is shown as "90mm UPVC Frame Profile".
+- Not shown until confirmed: brand (Fenstas lists "Fenstas"), photos, finished door products, "Fabrication".

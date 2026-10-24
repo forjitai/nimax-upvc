@@ -1,3 +1,4 @@
+import { profileGroups } from "./profiles";
 import { categories, categoryHref, productHref, installation } from "./products";
 
 export type NavLink = { label: string; href: string };
@@ -7,7 +8,10 @@ export type NavGroup = { label: string; href: string; items: NavLink[] };
 export const productMenu: NavGroup[] = categories.map((c) => ({
   label: c.name,
   href: categoryHref(c.slug),
-  items: c.products.map((p) => ({ label: p.name.replace(/^UPVC /, ""), href: productHref(c.slug, p.slug) })),
+  // 44 profiles are too many for a menu, so profiles link to their type filters instead
+  items: c.slug === "upvc-profiles"
+    ? profileGroups.map((g) => ({ label: g.name, href: `${categoryHref(c.slug)}#${g.id}` }))
+    : c.products.map((p) => ({ label: p.name.replace(/^UPVC /, ""), href: productHref(c.slug, p.slug) })),
 }));
 
 export const mainNav: (NavLink & { mega?: boolean })[] = [

@@ -259,6 +259,52 @@ const drawings: Record<Illustration, () => ReactNode> = {
     <g fill={C.line}><rect x={20} y={70} width={20} height={10} rx={2} /><rect x={20} y={130} width={20} height={10} rx={2} /></g>
     <text x={137} y={190} textAnchor="middle" fontSize={11} fontWeight={700} fill={C.accent} style={{ letterSpacing: "0.08em" }}>STEEL</text>
   </>),
+  /* Cross-sections for the profile catalogue, one per profile group */
+  "profile-frames": () => (<>
+    {/* Sliding track frame: base with three upright rails */}
+    <path d="M30 150 H210 V120 H200 V60 H188 V120 H160 V60 H148 V120 H120 V60 H108 V120 H40 V150 Z" fill={C.streak} stroke={C.frame} strokeWidth={5} strokeLinejoin="round" />
+    <g fill="none" stroke={C.frame} strokeWidth={3}><rect x={46} y={126} width={44} height={18} /><rect x={96} y={126} width={44} height={18} /><rect x={146} y={126} width={56} height={18} /></g>
+    <rect x={100} y={130} width={36} height={10} fill="none" stroke={C.accent} strokeWidth={3} />
+    <g stroke={C.line} strokeWidth={2} strokeDasharray="4 4"><line x1={114} y1={56} x2={114} y2={28} /><line x1={154} y1={56} x2={154} y2={28} /><line x1={194} y1={56} x2={194} y2={28} /></g>
+  </>),
+  "profile-sashes": () => (<>
+    {/* Sash: hollow section with glazing rebate and glass */}
+    <rect x={150} y={30} width={14} height={140} fill={C.glass} stroke={C.line} strokeWidth={2} />
+    <path d="M60 40 H150 V70 H140 V130 H150 V160 H60 Z" fill={C.streak} stroke={C.frame} strokeWidth={5} strokeLinejoin="round" />
+    <g fill="none" stroke={C.frame} strokeWidth={3}><rect x={70} y={50} width={30} height={100} /><rect x={106} y={50} width={28} height={100} /></g>
+    <rect x={112} y={64} width={16} height={72} fill="none" stroke={C.accent} strokeWidth={3} />
+    <circle cx={85} cy={166} r={6} fill={C.accent} />
+  </>),
+  "profile-mullions": () => (<>
+    {/* T mullion between two glass panes */}
+    <rect x={30} y={70} width={70} height={14} fill={C.glass} stroke={C.line} strokeWidth={2} />
+    <rect x={140} y={70} width={70} height={14} fill={C.glass} stroke={C.line} strokeWidth={2} />
+    <path d="M70 92 H170 V122 H136 V176 H104 V122 H70 Z" fill={C.streak} stroke={C.frame} strokeWidth={5} strokeLinejoin="round" />
+    <path d="M100 40 H140 V92 H100 Z" fill={C.streak} stroke={C.frame} strokeWidth={5} strokeLinejoin="round" />
+    <rect x={110} y={128} width={20} height={40} fill="none" stroke={C.accent} strokeWidth={3} />
+    <g fill="none" stroke={C.frame} strokeWidth={3}><rect x={78} y={100} width={26} height={16} /><rect x={136} y={100} width={26} height={16} /></g>
+  </>),
+  "profile-beads": () => (<>
+    {/* Glazing bead clipped against the glass edge */}
+    <rect x={60} y={30} width={16} height={140} fill={C.glass} stroke={C.line} strokeWidth={2} />
+    <path d="M30 60 H58 V140 H30 Z" fill={C.streak} stroke={C.line} strokeWidth={3} />
+    <path d="M78 70 H150 Q170 70 170 92 V108 Q170 130 150 130 H78 Z" fill={C.streak} stroke={C.frame} strokeWidth={5} strokeLinejoin="round" />
+    <path d="M150 130 V150 H130" fill="none" stroke={C.accent} strokeWidth={4} strokeLinecap="round" />
+    <rect x={90} y={82} width={44} height={36} fill="none" stroke={C.frame} strokeWidth={3} />
+  </>),
+  "profile-mesh": () => (<>
+    {/* Slim mesh frame with netting */}
+    <path d="M40 60 H120 V140 H40 Z" fill={C.streak} stroke={C.frame} strokeWidth={5} strokeLinejoin="round" />
+    <rect x={52} y={72} width={56} height={56} fill="none" stroke={C.frame} strokeWidth={3} />
+    <g stroke={C.line} strokeWidth={1.5}>{[130, 140, 150, 160, 170, 180, 190, 200].map((x) => <line key={x} x1={x} y1={70} x2={x} y2={130} />)}{[78, 90, 102, 114, 126].map((y) => <line key={y} x1={124} y1={y} x2={206} y2={y} />)}</g>
+    <path d="M112 92 H128 V108 H112" fill="none" stroke={C.accent} strokeWidth={3.5} />
+  </>),
+  "profile-panels": () => (<>
+    {/* Long flat door panel with internal ribs */}
+    <rect x={30} y={80} width={180} height={40} rx={3} fill={C.streak} stroke={C.frame} strokeWidth={5} />
+    <g stroke={C.frame} strokeWidth={3}>{[60, 90, 120, 150, 180].map((x) => <line key={x} x1={x} y1={82} x2={x} y2={118} />)}</g>
+    <g stroke={C.accent} strokeWidth={2.5}><line x1={30} y1={140} x2={210} y2={140} /><line x1={30} y1={134} x2={30} y2={146} /><line x1={210} y1={134} x2={210} y2={146} /></g>
+  </>),
   installation: () => (<>
     <Sash x={50} y={40} w={140} h={110} />
     <OuterFrame x={44} y={34} w={152} h={122} />
