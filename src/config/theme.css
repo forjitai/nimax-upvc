@@ -1,0 +1,64 @@
+/*
+ * NIMAX UPVC — THEME
+ *
+ * Change a colour here and the whole website updates.
+ * Every component reads these variables; no page uses hard-coded colours.
+ *
+ * Palette idea: the deep blue-slate of a window profile, clear glass tints,
+ * and a brass accent taken from window handles and hardware.
+ */
+:root {
+  /* Brand */
+  --nx-primary: #173a4c;          /* main brand colour: headings accents, primary buttons */
+  --nx-primary-hover: #0f2a38;
+  --nx-secondary: #e6eef2;        /* glass tint: soft panels, badges */
+  --nx-secondary-hover: #d6e3e9;
+  --nx-accent: #c8892b;           /* brass: highlights, icons, small details (not body text on white) */
+  --nx-accent-hover: #b07521;
+  --nx-accent-ink: #1d1406;       /* text placed on the accent colour */
+
+  /* Backgrounds */
+  --nx-bg: #ffffff;
+  --nx-bg-alt: #f4f7f8;           /* alternating section background */
+  --nx-bg-dark: #10283a;          /* dark bands (CTA, hero overlay) */
+
+  /* Text */
+  --nx-heading: #0f2230;
+  --nx-body: #3b4d58;
+  --nx-muted: #66777f;
+  --nx-on-dark: #f3f7f9;          /* text on dark bands */
+  --nx-on-dark-muted: #b9c8cf;
+
+  /* Navigation */
+  --nx-nav-text: #0f2230;
+  --nx-nav-hover: #173a4c;
+  --nx-topbar-bg: #10283a;
+  --nx-topbar-text: #d7e2e7;
+
+  /* Buttons */
+  --nx-btn-primary-bg: var(--nx-primary);
+  --nx-btn-primary-text: #ffffff;
+  --nx-btn-primary-hover: var(--nx-primary-hover);
+  --nx-btn-accent-bg: var(--nx-accent);
+  --nx-btn-accent-text: var(--nx-accent-ink);
+  --nx-btn-accent-hover: var(--nx-accent-hover);
+  --nx-whatsapp: #1b8a4a;         /* darker than WhatsApp green so white text passes contrast */
+  --nx-whatsapp-hover: #146d3a;
+
+  /* Lines */
+  --nx-border: #d9e2e6;
+  --nx-border-strong: #b7c6cd;
+  --nx-focus: #c8892b;
+  --nx-error: #b42318;            /* form error messages */
+
+  /* Footer */
+  --nx-footer-bg: #0b1e2a;
+  --nx-footer-text: #b9c8cf;
+  --nx-footer-heading: #ffffff;
+  --nx-footer-link-hover: #e2a64a;
+  --nx-footer-border: #1f3747;
+
+  /* Shape */
+  --nx-radius: 6px;
+  --nx-radius-lg: 10px;
+}

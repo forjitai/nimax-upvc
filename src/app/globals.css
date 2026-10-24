@@ -1,26 +1,94 @@
 @import "tailwindcss";
+@import "../config/theme.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* Map theme variables to Tailwind utilities, e.g. bg-primary, text-heading */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--nx-primary);
+  --color-primary-hover: var(--nx-primary-hover);
+  --color-secondary: var(--nx-secondary);
+  --color-secondary-hover: var(--nx-secondary-hover);
+  --color-accent: var(--nx-accent);
+  --color-accent-hover: var(--nx-accent-hover);
+  --color-accent-ink: var(--nx-accent-ink);
+  --color-bg: var(--nx-bg);
+  --color-bg-alt: var(--nx-bg-alt);
+  --color-bg-dark: var(--nx-bg-dark);
+  --color-heading: var(--nx-heading);
+  --color-body: var(--nx-body);
+  --color-muted: var(--nx-muted);
+  --color-on-dark: var(--nx-on-dark);
+  --color-on-dark-muted: var(--nx-on-dark-muted);
+  --color-nav: var(--nx-nav-text);
+  --color-nav-hover: var(--nx-nav-hover);
+  --color-topbar: var(--nx-topbar-bg);
+  --color-topbar-text: var(--nx-topbar-text);
+  --color-btn-primary: var(--nx-btn-primary-bg);
+  --color-btn-primary-text: var(--nx-btn-primary-text);
+  --color-btn-primary-hover: var(--nx-btn-primary-hover);
+  --color-btn-accent: var(--nx-btn-accent-bg);
+  --color-btn-accent-text: var(--nx-btn-accent-text);
+  --color-btn-accent-hover: var(--nx-btn-accent-hover);
+  --color-whatsapp: var(--nx-whatsapp);
+  --color-whatsapp-hover: var(--nx-whatsapp-hover);
+  --color-line: var(--nx-border);
+  --color-line-strong: var(--nx-border-strong);
+  --color-focus: var(--nx-focus);
+  --color-error: var(--nx-error);
+  --color-footer: var(--nx-footer-bg);
+  --color-footer-text: var(--nx-footer-text);
+  --color-footer-heading: var(--nx-footer-heading);
+  --color-footer-hover: var(--nx-footer-link-hover);
+  --color-footer-line: var(--nx-footer-border);
+
+  --radius-brand: var(--nx-radius);
+  --radius-brand-lg: var(--nx-radius-lg);
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-archivo), "Arial Narrow", ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Typography scale (used by headings site-wide) */
+@layer base {
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    background: var(--nx-bg);
+    color: var(--nx-body);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
   }
+  h1, h2, h3, h4 {
+    color: var(--nx-heading);
+    font-family: var(--font-display);
+    line-height: 1.12;
+    text-wrap: balance;
+    font-stretch: 100%;
+  }
+  :focus-visible { outline: 3px solid var(--nx-focus); outline-offset: 2px; }
+  ::selection { background: var(--nx-secondary); color: var(--nx-heading); }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .nx-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  }
+  @media (min-width: 768px) {
+    .nx-container { padding-left: 1.5rem; padding-right: 1.5rem; }
+  }
+  /* Type roles */
+  .nx-display { font-family: var(--font-display); font-weight: 800; font-stretch: 112%; letter-spacing: -0.01em; font-size: clamp(2.2rem, 5vw, 3.75rem); line-height: 1.05; }
+  .nx-h2 { font-family: var(--font-display); font-weight: 750; font-stretch: 106%; font-size: clamp(1.65rem, 3.2vw, 2.4rem); }
+  .nx-h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; line-height: 1.25; }
+  .nx-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--nx-primary); }
+  .nx-lead { font-size: 1.125rem; color: var(--nx-body); max-width: 62ch; }
+  .nx-caption { font-size: 0.85rem; color: var(--nx-muted); }
+  .nx-prose p { max-width: 68ch; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
