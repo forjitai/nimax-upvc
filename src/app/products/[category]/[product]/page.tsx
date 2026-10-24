@@ -153,6 +153,25 @@ export default async function ProductPage({ params }: PageProps<"/products/[cate
         </div>
       </section>
 
+      {product.madeWith && product.madeWith.length > 0 && (() => {
+        const profCat = categories.find((c) => c.slug === "upvc-profiles")!;
+        const used = product.madeWith.map((sl) => profCat.products.find((x) => x.slug === sl)).filter((x): x is NonNullable<typeof x> => Boolean(x));
+        return (
+          <section aria-labelledby="made-title" className="border-t border-line py-14">
+            <div className="nx-container">
+              <p className="nx-eyebrow mb-3">Built from our profiles</p>
+              <h2 id="made-title" className="nx-h2">Profiles used for {lower(product.name)}</h2>
+              <p className="mt-3 max-w-[64ch]">Typical profiles from our catalogue for this window type. The exact profiles are chosen to suit the size and use of each window.</p>
+              <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {used.map((x) => (
+                  <li key={x.slug} className="grid"><ProductCard product={x} categorySlug={profCat.slug} /></li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        );
+      })()}
+
       {related.length > 0 && (
         <section aria-labelledby="related-title" className="border-t border-line bg-bg-alt py-14">
           <div className="nx-container">

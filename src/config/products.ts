@@ -40,6 +40,10 @@ export type Product = {
   photos: { src: string; alt: string; width: number; height: number }[];
   /** Profile catalogue only: which group the profile belongs to */
   group?: ProfileGroup;
+  /** Windows only: how the window opens, used for the filter on the windows page */
+  windowGroup?: WindowGroup;
+  /** Windows only: slugs of catalogue profiles this window type is typically built from */
+  madeWith?: string[];
 };
 
 export type Category = {
@@ -51,7 +55,32 @@ export type Category = {
   products: Product[];
 };
 
-const p = (x: Omit<Product, "specs" | "photos">): Product => ({ ...x, specs: [], photos: [] });
+export type WindowGroup = "sliding" | "hinged" | "fixed-special";
+export const windowGroups: { id: WindowGroup; name: string }[] = [
+  { id: "sliding", name: "Sliding" },
+  { id: "hinged", name: "Hinged & tilting" },
+  { id: "fixed-special", name: "Fixed & special" },
+];
+
+/** Window type → how it opens, and the catalogue profiles it is typically built from */
+const windowMeta: Record<string, { g: WindowGroup; madeWith: string[] }> = {
+  "sliding-windows": { g: "sliding", madeWith: ["90mm-2-track", "112mm-3-track", "57mm-sliding-sash", "88mm-sash-mullion", "5mm-sliding-bead", "52mm-mesh-sliding"] },
+  "mesh-windows": { g: "sliding", madeWith: ["112mm-3-track", "52mm-mesh-sliding", "mesh-window-track", "mesh-add-track", "mesh-mullion"] },
+  "casement-windows": { g: "hinged", madeWith: ["60mm-casement", "45mm-small-casement-frame", "72mm-out-swing-window-sash", "t-mullion", "5mm-casement-single-glazing-bead"] },
+  "french-windows": { g: "hinged", madeWith: ["60mm-casement", "72mm-out-swing-window-sash", "5mm-casement-single-glazing-bead"] },
+  "tilt-and-turn-windows": { g: "hinged", madeWith: ["60mm-casement", "5mm-casement-single-glazing-bead"] },
+  "top-hung-windows": { g: "hinged", madeWith: ["45mm-small-casement-frame", "72mm-out-swing-window-sash", "5mm-casement-single-glazing-bead"] },
+  "folding-windows": { g: "hinged", madeWith: ["60mm-casement", "5mm-casement-single-glazing-bead"] },
+  "fixed-windows": { g: "fixed-special", madeWith: ["60mm-casement", "round-bead", "lower-glazing-bead-hole"] },
+  "combination-windows": { g: "fixed-special", madeWith: ["60mm-casement", "t-mullion", "60mm-coupler", "88-60-coupler"] },
+  "bay-windows": { g: "fixed-special", madeWith: ["60mm-bay-pole", "80-60mm-bay-corner", "60mm-coupler"] },
+  "ventilator-windows": { g: "fixed-special", madeWith: ["45mm-small-casement-frame", "5mm-casement-single-glazing-bead"] },
+};
+
+const p = (x: Omit<Product, "specs" | "photos">): Product => ({
+  ...x, specs: [], photos: [],
+  ...(windowMeta[x.slug] ? { windowGroup: windowMeta[x.slug].g, madeWith: windowMeta[x.slug].madeWith } : {}),
+});
 
 /** Turn a catalogue profile into a product page entry. Specs only list values we have. */
 const fromProfile = (x: ProfileItem): Product => {

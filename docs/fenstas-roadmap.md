@@ -28,3 +28,13 @@ Each phase ends with screenshots, test results and a request for approval.
   60 Out Swing Door Sash (listed as 60″), 20/150mm Door Panel (listed as 15mm).
   "90mm UPVC Windows Profile" (listed as a door profile) is shown as "90mm UPVC Frame Profile".
 - Not shown until confirmed: brand (Fenstas lists "Fenstas"), photos, finished door products, "Fabrication".
+
+## Phases 5–7 delivered (25 Oct 2026)
+
+- **5 Windows:** windows page filter (Sliding · Hinged & tilting · Fixed & special) and search; every window page lists
+  the catalogue profiles it is typically built from. Fenstas lists no window specifications, so none are shown.
+- **6 About:** Fenstas order: identity + checklist, drawing strip, how we work (profiles → windows → installation),
+  six "why choose UPVC" cards (shared with Home via `src/config/benefits.ts`), company details, CTA.
+  No founding year, founder or future plans until the owner supplies them.
+- **7 Contact:** contact cards (address + directions, both phones with Call/WhatsApp, bulk enquiry), embedded Google Map
+  of the real address (`business.mapEmbedUrl`), "Get in touch" form and quotation checklist. No opening hours until supplied.

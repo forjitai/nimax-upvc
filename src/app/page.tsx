@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Check, CloudRain, Flame, Bug, Sparkles, Thermometer, Volume2, Phone } from "lucide-react";
+import { ArrowRight, Check, Phone } from "lucide-react";
+import { benefits } from "@/config/benefits";
 import { business, siteUrl, telHref, whatsappHref } from "@/config/business";
 import { categories, categoryHref } from "@/config/products";
 import { ButtonLink } from "@/components/Button";
@@ -51,15 +52,6 @@ const values = [
   { title: "Easy to reach", text: `Two phone numbers, both on WhatsApp, and a base on Kadabagere Road, ${business.address.city}.` },
 ];
 
-/** General properties of UPVC as a material. No brand or test figures. */
-const benefits = [
-  { icon: CloudRain, title: "Weather proof", text: "Sealed frames with gaskets help keep out rain, wind and dust." },
-  { icon: Bug, title: "No rot or termites", text: "UPVC does not rot, rust or attract termites the way wood and steel can." },
-  { icon: Sparkles, title: "Low maintenance", text: "No painting or polishing. A wipe with water keeps frames clean." },
-  { icon: Thermometer, title: "Thermal insulation", text: "UPVC is a poor conductor of heat, helping rooms stay cooler." },
-  { icon: Volume2, title: "Acoustic insulation", text: "Well-sealed windows reduce noise from traffic and the street." },
-  { icon: Flame, title: "Self-extinguishing", text: "Rigid UPVC does not keep burning once a flame is taken away." },
-];
 
 const faqs: FaqItem[] = [
   { q: `What does ${business.name} supply?`, a: "UPVC windows in eleven opening styles (sliding, casement, tilt and turn, fixed, top hung, French, combination, folding, bay, ventilator and mesh windows) and UPVC profiles for window fabrication. We also install the windows we supply." },

@@ -56,6 +56,8 @@ export const business = {
   /** Google Maps: search and directions by address (no invented coordinates) */
   mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressOneLine)}`,
   directionsUrl: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(addressOneLine)}`,
+  /** Embedded map on the Contact page (address search, no API key, no invented coordinates) */
+  mapEmbedUrl: `https://www.google.com/maps?q=${encodeURIComponent(addressOneLine)}&output=embed`,
 
   /** Message pre-filled when a visitor taps a WhatsApp button */
   whatsappGreeting: "Hello NIMAX UPVC, I would like a quote for UPVC windows.",

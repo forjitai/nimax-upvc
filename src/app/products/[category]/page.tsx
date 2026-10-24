@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { business } from "@/config/business";
-import { categories } from "@/config/products";
+import { categories, windowGroups } from "@/config/products";
 import { PageHeader } from "@/components/PageHeader";
 import { ProductCard } from "@/components/Cards";
 import { ProductIllustration } from "@/components/ProductIllustration";
@@ -73,9 +73,9 @@ export default async function CategoryPage({ params }: PageProps<"/products/[cat
         </>
       ) : (
         <section aria-label={`${c.name} styles`} className="nx-container py-14">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {c.products.map((p) => <ProductCard key={p.slug} product={p} categorySlug={c.slug} headingLevel={2} />)}
-          </div>
+          <ProfileCatalogue noun="windows" allLabel="All windows" placeholder="Search, e.g. sliding or mesh"
+            groups={windowGroups}
+            items={c.products.map((p) => ({ slug: p.slug, name: p.name, group: p.windowGroup ?? "fixed-special", card: <ProductCard product={p} categorySlug={c.slug} headingLevel={2} /> }))} />
         </section>
       )}
       <CtaSection title={c.slug === "upvc-profiles" ? "Need UPVC profiles?" : "Need help choosing a window style?"}
