@@ -4,36 +4,36 @@
  * Change a colour here and the whole website updates.
  * Every component reads these variables; no page uses hard-coded colours.
  *
- * Palette idea: the deep blue-slate of a window profile, clear glass tints,
- * and a brass accent taken from window handles and hardware.
+ * Palette taken from the NIMAX logo: royal blue #22247E ("MA") and gold #B6890A ("NI" and "X").
  */
 :root {
   /* Brand */
-  --nx-primary: #173a4c;          /* main brand colour: headings accents, primary buttons */
-  --nx-primary-hover: #0f2a38;
-  --nx-secondary: #e6eef2;        /* glass tint: soft panels, badges */
-  --nx-secondary-hover: #d6e3e9;
-  --nx-accent: #c8892b;           /* brass: highlights, icons, small details (not body text on white) */
-  --nx-accent-hover: #b07521;
-  --nx-accent-ink: #1d1406;       /* text placed on the accent colour */
+  --nx-primary: #22247e;          /* logo blue: buttons, links, frames in drawings */
+  --nx-primary-hover: #191b63;
+  --nx-secondary: #e9eaf6;        /* pale blue tint: soft panels, badges, glass in drawings */
+  --nx-secondary-hover: #dcdef0;
+  --nx-accent: #b6890a;           /* logo gold: highlights, icons, buttons on dark (not small text on white) */
+  --nx-accent-hover: #9c7508;
+  --nx-accent-ink: #14154f;       /* text placed on gold */
+  --nx-accent-text: #8a6700;      /* darker gold for italic accent words in headings on white */
 
   /* Backgrounds */
   --nx-bg: #ffffff;
-  --nx-bg-alt: #f4f7f8;           /* alternating section background */
-  --nx-bg-dark: #10283a;          /* dark bands (CTA, hero overlay) */
+  --nx-bg-alt: #f5f5fb;           /* alternating section background */
+  --nx-bg-dark: #14154f;          /* dark bands: deep logo blue */
 
   /* Text */
-  --nx-heading: #0f2230;
-  --nx-body: #3b4d58;
-  --nx-muted: #66777f;
-  --nx-on-dark: #f3f7f9;          /* text on dark bands */
-  --nx-on-dark-muted: #b9c8cf;
+  --nx-heading: #1a1c66;          /* headings in a deep logo blue */
+  --nx-body: #3d3f5c;
+  --nx-muted: #6b6d85;
+  --nx-on-dark: #f4f4fb;          /* text on dark bands */
+  --nx-on-dark-muted: #c3c4de;
 
   /* Navigation */
-  --nx-nav-text: #0f2230;
-  --nx-nav-hover: #173a4c;
-  --nx-topbar-bg: #10283a;
-  --nx-topbar-text: #d7e2e7;
+  --nx-nav-text: #1a1c66;
+  --nx-nav-hover: #22247e;
+  --nx-topbar-bg: #22247e;        /* top contact strip in logo blue */
+  --nx-topbar-text: #e3e4f5;
 
   /* Buttons */
   --nx-btn-primary-bg: var(--nx-primary);
@@ -41,22 +41,22 @@
   --nx-btn-primary-hover: var(--nx-primary-hover);
   --nx-btn-accent-bg: var(--nx-accent);
   --nx-btn-accent-text: var(--nx-accent-ink);
-  --nx-btn-accent-hover: var(--nx-accent-hover);
+  --nx-btn-accent-hover: #c99a14;
   --nx-whatsapp: #1b8a4a;         /* darker than WhatsApp green so white text passes contrast */
   --nx-whatsapp-hover: #146d3a;
 
   /* Lines */
-  --nx-border: #d9e2e6;
-  --nx-border-strong: #b7c6cd;
-  --nx-focus: #c8892b;
+  --nx-border: #dfe0ee;
+  --nx-border-strong: #babcd6;
+  --nx-focus: #b6890a;
   --nx-error: #b42318;            /* form error messages */
 
   /* Footer */
-  --nx-footer-bg: #0b1e2a;
-  --nx-footer-text: #b9c8cf;
+  --nx-footer-bg: #101144;
+  --nx-footer-text: #c3c4de;
   --nx-footer-heading: #ffffff;
-  --nx-footer-link-hover: #e2a64a;
-  --nx-footer-border: #1f3747;
+  --nx-footer-link-hover: #e0b43c;
+  --nx-footer-border: #282a6e;
 
   /* Shape */
   --nx-radius: 6px;

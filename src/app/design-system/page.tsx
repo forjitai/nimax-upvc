@@ -59,11 +59,11 @@ export default function DesignSystemPage() {
             <div className="flex items-center justify-center rounded-brand-lg bg-footer p-8"><Logo variant="white" height={56} link={false} /></div>
             <div className="flex items-end justify-center gap-4 rounded-brand-lg border border-line p-8">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/icons/logo-mark.svg" alt="Logo mark" width={64} height={64} />
+              <img src="/icons/icon-192.png" alt="Logo mark" width={64} height={64} />
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/icons/logo-mark.svg" alt="" width={32} height={32} />
+              <img src="/icons/icon-192.png" alt="" width={32} height={32} />
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/icons/logo-mark.svg" alt="" width={16} height={16} />
+              <img src="/icons/icon-192.png" alt="" width={16} height={16} />
             </div>
           </div>
           <p className="nx-caption mt-3">The mark is a window frame whose glazing bars form an N; the brass diagonal echoes window hardware.</p>

@@ -95,3 +95,12 @@ Owner confirmed the business is **UPVC profiles and UPVC windows only**.
 - Logo subline changed to "UPVC PROFILES & WINDOWS".
 - Old URLs for removed products permanently redirect to `/products` (see `next.config.ts`).
 - Site now has 20 indexable pages (see `/sitemap.xml`).
+
+## Brand update (25 Oct 2026): client logo
+
+- Logo: the client's NIMAX logo ("High Quality UPVC Profile"), original in `docs/nimax-logo-original.jpg`.
+  Cleaned transparent versions: `public/icons/logo-nimax.png` (light backgrounds) and `logo-nimax-white.png` (blue "MA" turned white for dark backgrounds).
+- Icons (favicon, app icon, Apple icon): the gold "NI" from the logo on a logo-blue square.
+- Theme now from the logo: primary blue `#22247E`, gold `#B6890A`, dark bands `#14154F`, footer `#101144`,
+  darker gold `#8A6700` for italic accent words on white (readable contrast).
+- Header: blue contact strip with the tagline, white bar with the full logo, gold "Get a Quote" button, gold rule under the header, gold underline on menu hover.

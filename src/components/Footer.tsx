@@ -11,7 +11,7 @@ export function Footer() {
     <footer className="bg-footer text-footer-text">
       <div className="nx-container grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
         <div className="min-w-0">
-          <Logo variant="white" height={48} />
+          <Logo variant="white" height={64} />
           <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-footer-hover">Profiles · Windows · Installation</p>
           <p className="mt-4 max-w-[34ch] text-sm leading-relaxed">
             UPVC windows supplied and installed in {business.areaServed.join(", ")}, and UPVC profiles for window fabrication.

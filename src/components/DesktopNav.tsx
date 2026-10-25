@@ -28,13 +28,13 @@ export function DesktopNav({ items, productMenu }: Props) {
 
   return (
     <nav aria-label="Main" className="hidden lg:block">
-      <ul className="flex items-center gap-1">
+      <ul className="flex items-center gap-2">
         {items.map((item) =>
           item.mega ? (
             <li key={item.href} ref={wrap} className="relative"
               onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
               <div className="flex items-center">
-                <Link href={item.href} className="rounded-brand py-2 pl-3 pr-1 text-[0.95rem] font-semibold text-nav hover:text-nav-hover">
+                <Link href={item.href} className="rounded-brand py-2 pl-3 pr-1 text-[0.95rem] font-semibold text-nav hover:text-nav-hover relative after:absolute after:inset-x-3 after:-bottom-0.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-accent after:transition-transform hover:after:scale-x-100">
                   {item.label}
                 </Link>
                 <button ref={btn} type="button" aria-expanded={open} aria-controls="products-menu"
@@ -45,7 +45,7 @@ export function DesktopNav({ items, productMenu }: Props) {
               </div>
               <div id="products-menu" hidden={!open}
                 className="absolute left-1/2 top-full z-50 w-[min(640px,calc(100vw-3rem))] -translate-x-1/2 pt-3">
-                <div className="grid grid-cols-[2fr_1fr] gap-8 rounded-brand-lg border border-line bg-bg p-6 shadow-[0_24px_48px_-24px_rgba(15,34,48,0.35)]">
+                <div className="grid grid-cols-[2fr_1fr] gap-8 rounded-brand-lg border border-line bg-bg p-6 shadow-[0_24px_48px_-24px_rgba(20,21,79,0.35)]">
                   {productMenu.map((g) => (
                     <div key={g.href} className="min-w-0">
                       <Link href={g.href} onClick={() => setOpen(false)}
@@ -69,7 +69,7 @@ export function DesktopNav({ items, productMenu }: Props) {
             </li>
           ) : (
             <li key={item.href}>
-              <Link href={item.href} className="rounded-brand px-3 py-2 text-[0.95rem] font-semibold text-nav hover:text-nav-hover">
+              <Link href={item.href} className="rounded-brand px-3 py-2 text-[0.95rem] font-semibold text-nav hover:text-nav-hover relative after:absolute after:inset-x-3 after:-bottom-0.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-accent after:transition-transform hover:after:scale-x-100">
                 {item.label}
               </Link>
             </li>

@@ -10,7 +10,7 @@ export function ProductCard({ product, categorySlug, headingLevel = 3 }: { produ
   const H = headingLevel === 2 ? "h2" : "h3";
   const photo = product.photos[0];
   return (
-    <article className="group relative flex min-w-0 flex-col overflow-hidden rounded-brand-lg border border-line bg-bg transition-shadow hover:shadow-[0_18px_40px_-24px_rgba(15,34,48,0.45)]">
+    <article className="group relative flex min-w-0 flex-col overflow-hidden rounded-brand-lg border border-line bg-bg transition-shadow hover:shadow-[0_18px_40px_-24px_rgba(20,21,79,0.45)]">
       <div className="relative aspect-square bg-bg-alt">
         {photo ? (
           <Image src={photo.src} alt={photo.alt} fill sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw" className="object-cover" />

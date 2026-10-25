@@ -73,7 +73,7 @@ export default function Home() {
           style={{ backgroundImage: "linear-gradient(var(--nx-on-dark) 1px, transparent 1px), linear-gradient(90deg, var(--nx-on-dark) 1px, transparent 1px)", backgroundSize: "56px 56px" }} />
         <div className="nx-container relative grid items-center gap-12 py-16 md:py-24 lg:grid-cols-[1.15fr_1fr]">
           <div>
-            <p className="mb-6 text-xs font-bold uppercase tracking-[0.2em] text-accent">{business.name} · UPVC Solutions</p>
+            <p className="mb-6 text-xs font-bold uppercase tracking-[0.2em] text-accent">{business.tagline}</p>
             <h1 id="hero-title" className="font-display text-[clamp(2.4rem,5.4vw,4.2rem)] font-extrabold leading-[1.02] tracking-[-0.02em] !text-on-dark">
               UPVC windows,<br /><em className="font-medium italic text-accent">built around</em> your home.
             </h1>

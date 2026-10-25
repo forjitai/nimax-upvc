@@ -4,13 +4,20 @@ import { business } from "@/config/business";
 
 type Props = { variant?: "color" | "white"; height?: number; link?: boolean; priority?: boolean };
 
-/** NIMAX UPVC logo. Files live in /public/icons; replace them to update the logo everywhere. */
-export function Logo({ variant = "color", height = 48, link = true, priority = false }: Props) {
-  const src = variant === "white" ? "/icons/logo-nimax-upvc-white.svg" : "/icons/logo-nimax-upvc.svg";
-  const width = Math.round((284 / 64) * height);
+/**
+ * The client's NIMAX logo ("High Quality UPVC Profile").
+ * Files: /public/icons/logo-nimax.png (light backgrounds) and logo-nimax-white.png (dark backgrounds),
+ * both 721 × 235 with a transparent background. Replace them, keeping the names, to update the logo everywhere.
+ */
+const W = 721;
+const H = 235;
+
+export function Logo({ variant = "color", height = 52, link = true, priority = false }: Props) {
+  const src = variant === "white" ? "/icons/logo-nimax-white.png" : "/icons/logo-nimax.png";
+  const width = Math.round((W / H) * height);
   const img = (
-    <Image src={src} alt={business.name} width={width} height={height} priority={priority} unoptimized
-      style={{ height, width: "auto" }} />
+    <Image src={src} alt={`${business.name}, high quality UPVC profile`} width={width} height={height}
+      priority={priority} sizes={`${width}px`} style={{ height, width: "auto" }} />
   );
   if (!link) return img;
   return (

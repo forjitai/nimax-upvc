@@ -41,7 +41,7 @@ const addressOneLine = `${address.street}, ${address.city}, ${address.locality},
 export const business = {
   name: "NIMAX UPVC",
   shortName: "NIMAX",
-  tagline: "UPVC Profiles & Windows",
+  tagline: "High Quality UPVC Profile",
   /** Only the city of the business address. Add areas here once confirmed. */
   areaServed: ["Bengaluru"],
   address,

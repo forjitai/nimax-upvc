@@ -6,7 +6,7 @@
 export function HeroWindow() {
   return (
     <div aria-hidden className="relative mx-auto w-full max-w-[520px]">
-      <div className="relative aspect-[5/4] rounded-[10px] bg-[var(--nx-primary)] p-[4.5%] shadow-[0_40px_80px_-40px_rgba(8,24,36,0.7)]">
+      <div className="relative aspect-[5/4] rounded-[10px] bg-[var(--nx-primary)] p-[4.5%] shadow-[0_40px_80px_-40px_rgba(16,17,68,0.7)]">
         {/* outer frame bevel */}
         <div className="absolute inset-[2.2%] rounded-[6px] border-2 border-white/10" />
         {/* the view through the glass */}
