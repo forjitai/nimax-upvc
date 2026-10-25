@@ -9,7 +9,7 @@ import { posts } from "@/content/blog";
  * Excluded: /design-system (noindex), /gallery while it has no photos (noindex), 404.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date("2026-10-24");
+  const lastModified = new Date("2026-10-25");
   const page = (path: string, priority: number): MetadataRoute.Sitemap[number] => ({
     url: `${siteUrl}${path === "/" ? "" : path}`, lastModified, priority,
   });

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { business } from "@/config/business";
 import { categories, windowGroups } from "@/config/products";
@@ -6,6 +7,8 @@ import { PageHeader } from "@/components/PageHeader";
 import { ProductCard } from "@/components/Cards";
 import { ProductIllustration } from "@/components/ProductIllustration";
 import { CtaSection } from "@/components/Sections";
+import { JsonLd } from "@/components/JsonLd";
+import { siteUrl } from "@/config/business";
 import { ProfileCatalogue } from "@/components/ProfileCatalogue";
 import { profileGroups } from "@/config/profiles";
 import { ButtonLink } from "@/components/Button";
@@ -30,7 +33,7 @@ export async function generateMetadata({ params }: PageProps<"/products/[categor
     title: `${c.name} in ${business.address.city}`,
     description: (c.slug === "upvc-profiles" ? `${c.products.length} UPVC profiles from ${business.name}: frames, tracks, sashes, mullions, couplers, glazing beads and mesh profiles for fabrication.` : `${c.summary} ${c.products.length} styles from ${business.name}, ${business.address.city}.`).slice(0, 160),
     alternates: { canonical: `/products/${c.slug}` },
-    openGraph: { title: `${c.name} | ${business.name}`, url: `/products/${c.slug}` },
+    openGraph: { ...ogDefaults, title: `${c.name} | ${business.name}`, url: `/products/${c.slug}` },
   };
 }
 
@@ -78,6 +81,13 @@ export default async function CategoryPage({ params }: PageProps<"/products/[cat
             items={c.products.map((p) => ({ slug: p.slug, name: p.name, group: p.windowGroup ?? "fixed-special", card: <ProductCard product={p} categorySlug={c.slug} headingLevel={2} /> }))} />
         </section>
       )}
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: c.name,
+        numberOfItems: c.products.length,
+        itemListElement: c.products.map((p, i) => ({ "@type": "ListItem", position: i + 1, name: p.name, url: `${siteUrl}/products/${c.slug}/${p.slug}` })),
+      }} />
       <CtaSection title={c.slug === "upvc-profiles" ? "Need UPVC profiles?" : "Need help choosing a window style?"}
         text={c.slug === "upvc-profiles" ? "Call or WhatsApp us with your requirement." : "Tell us about the rooms and openings and we will suggest the styles that suit them."} />
     </>

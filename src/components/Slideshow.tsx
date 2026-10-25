@@ -35,7 +35,7 @@ export function Slideshow({ slides, interval = 5500 }: { slides: Slide[]; interv
             className={`col-start-1 row-start-1 grid items-center gap-8 p-8 transition-opacity duration-700 sm:p-12 md:grid-cols-[1fr_1.1fr] ${n === i ? "opacity-100" : "pointer-events-none opacity-0"}`}>
             <div className="mx-auto w-full max-w-[300px]">{s.visual}</div>
             <div className="min-w-0">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">{s.label}</p>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent-light">{s.label}</p>
               <h3 className="nx-split mt-3 !text-on-dark">{s.title}</h3>
               <p className="mt-3 max-w-[48ch] text-on-dark-muted">{s.text}</p>
             </div>
@@ -43,10 +43,12 @@ export function Slideshow({ slides, interval = 5500 }: { slides: Slide[]; interv
         ))}
       </div>
       <div className="flex items-center justify-between gap-4 border-t border-on-dark/15 px-6 py-4 sm:px-12">
-        <div className="flex gap-2" role="group" aria-label="Choose slide">
+        <div className="flex gap-1" role="group" aria-label="Choose slide">
           {slides.map((s, n) => (
             <button key={s.key} type="button" onClick={() => setI(n)} aria-label={`Show slide ${n + 1}`} aria-current={n === i}
-              className={`h-2 rounded-full transition-all ${n === i ? "w-8 bg-accent" : "w-2 bg-on-dark/40 hover:bg-on-dark/70"}`} />
+              className="group inline-flex h-6 min-w-6 items-center justify-center">
+              <span aria-hidden className={`h-2 rounded-full transition-all ${n === i ? "w-8 bg-accent" : "w-2 bg-on-dark/40 group-hover:bg-on-dark/70"}`} />
+            </button>
           ))}
         </div>
         <div className="flex gap-2">

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import Link from "next/link";
 import { Check, Phone } from "lucide-react";
 import { business, telHref } from "@/config/business";
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   title: `About ${business.name} | UPVC Windows & Profiles`,
   description: `${business.name} supplies UPVC profiles and supplies and installs UPVC windows, from Kittanahalli on Kadabagere Road, ${business.address.city}.`,
   alternates: { canonical: "/about" },
-  openGraph: { title: `About ${business.name}`, url: "/about" },
+  openGraph: { ...ogDefaults, title: `About ${business.name}`, url: "/about" },
 };
 
 const [windows, profiles] = categories;
@@ -133,7 +134,7 @@ export default function AboutPage() {
       <section aria-labelledby="cta-about" className="bg-primary text-white">
         <div className="nx-container flex flex-col items-start gap-6 py-16 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">Let&rsquo;s build better spaces</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent-light">Let&rsquo;s build better spaces</p>
             <h2 id="cta-about" className="nx-split mt-3 !text-white">Your next project <em className="!text-accent">starts here</em>.</h2>
           </div>
           <div className="flex flex-wrap gap-3">

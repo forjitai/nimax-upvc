@@ -5,7 +5,9 @@ import { business, siteUrl } from "@/config/business";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
+import { ogDefaults, shareImage } from "@/lib/seo";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
+import { Analytics } from "@/components/Analytics";
 
 // Self-hosted variable fonts (SIL Open Font License). No request to Google at runtime.
 const archivo = localFont({
@@ -35,9 +37,12 @@ export const metadata: Metadata = {
   },
   description: `${business.name} supplies and installs UPVC windows and supplies UPVC profiles in ${business.address.city}.`,
   applicationName: business.name,
-  openGraph: { type: "website", siteName: business.name, locale: "en_IN" },
+  openGraph: ogDefaults,
+  twitter: { card: "summary_large_image", images: [shareImage.url] },
   // Vercel preview deployments are never indexed; production is.
   robots: isProduction ? { index: true, follow: true } : { index: false, follow: false },
+  // Google Search Console HTML-tag verification (set NEXT_PUBLIC_GSC_VERIFICATION in Vercel)
+  ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION ? { verification: { google: process.env.NEXT_PUBLIC_GSC_VERIFICATION } } : {}),
 };
 
 export const viewport: Viewport = {
@@ -56,6 +61,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="main" className="flex-1">{children}</main>
         <Footer />
         <FloatingWhatsApp />
+        <Analytics id={process.env.NEXT_PUBLIC_GA_ID} />
         <JsonLd data={{
           "@context": "https://schema.org",
           "@type": "Organization",

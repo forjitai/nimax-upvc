@@ -10,8 +10,8 @@ type Group = { id: string; name: string };
  * Filterable profile grid. Every card is in the server-rendered HTML (good for search engines);
  * the filter only hides cards. The URL hash (#frames, #beads …) selects a group on load.
  */
-export function ProfileCatalogue({ items, groups, noun = "profiles", allLabel = "All profiles", placeholder = "Search, e.g. 88mm or bead" }: {
-  items: Item[]; groups: Group[]; noun?: string; allLabel?: string; placeholder?: string;
+export function ProfileCatalogue({ items, groups, noun = "profiles", allLabel = "All profiles", placeholder = "Search, e.g. 88mm or bead", gridClass = "grid gap-5 sm:grid-cols-2 lg:grid-cols-4" }: {
+  items: Item[]; groups: Group[]; noun?: string; allLabel?: string; placeholder?: string; gridClass?: string;
 }) {
   const [group, setGroup] = useState<string>("all");
   const [q, setQ] = useState("");
@@ -42,7 +42,7 @@ export function ProfileCatalogue({ items, groups, noun = "profiles", allLabel = 
           {[{ id: "all", name: allLabel }, ...groups].map((g) => (
             <button key={g.id} type="button" aria-pressed={group === g.id} onClick={() => choose(g.id)}
               className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${group === g.id ? "border-primary bg-primary text-white" : "border-line bg-bg text-body hover:border-primary hover:text-primary"}`}>
-              {g.name} <span className="tabular-nums opacity-70">({g.id === "all" ? items.length : counts[g.id]})</span>
+              {g.name} <span className="tabular-nums">({g.id === "all" ? items.length : counts[g.id]})</span>
             </button>
           ))}
         </div>
@@ -54,7 +54,7 @@ export function ProfileCatalogue({ items, groups, noun = "profiles", allLabel = 
         </label>
       </div>
       <p aria-live="polite" className="nx-caption mb-4">Showing {visible.length} of {items.length} {noun}</p>
-      <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className={gridClass}>
         {items.map((i) => (
           <li key={i.slug} hidden={!visible.includes(i)} className="grid">{i.card}</li>
         ))}

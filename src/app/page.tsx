@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight, Check, Phone } from "lucide-react";
 import { benefits } from "@/config/benefits";
@@ -18,11 +19,10 @@ export const metadata: Metadata = {
   title: { absolute: `UPVC Windows & Profiles in ${business.address.city} | ${business.name}` },
   description: `UPVC sliding, casement, tilt and turn and other UPVC windows, plus UPVC profiles, supplied and installed in ${business.address.city}. Call ${business.primaryPhone.display}.`,
   alternates: { canonical: "/" },
-  openGraph: {
+  openGraph: { ...ogDefaults,
     title: `UPVC Windows & Profiles in ${business.address.city} | ${business.name}`,
     description: `UPVC windows in every common opening style and UPVC profiles in ${business.address.city}.`,
     url: "/",
-    images: [{ url: "/icons/icon-512.png", width: 512, height: 512, alt: business.name }],
   },
 };
 
@@ -73,7 +73,7 @@ export default function Home() {
           style={{ backgroundImage: "linear-gradient(var(--nx-on-dark) 1px, transparent 1px), linear-gradient(90deg, var(--nx-on-dark) 1px, transparent 1px)", backgroundSize: "56px 56px" }} />
         <div className="nx-container relative grid items-center gap-12 py-16 md:py-24 lg:grid-cols-[1.15fr_1fr]">
           <div>
-            <p className="mb-6 text-xs font-bold uppercase tracking-[0.2em] text-accent">{business.tagline}</p>
+            <p className="mb-6 text-xs font-bold uppercase tracking-[0.2em] text-accent-light">{business.tagline}</p>
             <h1 id="hero-title" className="font-display text-[clamp(2.4rem,5.4vw,4.2rem)] font-extrabold leading-[1.02] tracking-[-0.02em] !text-on-dark">
               UPVC windows,<br /><em className="font-medium italic text-accent">built around</em> your home.
             </h1>
@@ -199,7 +199,7 @@ export default function Home() {
       <section aria-labelledby="why-title" className="bg-bg-dark py-16 text-on-dark md:py-24">
         <div className="nx-container grid gap-12 lg:grid-cols-[1fr_1.5fr]">
           <div>
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-accent">Why {business.name}</p>
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-accent-light">Why {business.name}</p>
             <h2 id="why-title" className="nx-split !text-on-dark [&_em]:!text-accent">Profiles and windows, <em>from one team</em></h2>
           </div>
           <ul className="grid gap-8 sm:grid-cols-2">

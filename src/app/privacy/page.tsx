@@ -39,7 +39,11 @@ export default function PrivacyPage() {
         </section>
         <section>
           <h2 className="nx-h3">Cookies and analytics</h2>
-          <p className="mt-2">This website does not use advertising or analytics cookies. If that changes, this page will be updated first.</p>
+          {process.env.NEXT_PUBLIC_GA_ID ? (
+            <p className="mt-2">This website uses Google Analytics to count visits and clicks on call, WhatsApp and directions links, so we can see which pages help visitors. Google Analytics uses cookies; IP addresses are anonymised. No advertising cookies are used.</p>
+          ) : (
+            <p className="mt-2">This website does not use advertising or analytics cookies. If that changes, this page will be updated first.</p>
+          )}
         </section>
         <section>
           <h2 className="nx-h3">Hosting</h2>

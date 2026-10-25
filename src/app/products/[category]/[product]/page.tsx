@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Check, ChevronLeft, ChevronRight, MoveHorizontal, Phone } from "lucide-react";
@@ -43,7 +44,7 @@ export async function generateMetadata({ params }: PageProps<"/products/[categor
       ? `${p.name}: ${p.summary}. For ${p.suitedFor[0].charAt(0).toLowerCase()}${p.suitedFor[0].slice(1)}. Supplied by ${business.name}, ${business.address.city}.`
       : `${p.summary} Supplied and installed by ${business.name}, ${business.address.city}.`).slice(0, 160),
     alternates: { canonical: url },
-    openGraph: { title: `${p.name} | ${business.name}`, description: p.summary, url },
+    openGraph: { ...ogDefaults, title: `${p.name} | ${business.name}`, description: p.summary, url },
   };
 }
 

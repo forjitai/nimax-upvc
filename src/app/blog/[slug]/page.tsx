@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { business, siteUrl } from "@/config/business";
-import { posts, getPost } from "@/content/blog";
+import { posts, getPost, blogCategories } from "@/content/blog";
+import { PostCard, fmtDate } from "@/components/PostCard";
 import { PageHeader } from "@/components/PageHeader";
 import { ProductIllustration } from "@/components/ProductIllustration";
 import { JsonLd } from "@/components/JsonLd";
@@ -22,11 +24,10 @@ export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): P
     title: p.title,
     description: p.description,
     alternates: { canonical: `/blog/${p.slug}` },
-    openGraph: { type: "article", title: p.title, description: p.description, url: `/blog/${p.slug}`, publishedTime: p.date },
+    openGraph: { ...ogDefaults, type: "article", title: p.title, description: p.description, url: `/blog/${p.slug}`, publishedTime: p.date },
   };
 }
 
-const fmt = (d: string) => new Date(d + "T00:00:00").toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
 
 export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
   const { slug } = await params;
@@ -35,7 +36,7 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
   return (
     <>
       <PageHeader crumbs={[{ label: "Blog & Insights", href: "/blog" }, { label: p.title, href: `/blog/${p.slug}` }]}
-        eyebrow={`${business.name} · ${fmt(p.date)}`} title={p.title} lead={p.description}
+        eyebrow={`${blogCategories.find((c) => c.id === p.category)?.name} · ${fmtDate(p.date)} · ${p.minutes} min read`} title={p.title} lead={p.description}
         aside={<ProductIllustration type={p.illustration} className="mx-auto hidden w-full max-w-[240px] md:block" />} />
       <article className="nx-container py-14">
         <div className="mx-auto max-w-[70ch] space-y-8 text-[1.06rem] leading-[1.75]">
@@ -60,6 +61,15 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
           </aside>
         </div>
       </article>
+      <section aria-labelledby="more-title" className="border-t border-line bg-bg-alt py-14">
+        <div className="nx-container">
+          <h2 id="more-title" className="nx-h2 mb-8">More articles</h2>
+          <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {[...posts.filter((x) => x.slug !== p.slug && x.category === p.category), ...posts.filter((x) => x.slug !== p.slug && x.category !== p.category)]
+              .slice(0, 3).map((x) => <li key={x.slug}><PostCard post={x} headingLevel={3} /></li>)}
+          </ul>
+        </div>
+      </section>
       <CtaSection />
       <JsonLd data={{
         "@context": "https://schema.org",

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import Link from "next/link";
 import { business } from "@/config/business";
 import { categories, installation, productHref } from "@/config/products";
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   title: `UPVC Window Installation in ${business.address.city}`,
   description: `${business.name} measures, fixes, seals and finishes UPVC windows at your site in ${business.address.city}, for new buildings and replacements.`,
   alternates: { canonical: `/services/${installation.slug}` },
-  openGraph: { title: `${installation.name} | ${business.name}`, url: `/services/${installation.slug}` },
+  openGraph: { ...ogDefaults, title: `${installation.name} | ${business.name}`, url: `/services/${installation.slug}` },
 };
 
 const stages = [

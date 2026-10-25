@@ -17,16 +17,16 @@ export function Header() {
       <div className="bg-topbar text-topbar-text text-[0.82rem]">
         <div className="nx-container flex items-center justify-between gap-4 py-2">
           <p className="hidden min-w-0 items-center gap-2 truncate md:flex">
-            <span className="font-bold uppercase tracking-[0.14em] text-accent">{business.tagline}</span>
+            <span className="font-bold uppercase tracking-[0.14em] text-accent-light">{business.tagline}</span>
             <span aria-hidden className="h-3 w-px bg-topbar-text/40" />
-            <MapPin aria-hidden size={14} className="shrink-0 text-accent" />
+            <MapPin aria-hidden size={14} className="shrink-0 text-accent-light" />
             <span className="truncate">{business.address.street}, {business.address.city} {business.address.postalCode}</span>
           </p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-1">
             {business.phones.map((p) => (
               <li key={p.e164}>
                 <a href={telHref(p)} className="inline-flex items-center gap-1.5 font-semibold tabular-nums hover:text-white">
-                  <Phone aria-hidden size={13} className="text-accent" />
+                  <Phone aria-hidden size={13} className="text-accent-light" />
                   {p.display}
                 </a>
               </li>
@@ -34,7 +34,7 @@ export function Header() {
             <li className="hidden sm:block">
               <a href={whatsappHref(business.primaryPhone)} target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 font-semibold hover:text-white">
-                <WhatsAppIcon size={14} className="text-accent" /> WhatsApp
+                <WhatsAppIcon size={14} className="text-accent-light" /> WhatsApp
               </a>
             </li>
           </ul>

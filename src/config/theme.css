@@ -16,6 +16,7 @@
   --nx-accent-hover: #9c7508;
   --nx-accent-ink: #14154f;       /* text placed on gold */
   --nx-accent-text: #8a6700;      /* darker gold for italic accent words in headings on white */
+  --nx-accent-light: #e0b43c;     /* lighter gold for small text on blue backgrounds */
 
   /* Backgrounds */
   --nx-bg: #ffffff;
@@ -42,8 +43,8 @@
   --nx-btn-accent-bg: var(--nx-accent);
   --nx-btn-accent-text: var(--nx-accent-ink);
   --nx-btn-accent-hover: #c99a14;
-  --nx-whatsapp: #1b8a4a;         /* darker than WhatsApp green so white text passes contrast */
-  --nx-whatsapp-hover: #146d3a;
+  --nx-whatsapp: #157a3f;         /* darker than WhatsApp green so white text passes contrast (5.3:1) */
+  --nx-whatsapp-hover: #106333;
 
   /* Lines */
   --nx-border: #dfe0ee;

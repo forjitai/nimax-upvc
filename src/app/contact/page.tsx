@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import { MapPin, MessageCircle, Navigation, Phone } from "lucide-react";
 import { business, telHref, whatsappHref } from "@/config/business";
 import { PageHeader } from "@/components/PageHeader";
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   title: `Contact ${business.name} | Call, WhatsApp, Directions`,
   description: `Call or WhatsApp ${business.name} on ${business.phones.map((p) => p.display).join(" or ")}. ${business.address.street}, ${business.address.city} ${business.address.postalCode}.`,
   alternates: { canonical: "/contact" },
-  openGraph: { title: `Contact ${business.name}`, url: "/contact" },
+  openGraph: { ...ogDefaults, title: `Contact ${business.name}`, url: "/contact" },
 };
 
 const include = [
