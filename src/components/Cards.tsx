@@ -13,7 +13,7 @@ export function ProductCard({ product, categorySlug, headingLevel = 3 }: { produ
     <article className="group relative flex min-w-0 flex-col overflow-hidden rounded-brand-lg border border-line bg-bg transition-shadow hover:shadow-[0_18px_40px_-24px_rgba(20,21,79,0.45)]">
       <div className="relative aspect-square bg-bg-alt">
         {photo ? (
-          <Image src={photo.src} alt={photo.alt} fill sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw" className="object-cover" />
+          <Image src={photo.src} alt={photo.alt} fill sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw" className="bg-white object-contain p-3" />
         ) : (
           <ProductIllustration type={product.illustration} className="absolute inset-0 m-auto size-[78%]" />
         )}

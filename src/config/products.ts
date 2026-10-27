@@ -1,3 +1,4 @@
+import { productPhotos } from "./photos.generated";
 import { profiles, profileGroup, type ProfileGroup, type ProfileItem } from "./profiles";
 
 /**
@@ -77,8 +78,12 @@ const windowMeta: Record<string, { g: WindowGroup; madeWith: string[] }> = {
   "ventilator-windows": { g: "fixed-special", madeWith: ["45mm-small-casement-frame", "5mm-casement-single-glazing-bead"] },
 };
 
+/** Photos dropped into public/images/products/ named after the product slug (see scripts/photos.mjs). */
+const photosFor = (slug: string, name: string): Product["photos"] =>
+  (productPhotos[slug] ?? []).map((src, i) => ({ src, alt: i ? `${name}, photo ${i + 1}` : name, width: 1200, height: 1200 }));
+
 const p = (x: Omit<Product, "specs" | "photos">): Product => ({
-  ...x, specs: [], photos: [],
+  ...x, specs: [], photos: photosFor(x.slug, x.name),
   ...(windowMeta[x.slug] ? { windowGroup: windowMeta[x.slug].g, madeWith: windowMeta[x.slug].madeWith } : {}),
 });
 
@@ -99,7 +104,7 @@ const fromProfile = (x: ProfileItem): Product => {
     howItOpens: g.use,
     suitedFor: [x.usedFor],
     illustration: `profile-${x.group}` as Illustration,
-    specs, photos: [],
+    specs, photos: photosFor(x.slug, x.name),
   };
 };
 

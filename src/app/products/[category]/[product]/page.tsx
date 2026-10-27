@@ -91,7 +91,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[cate
             <div className="grid gap-3">
               {product.photos.map((ph, i) => (
                 <div key={ph.src} className="relative aspect-square overflow-hidden rounded-brand-lg bg-bg-alt">
-                  <Image src={ph.src} alt={ph.alt} fill priority={i === 0} sizes="(min-width:1024px) 45vw, 100vw" className="object-cover" />
+                  <Image src={ph.src} alt={ph.alt} fill priority={i === 0} sizes="(min-width:1024px) 45vw, 100vw" className="bg-white object-contain p-3" />
                 </div>
               ))}
             </div>

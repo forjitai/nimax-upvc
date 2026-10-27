@@ -45,12 +45,11 @@ P("70mm-casement-sash", "70mm Casement Sash UPVC Profile", "sashes", "Casement s
 Groups: `frames`, `sashes`, `mullions`, `beads`, `mesh`, `panels`. Leave width or thickness as `undefined` if unknown. The page, menu filter, sitemap and Google data update themselves.
 
 ### Add photos to a profile or window
-1. Put the photo in `public/images/products/` (JPG or WebP, at least 1200 px wide, a clear file name like `55mm-sliding-profile-01.jpg`).
-2. In `src/config/products.ts` (windows) add to that product's `photos`, or ask a developer to add a `photos` field to the profile:
-   ```ts
-   photos: [{ src: "/images/products/55mm-sliding-profile-01.jpg", alt: "55mm sliding UPVC profile cross-section", width: 1600, height: 1200 }]
-   ```
-   Photos replace the drawing automatically and are resized and compressed by Next.js.
+1. Name the photo after the product's web address (the last part of its page link), e.g.
+   `/products/upvc-profiles/82mm-2-5-track` → `82mm-2-5-track.jpg`. Extra photos: `82mm-2-5-track-2.jpg`, `-3.jpg` …
+2. Put it in `public/images/products/` (JPG, PNG or WebP, ideally square, at least 1000 px, white background for profiles).
+3. Commit. The photo replaces the drawing on the card and the product page automatically (`scripts/photos.mjs` runs before every build).
+   Full list of names: `docs/photo-names.md`.
 
 ### Add gallery photos
 Put photos in `public/images/gallery/` and list them in `src/config/gallery.ts` (example inside the file). The Gallery page then becomes visible to Google and joins the sitemap.
