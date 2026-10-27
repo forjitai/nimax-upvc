@@ -49,7 +49,7 @@ const values = [
   { title: "Profiles and windows in one place", text: "Buy UPVC profiles for fabrication, or finished windows, from the same supplier." },
   { title: "Measured for your openings", text: "Windows are made to the size of each opening, not picked off a shelf." },
   { title: "Supply and installation", text: "One team from the first measurement to the sealed, finished window." },
-  { title: "Easy to reach", text: `Two phone numbers, both on WhatsApp, and a base on Kadabagere Road, ${business.address.city}.` },
+  { title: "Easy to reach", text: "Two phone numbers, both on WhatsApp, and two locations: Kadabagere Road in Bengaluru and Dommasandra." },
 ];
 
 
@@ -60,7 +60,7 @@ const faqs: FaqItem[] = [
   { q: "How much do UPVC windows cost?", a: "The price depends on the window type, size, glass and the number of windows. Call or WhatsApp us with your requirement and we will give you a quotation." },
   { q: "What details should I send for a quotation?", a: "The window types you want, the number of windows, approximate sizes if you know them, whether it is a new building or a replacement, and your area. Photos of the openings on WhatsApp help too." },
   { q: "Do you supply UPVC profiles in bulk to fabricators?", a: "Yes, we supply UPVC profiles. Contact us with the profile types and quantities you need." },
-  { q: "Which areas do you serve?", a: `We are based at Kittanahalli, Kadabagere Road, ${business.address.city}, and serve customers in ${business.areaServed.join(", ")}.` },
+  { q: "Where are you located?", a: `We have two locations: ${business.locations.map((l) => `${l.name} (${l.oneLine.replace(/, India$/, "")})`).join(" and ")}. Call or WhatsApp before visiting.` },
   { q: "Do you also replace old wooden or aluminium windows?", a: "Yes. The old frame is removed, the opening is prepared, and the new UPVC window is fixed, sealed and finished." },
 ];
 
@@ -135,7 +135,7 @@ export default function Home() {
           </div>
           <div>
             <p className="text-[1.05rem]">
-              {business.name} is based at Kittanahalli on Kadabagere Road, {business.address.city}. We supply UPVC profiles and
+              {business.name} has two locations: Kittanahalli on Kadabagere Road, {business.address.city}, and Dommasandra near Sarjapura. We supply UPVC profiles and
               supply and install UPVC windows for homes and offices.
             </p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -265,23 +265,24 @@ export default function Home() {
         "@context": "https://schema.org",
         "@graph": [
           { "@type": "WebSite", name: business.name, url: siteUrl },
-          {
+          ...business.locations.map((l, n) => ({
             "@type": "HomeAndConstructionBusiness",
-            name: business.name,
+            "@id": `${siteUrl}/#${l.id}`,
+            name: n === 0 ? business.name : `${business.name}, ${l.name}`,
             url: siteUrl,
             image: `${siteUrl}/icons/icon-512.png`,
             telephone: business.phones.map((p) => p.e164),
             address: {
               "@type": "PostalAddress",
-              streetAddress: business.address.street,
-              addressLocality: business.address.city,
-              addressRegion: business.address.region,
-              postalCode: business.address.postalCode,
-              addressCountry: business.address.countryCode,
+              streetAddress: l.landmark ? `${l.street}, ${l.landmark}` : l.street,
+              addressLocality: l.city,
+              addressRegion: l.region,
+              postalCode: l.postalCode,
+              addressCountry: l.countryCode,
             },
-            areaServed: business.areaServed.map((a) => ({ "@type": "City", name: a })),
-            hasMap: business.mapsUrl,
-          },
+            ...(n === 0 ? { areaServed: business.areaServed.map((a) => ({ "@type": "City", name: a })) } : {}),
+            hasMap: l.mapsUrl,
+          })),
         ],
       }} />
     </>

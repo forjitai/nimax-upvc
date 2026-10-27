@@ -12,7 +12,7 @@ Website for **NIMAX UPVC** — UPVC profiles and UPVC windows, Kittanahalli, Kad
 
 | To change… | Edit | Notes |
 |---|---|---|
-| Name, address, phone numbers, WhatsApp message, map | `src/config/business.ts` | Used in header, footer, contact page, forms and Google data |
+| Name, addresses (`locations`), phone numbers, WhatsApp message, maps | `src/config/business.ts` | Used in header, footer, contact page, forms and Google data |
 | Colours | `src/config/theme.css` | Blue `--nx-primary`, gold `--nx-accent`, etc. |
 | UPVC profiles (44) | `src/config/profiles.ts` | One line per profile |
 | UPVC window types (11) | `src/config/products.ts` | Text for each window page |

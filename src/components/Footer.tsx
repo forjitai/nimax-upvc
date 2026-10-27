@@ -39,10 +39,19 @@ export function Footer() {
         <div className="min-w-0">
           <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-[0.12em] text-footer-heading">Let&rsquo;s connect</h2>
           <address className="space-y-3 text-sm not-italic">
-            <p className="flex gap-2.5">
-              <MapPin aria-hidden size={16} className="mt-0.5 shrink-0 text-footer-hover" />
-              <span>{business.addressOneLine}</span>
-            </p>
+            {business.locations.map((l) => (
+              <div key={l.id} className="flex gap-2.5">
+                <MapPin aria-hidden size={16} className="mt-0.5 shrink-0 text-footer-hover" />
+                <div>
+                  <p className="font-semibold text-footer-heading">{l.name}</p>
+                  <p>{l.oneLine.replace(/, India$/, "")}</p>
+                  <a href={l.directionsUrl} target="_blank" rel="noopener noreferrer"
+                    className="mt-1 inline-flex items-center gap-1.5 text-xs font-semibold text-footer-heading hover:text-footer-hover">
+                    <Navigation aria-hidden size={13} /> Directions<span className="sr-only"> to {l.name}</span>
+                  </a>
+                </div>
+              </div>
+            ))}
             {business.phones.map((p) => (
               <p key={p.e164} className="flex items-center gap-2.5">
                 <Phone aria-hidden size={16} className="shrink-0 text-footer-hover" />
@@ -54,12 +63,6 @@ export function Footer() {
                 </a>
               </p>
             ))}
-            <p>
-              <a href={business.directionsUrl} target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 font-semibold text-footer-heading hover:text-footer-hover">
-                <Navigation aria-hidden size={15} /> Get directions
-              </a>
-            </p>
             <p className="pt-2">
               <Link href="/contact" className="inline-flex rounded-brand bg-btn-accent px-4 py-2.5 text-sm font-semibold text-btn-accent-text hover:bg-btn-accent-hover">Send an enquiry</Link>
             </p>

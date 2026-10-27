@@ -22,7 +22,7 @@ export default function PrivacyPage() {
       <article className="nx-container nx-prose space-y-8 py-14 text-[1.02rem]">
         <section>
           <h2 className="nx-h3">Who we are</h2>
-          <p className="mt-2">This website belongs to {business.name}, {business.addressOneLine}.</p>
+          <p className="mt-2">This website belongs to {business.name}, {business.locations.map((l) => l.oneLine).join("; and ")}.</p>
         </section>
         <section>
           <h2 className="nx-h3">Enquiries you send us</h2>

@@ -21,24 +21,28 @@ export function ContactDetails() {
           </div>
         </div>
       ))}
-      <div className="rounded-brand-lg border border-line bg-bg p-5">
-        <p className="nx-eyebrow text-muted">Address</p>
-        <address className="mt-2 flex gap-2.5 not-italic text-heading">
-          <MapPin aria-hidden size={18} className="mt-1 shrink-0 text-accent" />
-          <span>
-            {business.name}<br />
-            {business.address.street},<br />
-            {business.address.locality}, {business.address.city},<br />
-            {business.address.region} {business.address.postalCode}, {business.address.country}
-          </span>
-        </address>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <ButtonLink href={business.directionsUrl} variant="outline" size="sm" icon={<Navigation aria-hidden size={16} />}>
-            Get directions
-          </ButtonLink>
-          <ButtonLink href={business.mapsUrl} variant="ghost" size="sm">Open in Google Maps</ButtonLink>
+      {business.locations.map((l) => (
+        <div key={l.id} className="rounded-brand-lg border border-line bg-bg p-5">
+          <p className="nx-eyebrow text-muted">{l.name}</p>
+          <address className="mt-2 flex gap-2.5 not-italic text-heading">
+            <MapPin aria-hidden size={18} className="mt-1 shrink-0 text-accent" />
+            <span>
+              {business.name}<br />
+              {l.street},<br />
+              {l.landmark && <>{l.landmark},<br /></>}
+              {l.locality === l.city ? l.city : `${l.locality}, ${l.city}`},<br />
+              {l.region} {l.postalCode}, {l.country}
+            </span>
+          </address>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <ButtonLink href={l.directionsUrl} variant="outline" size="sm" icon={<Navigation aria-hidden size={16} />}
+              aria-label={`Get directions to ${l.name}`}>
+              Get directions
+            </ButtonLink>
+            <ButtonLink href={l.mapsUrl} variant="ghost" size="sm" aria-label={`Open ${l.name} in Google Maps`}>Open in Google Maps</ButtonLink>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }

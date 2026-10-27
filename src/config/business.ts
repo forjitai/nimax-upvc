@@ -35,6 +35,51 @@ const phones: Phone[] = [
   { label: "Phone 2", display: "+91 79751 77812", e164: "+917975177812", whatsapp: "917975177812" },
 ];
 
+export type Location = {
+  id: string;
+  /** Short name shown on cards, e.g. "Kadabagere Road" */
+  name: string;
+  street: string;
+  landmark?: string;
+  locality: string;
+  /** Town/city line shown to visitors */
+  city: string;
+  region: string;
+  postalCode: string;
+  country: string;
+  countryCode: string;
+  /** Full address on one line, as the owner supplied it */
+  oneLine: string;
+  mapsUrl: string;
+  directionsUrl: string;
+  mapEmbedUrl: string;
+};
+
+const maps = (oneLine: string) => ({
+  mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(oneLine)}`,
+  directionsUrl: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(oneLine)}`,
+  mapEmbedUrl: `https://www.google.com/maps?q=${encodeURIComponent(oneLine)}&output=embed`,
+});
+
+/**
+ * All NIMAX UPVC locations. The first one is the main address (header, Google business data).
+ * Both use the same phone numbers. Add opening hours per location only when supplied.
+ */
+const dommasandraOneLine = "S.no 46/5, Dommasandra Village, Sarjapura Hobli, Anekal Taluk, near Dommasandra Eye Hospital, Dommasandra, Karnataka 562125, India";
+const kittanahalliOneLine = `${address.street}, ${address.city}, ${address.locality}, ${address.region} ${address.postalCode}, ${address.country}`;
+
+const locations: Location[] = [
+  { id: "kadabagere", name: "Kadabagere Road", ...address, oneLine: kittanahalliOneLine, ...maps(kittanahalliOneLine) },
+  {
+    id: "dommasandra", name: "Dommasandra",
+    street: "S.no 46/5, Dommasandra Village, Sarjapura Hobli, Anekal Taluk",
+    landmark: "Near Dommasandra Eye Hospital",
+    locality: "Dommasandra", city: "Dommasandra", region: "Karnataka", postalCode: "562125",
+    country: "India", countryCode: "IN",
+    oneLine: dommasandraOneLine, ...maps(dommasandraOneLine),
+  },
+];
+
 /** One line, as the owner supplied it */
 const addressOneLine = `${address.street}, ${address.city}, ${address.locality}, ${address.region} ${address.postalCode}, ${address.country}`;
 
@@ -46,6 +91,7 @@ export const business = {
   areaServed: ["Bengaluru"],
   address,
   addressOneLine,
+  locations,
   phones,
   primaryPhone: phones[0],
 

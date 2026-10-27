@@ -13,7 +13,7 @@ export const ensureStatic = "navigation";
 
 export const metadata: Metadata = {
   title: `About ${business.name} | UPVC Windows & Profiles`,
-  description: `${business.name} supplies UPVC profiles and supplies and installs UPVC windows, from Kittanahalli on Kadabagere Road, ${business.address.city}.`,
+  description: `${business.name} supplies UPVC profiles and supplies and installs UPVC windows, from Kadabagere Road, ${business.address.city}, and Dommasandra.`,
   alternates: { canonical: "/about" },
   openGraph: { ...ogDefaults, title: `About ${business.name}`, url: "/about" },
 };
@@ -37,7 +37,7 @@ export default function AboutPage() {
           <h2 id="identity-title" className="nx-split">Profiles and windows, <em>under one roof</em></h2>
           <div className="mt-6 max-w-[60ch] space-y-4 text-[1.05rem]">
             <p>
-              {business.name} is based at Kittanahalli on Kadabagere Road, Byandahalli, in {business.address.city}. We supply
+              {business.name} works from two locations: Kittanahalli on Kadabagere Road, Byandahalli, in {business.address.city}, and Dommasandra Village near Sarjapura, Anekal Taluk. We supply
               UPVC profiles, the frame, sash, mullion and bead sections that windows are made from, and we supply and install
               finished UPVC windows.
             </p>
@@ -119,7 +119,7 @@ export default function AboutPage() {
             ["Products", "UPVC profiles, UPVC windows"],
             ["Services", "Window supply and installation, bulk profile supply"],
             ["Area served", business.areaServed.join(", ")],
-            ["Address", business.addressOneLine],
+            ...business.locations.map((l) => [`Address: ${l.name}`, l.oneLine]),
             ["Phone / WhatsApp", business.phones.map((p) => p.display).join(" · ")],
           ].map(([k, v]) => (
             <div key={k} className="border-b border-line p-5 sm:[&:nth-child(odd)]:border-r">
