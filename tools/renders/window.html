@@ -1,0 +1,148 @@
+<!doctype html><html><body style="margin:0;background:#fff">
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from "three";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+const S = 1200;
+const r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+r.setSize(S, S); r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
+r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 0.95; r.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(r.domElement);
+const scene = new THREE.Scene();
+const env = new THREE.PMREMGenerator(r).fromScene(new RoomEnvironment(), 0.04).texture;
+
+const upvc = new THREE.MeshPhysicalMaterial({ color: "#efefeb", roughness: 0.32, clearcoat: 0.5, clearcoatRoughness: 0.3 });
+const gc = document.createElement("canvas"); gc.width = gc.height = 512; const gx = gc.getContext("2d");
+const grd = gx.createLinearGradient(0, 0, 0, 512); grd.addColorStop(0, "#8fb4cc"); grd.addColorStop(0.55, "#c4d9e4"); grd.addColorStop(1, "#e3edf1");
+gx.fillStyle = grd; gx.fillRect(0, 0, 512, 512);
+gx.globalAlpha = 0.28; gx.fillStyle = "#ffffff"; gx.beginPath(); gx.moveTo(120, 0); gx.lineTo(260, 0); gx.lineTo(90, 512); gx.lineTo(-50, 512); gx.fill();
+gx.globalAlpha = 0.16; gx.beginPath(); gx.moveTo(300, 0); gx.lineTo(340, 0); gx.lineTo(170, 512); gx.lineTo(130, 512); gx.fill();
+const gtex = new THREE.CanvasTexture(gc); gtex.colorSpace = THREE.SRGBColorSpace;
+const glass = new THREE.MeshPhysicalMaterial({ map: gtex, roughness: 0.05, clearcoat: 1, transparent: true, opacity: 0.88, envMapIntensity: 0.6, side: THREE.DoubleSide });
+const frosted = new THREE.MeshPhysicalMaterial({ color: "#e4ecef", roughness: 0.6, transparent: true, opacity: 0.85, side: THREE.DoubleSide });
+const meshMat = new THREE.MeshStandardMaterial({ color: "#555a63", roughness: 0.9, transparent: true, opacity: 0.38, side: THREE.DoubleSide });
+const metal = new THREE.MeshStandardMaterial({ color: "#c9ccd2", roughness: 0.25, metalness: 0.9 });
+
+function bx(w, h, d, mat, x, y, z) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); m.castShadow = true; m.receiveShadow = true; return m;
+}
+/** Rectangular frame of bars (outer w×h, bar b, depth d), centred at origin, in a group. */
+function frame(w, h, b, d, mat = upvc) {
+  const g = new THREE.Group();
+  g.add(bx(w, b, d, mat, 0, h / 2 - b / 2, 0), bx(w, b, d, mat, 0, -h / 2 + b / 2, 0),
+        bx(b, h - 2 * b, d, mat, -w / 2 + b / 2, 0, 0), bx(b, h - 2 * b, d, mat, w / 2 - b / 2, 0, 0));
+  return g;
+}
+/** A sash: frame + glass (+ handle). Returned group is centred. */
+function sash(w, h, { pane = glass, handle = null, b = 62, d = 58, mesh = false } = {}) {
+  const g = frame(w, h, b, d);
+  // glazing bead step
+  g.add(frame(w - 2 * b + 16, h - 2 * b + 16, 8, 10).translateZ(d / 2 - 5));
+  const p = new THREE.Mesh(new THREE.PlaneGeometry(w - 2 * b + 4, h - 2 * b + 4), mesh ? meshMat : pane); p.renderOrder = 2; g.add(p);
+  if (handle === "side-r" || handle === "side-l") {
+    const x = (handle === "side-r" ? 1 : -1) * (w / 2 - b / 2);
+    g.add(bx(14, 36, 14, metal, x, 0, d / 2 + 7), bx(14, 110, 12, metal, x, -55, d / 2 + 18));
+  } else if (handle === "bottom") {
+    g.add(bx(36, 14, 14, metal, 0, -h / 2 + b / 2, d / 2 + 7), bx(110, 14, 12, metal, 55, -h / 2 + b / 2, d / 2 + 18));
+  } else if (handle === "pull") {
+    g.add(bx(16, 140, 14, metal, w / 2 - b / 2, 0, d / 2 + 8));
+  }
+  return g;
+}
+/** Hinge a group: wraps it so that rotation happens about one edge. */
+function hinge(obj, w, h, edge, angle) {
+  const piv = new THREE.Group(); const off = { left: [w / 2, 0], right: [-w / 2, 0], top: [0, -h / 2], bottom: [0, h / 2] }[edge];
+  obj.position.x += off[0]; obj.position.y += off[1]; piv.add(obj);
+  if (edge === "left") piv.rotation.y = -angle; if (edge === "right") piv.rotation.y = angle;
+  if (edge === "top") piv.rotation.x = -angle; if (edge === "bottom") piv.rotation.x = angle;
+  piv.position.set(-off[0], -off[1], 0); const g = new THREE.Group(); g.add(piv); return g;
+}
+const at = (o, x, y, z = 0) => { o.position.x += x; o.position.y += y; o.position.z += z; return o; };
+
+const builders = {
+  sliding() { const W = 1500, H = 1200, g = new THREE.Group(); g.add(frame(W, H, 70, 90));
+    const sw = (W - 140) / 2 + 40, sh = H - 140;
+    g.add(at(sash(sw, sh, { handle: "pull" }), -W / 2 + 70 + sw / 2, 0, 20));
+    g.add(at(sash(sw, sh, { handle: "pull" }), W / 2 - 70 - sw / 2 - 260, 0, -20));
+    return g; },
+  mesh() { const W = 1500, H = 1200, g = new THREE.Group(); g.add(frame(W, H, 70, 120));
+    const sw = (W - 140) / 2 + 40, sh = H - 140;
+    g.add(at(sash(sw, sh, { handle: "pull" }), -W / 2 + 70 + sw / 2 + 300, 0, -35));
+    g.add(at(sash(sw, sh, { handle: "pull" }), W / 2 - 70 - sw / 2, 0, 0));
+    g.add(at(sash(sw, sh, { mesh: true, b: 50, d: 30, handle: "pull" }), -W / 2 + 70 + sw / 2, 0, 42));
+    return g; },
+  casement() { const W = 1200, H = 1200, g = new THREE.Group(); g.add(frame(W, H, 66, 70)); g.add(bx(66, H - 132, 70, upvc, 0, 0, 0));
+    const sw = (W - 198) / 2, sh = H - 132;
+    g.add(at(sash(sw, sh, { handle: "side-r" }), -W / 4 + 16, 0, 0));
+    g.add(at(hinge(sash(sw, sh, { handle: "side-l" }), sw, sh, "right", -0.75), W / 4 - 16, 0, 0));
+    return g; },
+  "tilt-and-turn"() { const W = 800, H = 1300, g = new THREE.Group(); g.add(frame(W, H, 66, 70));
+    g.add(hinge(sash(W - 132, H - 132, { handle: "side-r" }), W - 132, H - 132, "bottom", 0.16));
+    return g; },
+  fixed() { const W = 1400, H = 1100, g = new THREE.Group(); g.add(frame(W, H, 66, 70));
+    const p = new THREE.Mesh(new THREE.PlaneGeometry(W - 120, H - 120), glass); g.add(p); g.add(frame(W - 116, H - 116, 10, 10).translateZ(30)); return g; },
+  "top-hung"() { const W = 900, H = 800, g = new THREE.Group(); g.add(frame(W, H, 66, 70));
+    g.add(hinge(sash(W - 132, H - 132, { handle: "bottom" }), W - 132, H - 132, "top", -0.42)); return g; },
+  french() { const W = 1300, H = 1400, g = new THREE.Group(); g.add(frame(W, H, 66, 70));
+    const sw = (W - 132) / 2, sh = H - 132;
+    g.add(at(hinge(sash(sw, sh, { handle: "side-r" }), sw, sh, "left", -0.65), -sw / 2, 0, 0));
+    g.add(at(hinge(sash(sw, sh, { handle: "side-l" }), sw, sh, "right", -0.5), sw / 2, 0, 0)); return g; },
+  combination() { const W = 1800, H = 1500, g = new THREE.Group(); g.add(frame(W, H, 66, 70));
+    const topH = 420; g.add(bx(W - 132, 66, 70, upvc, 0, H / 2 - 66 - topH - 33, 0));
+    const tp = new THREE.Mesh(new THREE.PlaneGeometry(W - 132, topH), glass); tp.position.y = H / 2 - 66 - topH / 2; g.add(tp);
+    const bh = H - 132 - topH - 66, by = -H / 2 + 66 + bh / 2, cw = (W - 132 - 132) / 3;
+    g.add(bx(66, bh, 70, upvc, -cw / 2 - 33, by, 0), bx(66, bh, 70, upvc, cw / 2 + 33, by, 0));
+    g.add(at(hinge(sash(cw, bh, { handle: "side-r" }), cw, bh, "left", -0.6), -cw - 66, by, 0));
+    const fp = new THREE.Mesh(new THREE.PlaneGeometry(cw, bh), glass); fp.position.y = by; g.add(fp);
+    g.add(at(sash(cw, bh, { handle: "side-l" }), cw + 66, by, 0)); return g; },
+  folding() { const W = 1800, H = 1200, g = new THREE.Group(); g.add(frame(W, H, 66, 90));
+    const pw = (W - 132) / 4, ph = H - 132; const a = 0.9;
+    // two panels folded back on the left, two closed on the right
+    let x = -W / 2 + 66;
+    const p1 = sash(pw, ph, {}); p1.rotation.y = -a; p1.position.set(x + Math.cos(a) * pw / 2, 0, Math.sin(a) * pw / 2); g.add(p1);
+    const x2 = x + Math.cos(a) * pw; const p2 = sash(pw, ph, { handle: "side-r" }); p2.rotation.y = a; p2.position.set(x2 + Math.cos(a) * pw / 2, 0, Math.sin(a) * pw / 2); g.add(p2);
+    g.add(at(sash(pw, ph, {}), W / 2 - 66 - pw * 1.5, 0, 0), at(sash(pw, ph, { handle: "side-l" }), W / 2 - 66 - pw / 2, 0, 0)); return g; },
+  bay() { const g = new THREE.Group(); const H = 1300, cW = 1100, sW = 650; const a = Math.PI / 4;
+    const unit = (w, open) => { const u = new THREE.Group(); u.add(frame(w, H, 66, 70)); const s = sash(w - 132, H - 132, { handle: "side-r" });
+      u.add(open ? hinge(s, w - 132, H - 132, "left", -0.5) : s); return u; };
+    g.add(at(unit(cW, false), 0, 0, 0));
+    const l = unit(sW, true); l.rotation.y = -a; l.position.set(-cW / 2 - Math.cos(a) * sW / 2, 0, -Math.sin(a) * sW / 2); g.add(l);
+    const rr = unit(sW, false); rr.rotation.y = a; rr.position.set(cW / 2 + Math.cos(a) * sW / 2, 0, -Math.sin(a) * sW / 2); g.add(rr);
+    return g; },
+  ventilator() { const W = 700, H = 600, g = new THREE.Group(); g.add(frame(W, H, 60, 70));
+    const iw = W - 120, ih = H - 120;
+    for (let i = 0; i < 6; i++) { const l = new THREE.Mesh(new THREE.BoxGeometry(iw, ih / 6 + 8, 4), frosted); l.rotation.x = -0.5; l.position.set(0, -ih / 2 + ih / 12 + i * ih / 6, 0); l.castShadow = true; g.add(l); }
+    g.add(bx(12, ih, 30, upvc, -iw / 2 + 6, 0, 0), bx(12, ih, 30, upvc, iw / 2 - 6, 0, 0)); return g; },
+};
+
+function fit(c, box) {
+  const corners = []; for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) corners.push(new THREE.Vector3(x, y, z));
+  return corners;
+}
+window.renderWindow = ({ type, cam = [0.42, 0.12, 1], out }) => {
+  for (const o of [...scene.children]) scene.remove(o);
+  scene.background = new THREE.Color("#ffffff"); scene.environment = env;
+  const g = builders[type](); scene.add(g);
+  let box = new THREE.Box3().setFromObject(g); g.position.y -= box.min.y; g.position.x -= (box.min.x + box.max.x) / 2; g.position.z -= (box.min.z + box.max.z) / 2;
+  box = new THREE.Box3().setFromObject(g); const size = box.getSize(new THREE.Vector3());
+  // soft floor shadow + faint wall shadow
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(20000, 20000), new THREE.ShadowMaterial({ opacity: 0.14 })); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
+  scene.add(new THREE.HemisphereLight("#ffffff", "#b9bcc8", 0.6));
+  const d = new THREE.DirectionalLight("#fffaf2", 2.2); d.position.set(-1500, 3000, 2200); d.castShadow = true; d.shadow.mapSize.set(2048, 2048); d.shadow.radius = 10; d.shadow.bias = -0.0004;
+  Object.assign(d.shadow.camera, { left: -3000, right: 3000, top: 3000, bottom: -3000, near: 10, far: 9000 }); scene.add(d);
+  const fill = new THREE.DirectionalLight("#eef0ff", 0.6); fill.position.set(2000, 800, 1500); scene.add(fill);
+  const c = new THREE.PerspectiveCamera(26, 1, 10, 40000);
+  const dir = new THREE.Vector3(...cam).normalize(); const target = box.getCenter(new THREE.Vector3());
+  const corners = fit(c, box); let dist = size.length() * 2;
+  for (let k = 0; k < 12; k++) {
+    c.position.copy(target).addScaledVector(dir, dist); c.lookAt(target); c.updateMatrixWorld(); c.clearViewOffset(); c.updateProjectionMatrix();
+    const lo = new THREE.Vector2(9, 9), hi = new THREE.Vector2(-9, -9); for (const p of corners) { const v = p.clone().project(c); lo.min(v); hi.max(v); }
+    dist *= Math.max(hi.x - lo.x, hi.y - lo.y) / 2 / 0.82;
+  }
+  c.position.copy(target).addScaledVector(dir, dist); c.lookAt(target); c.updateMatrixWorld(); c.updateProjectionMatrix();
+  const lo = new THREE.Vector2(9, 9), hi = new THREE.Vector2(-9, -9); for (const p of corners) { const v = p.clone().project(c); lo.min(v); hi.max(v); }
+  c.setViewOffset(S, S, (lo.x + hi.x) / 2 * S / 2, -(lo.y + hi.y) / 2 * S / 2, S, S);
+  r.render(scene, c); return r.domElement.toDataURL("image/png");
+};
+window.ready = true;
+</script></body></html>

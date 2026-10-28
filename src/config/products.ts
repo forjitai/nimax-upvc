@@ -1,4 +1,4 @@
-import { productPhotos } from "./photos.generated";
+import { productPhotos, productRenders } from "./photos.generated";
 import { profiles, profileGroup, type ProfileGroup, type ProfileItem } from "./profiles";
 
 /**
@@ -38,7 +38,8 @@ export type Product = {
   /** Verified specifications only. Empty until supplied. */
   specs: Spec[];
   /** Photo files in /public/images/products/. Empty until supplied. */
-  photos: { src: string; alt: string; width: number; height: number }[];
+  /** Real photos, or 3D illustrations (render: true) until real photos are added. */
+  photos: { src: string; alt: string; width: number; height: number; render?: boolean }[];
   /** Profile catalogue only: which group the profile belongs to */
   group?: ProfileGroup;
   /** Windows only: how the window opens, used for the filter on the windows page */
@@ -78,9 +79,12 @@ const windowMeta: Record<string, { g: WindowGroup; madeWith: string[] }> = {
   "ventilator-windows": { g: "fixed-special", madeWith: ["45mm-small-casement-frame", "5mm-casement-single-glazing-bead"] },
 };
 
-/** Photos dropped into public/images/products/ named after the product slug (see scripts/photos.mjs). */
-const photosFor = (slug: string, name: string): Product["photos"] =>
-  (productPhotos[slug] ?? []).map((src, i) => ({ src, alt: i ? `${name}, photo ${i + 1}` : name, width: 1200, height: 1200 }));
+/** Real photos from public/images/products/, otherwise 3D illustrations from public/images/renders/ (see scripts/photos.mjs). */
+const photosFor = (slug: string, name: string): Product["photos"] => {
+  const real = productPhotos[slug];
+  if (real?.length) return real.map((src, i) => ({ src, alt: i ? `${name}, photo ${i + 1}` : name, width: 1200, height: 1200 }));
+  return (productRenders[slug] ?? []).map((src) => ({ src, alt: `${name}, 3D illustration`, width: 1000, height: 1000, render: true }));
+};
 
 const p = (x: Omit<Product, "specs" | "photos">): Product => ({
   ...x, specs: [], photos: photosFor(x.slug, x.name),

@@ -5,7 +5,7 @@ import type { Category, Product } from "@/config/products";
 import { categoryHref, productHref } from "@/config/products";
 import { ProductIllustration } from "./ProductIllustration";
 
-/** Product card: photo when available, otherwise the opening-style drawing. Whole card is one link. */
+/** Product card: photo or labelled 3D illustration when available, otherwise the drawing. Whole card is one link. */
 export function ProductCard({ product, categorySlug, headingLevel = 3 }: { product: Product; categorySlug: string; headingLevel?: 2 | 3 }) {
   const H = headingLevel === 2 ? "h2" : "h3";
   const photo = product.photos[0];
@@ -13,7 +13,10 @@ export function ProductCard({ product, categorySlug, headingLevel = 3 }: { produ
     <article className="group relative flex min-w-0 flex-col overflow-hidden rounded-brand-lg border border-line bg-bg transition-shadow hover:shadow-[0_18px_40px_-24px_rgba(20,21,79,0.45)]">
       <div className="relative aspect-square bg-bg-alt">
         {photo ? (
-          <Image src={photo.src} alt={photo.alt} fill sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw" className="bg-white object-contain p-3" />
+          <>
+            <Image src={photo.src} alt={photo.alt} fill sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw" className="bg-white object-contain p-3" />
+            {photo.render && <span className="absolute bottom-2 left-2 rounded-full bg-bg/90 px-2 py-0.5 text-[0.7rem] font-semibold text-muted ring-1 ring-line">3D illustration</span>}
+          </>
         ) : (
           <ProductIllustration type={product.illustration} className="absolute inset-0 m-auto size-[78%]" />
         )}

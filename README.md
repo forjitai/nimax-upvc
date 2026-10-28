@@ -48,7 +48,8 @@ Groups: `frames`, `sashes`, `mullions`, `beads`, `mesh`, `panels`. Leave width o
 1. Name the photo after the product's web address (the last part of its page link), e.g.
    `/products/upvc-profiles/82mm-2-5-track` → `82mm-2-5-track.jpg`. Extra photos: `82mm-2-5-track-2.jpg`, `-3.jpg` …
 2. Put it in `public/images/products/` (JPG, PNG or WebP, ideally square, at least 1000 px, white background for profiles).
-3. Commit. The photo replaces the drawing on the card and the product page automatically (`scripts/photos.mjs` runs before every build).
+3. Commit. The photo replaces the 3D illustration on the card and the product page automatically (`scripts/photos.mjs` runs before every build).
+   Until then each product shows a labelled **3D illustration** from `public/images/renders/` (made with `tools/renders/`).
    Full list of names: `docs/photo-names.md`.
 
 ### Add gallery photos

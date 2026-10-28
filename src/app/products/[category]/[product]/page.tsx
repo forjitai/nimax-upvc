@@ -85,9 +85,20 @@ export default async function ProductPage({ params }: PageProps<"/products/[cate
       </nav>
 
       <section aria-labelledby="overview-title" className="nx-container grid gap-10 py-14 lg:grid-cols-[1fr_1.1fr]">
-        {/* Media: real photos when supplied, otherwise the opening-style drawing */}
+        {/* Media: real photos, else a labelled 3D illustration, else the drawing */}
         <div className="min-w-0">
-          {product.photos.length > 0 ? (
+          {product.photos[0]?.render ? (
+            <figure className="overflow-hidden rounded-brand-lg border border-line bg-white">
+              <div className="relative aspect-square">
+                <Image src={product.photos[0].src} alt={product.photos[0].alt} fill priority sizes="(min-width:1024px) 45vw, 100vw" className="object-contain p-3" />
+              </div>
+              <figcaption className="nx-caption border-t border-line bg-bg-alt px-5 py-3 text-center">
+                {isProfile
+                  ? "3D illustration of a typical profile of this type. The actual profile may differ in detail; ask us for the exact drawing or a sample piece."
+                  : "3D illustration of this window style. Size, glass and hardware are made to your order."}
+              </figcaption>
+            </figure>
+          ) : product.photos.length > 0 ? (
             <div className="grid gap-3">
               {product.photos.map((ph, i) => (
                 <div key={ph.src} className="relative aspect-square overflow-hidden rounded-brand-lg bg-bg-alt">

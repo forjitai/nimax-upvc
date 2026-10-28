@@ -1,0 +1,1 @@
+{ "private": true, "description": "3D illustration renderer (not part of the website build)", "dependencies": { "three": "0.170.0" } }

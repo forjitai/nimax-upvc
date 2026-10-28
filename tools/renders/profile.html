@@ -1,0 +1,52 @@
+<!doctype html><html><body style="margin:0;background:#fff">
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from "three";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+const S = 1200;
+const r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+r.setSize(S, S); r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
+r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 0.92; r.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(r.domElement);
+const scene = new THREE.Scene(); scene.background = new THREE.Color("#ffffff");
+scene.environment = new THREE.PMREMGenerator(r).fromScene(new RoomEnvironment(), 0.04).texture;
+
+window.renderProfile = ({ outline, holes, depth = 70, cam = [1, 0.8, 1.25] }) => {
+  for (const o of [...scene.children]) scene.remove(o);
+  const sh = new THREE.Shape(outline.map(([x, y]) => new THREE.Vector2(x, y)));
+  for (const h of holes) sh.holes.push(new THREE.Path(h.map(([x, y]) => new THREE.Vector2(x, y))));
+  const g = new THREE.ExtrudeGeometry(sh, { depth, bevelEnabled: true, bevelThickness: 0.25, bevelSize: 0.25, bevelSegments: 2, curveSegments: 8 });
+  g.center(); g.rotateY(-Math.PI / 2 * 0); 
+  const m = new THREE.MeshPhysicalMaterial({ color: "#eeeeea", roughness: 0.32, clearcoat: 0.5, clearcoatRoughness: 0.3 });
+  const mesh = new THREE.Mesh(g, m); mesh.castShadow = true; mesh.receiveShadow = true;
+  g.computeBoundingBox(); const bb = g.boundingBox; const size = new THREE.Vector3(); bb.getSize(size);
+  mesh.position.y = size.y / 2; scene.add(mesh);
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.ShadowMaterial({ opacity: 0.22 }));
+  ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
+  scene.add(new THREE.HemisphereLight("#ffffff", "#b9bcc8", 0.55));
+  const d = new THREE.DirectionalLight("#fffaf2", 2.4); d.position.set(-140, 200, 60); d.castShadow = true;
+  d.shadow.mapSize.set(2048, 2048); d.shadow.radius = 8; Object.assign(d.shadow.camera, { left: -250, right: 250, top: 250, bottom: -250, near: 1, far: 600 });
+  scene.add(d);
+  const fill = new THREE.DirectionalLight("#eef0ff", 0.5); fill.position.set(120, 60, 80); scene.add(fill);
+  const c = new THREE.PerspectiveCamera(28, 1, 1, 8000);
+  const dir = new THREE.Vector3(...cam).normalize(); const target = new THREE.Vector3(0, size.y / 2, 0);
+  const corners = []; for (const x of [-1, 1]) for (const y of [0, 1]) for (const z of [-1, 1]) corners.push(new THREE.Vector3(x * size.x / 2, y * size.y, z * size.z / 2));
+  let dist = size.length() * 2;
+  for (let k = 0; k < 12; k++) {
+    c.position.copy(target).addScaledVector(dir, dist); c.lookAt(target); c.updateMatrixWorld(); c.updateProjectionMatrix();
+    let lo = new THREE.Vector2(9, 9), hi = new THREE.Vector2(-9, -9);
+    for (const p of corners) { const v = p.clone().project(c); lo.min(v); hi.max(v); }
+    // re-centre the view on the projected box, then scale distance so it fills 82%
+    const cx = (lo.x + hi.x) / 2, cy = (lo.y + hi.y) / 2;
+    c.setViewOffset(1200, 1200, cx * 600, -cy * 600, 1200, 1200);
+    const ext = Math.max(hi.x - lo.x, hi.y - lo.y) / 2;
+    dist *= ext / 0.80;
+  }
+  c.position.copy(target).addScaledVector(dir, dist); c.lookAt(target); c.updateMatrixWorld(); c.clearViewOffset(); c.updateProjectionMatrix();
+  { let lo = new THREE.Vector2(9, 9), hi = new THREE.Vector2(-9, -9);
+    for (const p of corners) { const v = p.clone().project(c); lo.min(v); hi.max(v); }
+    c.setViewOffset(1200, 1200, (lo.x + hi.x) / 2 * 600, -(lo.y + hi.y) / 2 * 600, 1200, 1200); }
+  r.render(scene, c); return r.domElement.toDataURL("image/png");
+};
+window.ready = true;
+</script></body></html>
