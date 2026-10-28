@@ -9,7 +9,7 @@ import { ButtonLink } from "@/components/Button";
 import { ProductCard } from "@/components/Cards";
 import { HeroWindow } from "@/components/HeroWindow";
 import { JsonLd } from "@/components/JsonLd";
-import { ProductIllustration } from "@/components/ProductIllustration";
+import { Scene } from "@/components/Scene";
 import { FeatureBlock, VisualPanel } from "@/components/FeatureBlock";
 import { Slideshow, type Slide } from "@/components/Slideshow";
 import { Faq, type FaqItem } from "@/components/Faq";
@@ -33,13 +33,13 @@ const w = (slug: string) => windows.products.find((p) => p.slug === slug)!;
 
 const slides: Slide[] = [
   { key: "sliding", label: "Profiles · Windows · Installation", title: "Sliding windows", text: w("sliding-windows").details.split(". ")[0] + ".",
-    visual: <ProductIllustration type="sliding" className="w-full" /> },
+    visual: <Scene name="sliding" sizes="300px" /> },
   { key: "casement", label: "Profiles · Windows · Installation", title: "Casement windows", text: w("casement-windows").summary,
-    visual: <ProductIllustration type="casement" className="w-full" /> },
+    visual: <Scene name="casement" sizes="300px" /> },
   { key: "tilt", label: "Profiles · Windows · Installation", title: "Tilt and turn windows", text: w("tilt-and-turn-windows").summary,
-    visual: <ProductIllustration type="tilt-turn" className="w-full" /> },
+    visual: <Scene name="tilt-and-turn" sizes="300px" /> },
   { key: "profile", label: "Profiles · Windows · Installation", title: "UPVC profiles", text: `${profiles.products.length} profiles: frames, tracks, sashes, mullions, couplers, glazing beads and mesh.`,
-    visual: <ProductIllustration type="profile" className="w-full" /> },
+    visual: <Scene name="profiles-group" sizes="300px" /> },
 ];
 
 const offer = ["UPVC window profiles", "UPVC windows in 11 styles", "Window installation", "Mesh and ventilator windows"];
@@ -92,7 +92,7 @@ export default function Home() {
       {/* 2–4. Feature blocks */}
       <FeatureBlock id="f-windows" eyebrow="UPVC windows"
         title={<>Windows for <em>every room</em></>}
-        visual={<VisualPanel><ProductIllustration type="combination" title="UPVC combination window" className="w-full" /></VisualPanel>}
+        visual={<VisualPanel><Scene name="combination" /></VisualPanel>}
         actions={<>
           <ButtonLink href={categoryHref(windows.slug)}>Explore windows</ButtonLink>
           <ButtonLink href={whatsappHref(business.primaryPhone, `Hello ${business.name}, I would like to discuss UPVC windows for my project.`)} variant="outline">Discuss your project</ButtonLink>
@@ -103,7 +103,7 @@ export default function Home() {
 
       <FeatureBlock id="f-profiles" eyebrow="For fabricators" reverse tone="alt"
         title={<>UPVC profiles, <em>ready to fabricate</em></>}
-        visual={<VisualPanel><ProductIllustration type="profile" title="Cross-section of a UPVC profile" className="w-full" /></VisualPanel>}
+        visual={<VisualPanel><Scene name="profiles-group" /></VisualPanel>}
         actions={<>
           <ButtonLink href={categoryHref(profiles.slug)}>View UPVC profiles</ButtonLink>
           <ButtonLink href={whatsappHref(business.primaryPhone, `Hello ${business.name}, I have a bulk enquiry for UPVC profiles.`)} variant="outline">Bulk enquiry</ButtonLink>
@@ -113,7 +113,7 @@ export default function Home() {
 
       <FeatureBlock id="f-plan" eyebrow="New build or renovation"
         title={<>Planning a project? <em>Start with a call.</em></>}
-        visual={<VisualPanel><ProductIllustration type="installation" title="Window measurement and installation" className="w-full" /></VisualPanel>}
+        visual={<VisualPanel><Scene name="installed-casement" /></VisualPanel>}
         actions={<>
           <ButtonLink href="/contact">Request a quotation</ButtonLink>
           <ButtonLink href="/about" variant="outline">About {business.name}</ButtonLink>

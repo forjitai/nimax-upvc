@@ -4,7 +4,7 @@ import Link from "next/link";
 import { business } from "@/config/business";
 import { categories, installation, productHref } from "@/config/products";
 import { PageHeader } from "@/components/PageHeader";
-import { ProductIllustration } from "@/components/ProductIllustration";
+import { Scene } from "@/components/Scene";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { CtaSection } from "@/components/Sections";
 
@@ -31,7 +31,7 @@ export default function InstallationPage() {
     <>
       <PageHeader crumbs={[{ label: "Installation", href: `/services/${installation.slug}` }]} eyebrow="Service"
         title={installation.name} lead={`${installation.summary} For new buildings and for replacing old windows.`}
-        aside={<ProductIllustration type="installation" className="mx-auto hidden w-full max-w-[280px] md:block" />} />
+        aside={<div className="mx-auto hidden w-full max-w-[320px] md:block"><Scene name="installed-casement" decorative priority sizes="320px" /></div>} />
 
       <section aria-labelledby="stages-title" className="nx-container py-14">
         <h2 id="stages-title" className="nx-h2 mb-8">What installation involves</h2>

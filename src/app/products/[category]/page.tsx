@@ -5,7 +5,7 @@ import { business } from "@/config/business";
 import { categories, windowGroups } from "@/config/products";
 import { PageHeader } from "@/components/PageHeader";
 import { ProductCard } from "@/components/Cards";
-import { ProductIllustration } from "@/components/ProductIllustration";
+import { Scene } from "@/components/Scene";
 import { CtaSection } from "@/components/Sections";
 import { JsonLd } from "@/components/JsonLd";
 import { siteUrl } from "@/config/business";
@@ -48,7 +48,7 @@ export default async function CategoryPage({ params }: PageProps<"/products/[cat
         eyebrow={c.slug === "upvc-profiles" ? `${c.products.length} profiles` : `${c.products.length} ${c.products.length === 1 ? "style" : "styles"}`}
         title={c.name}
         lead={c.summary}
-        aside={<ProductIllustration type={c.illustration} className="mx-auto hidden w-full max-w-[280px] md:block" />}
+        aside={<div className="mx-auto hidden w-full max-w-[320px] md:block"><Scene name={c.slug === "upvc-profiles" ? "profiles-group" : "combination"} decorative priority sizes="320px" /></div>}
       />
       {c.slug === "upvc-profiles" ? (
         <>

@@ -30,7 +30,7 @@ export function VisualPanel({ children, dark = false }: { children: ReactNode; d
     <div className={`relative grid aspect-[4/3] place-items-center overflow-hidden rounded-brand-lg ${dark ? "bg-bg-dark" : "bg-secondary"}`}>
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.08]"
         style={{ backgroundImage: "linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)", backgroundSize: "40px 40px", color: dark ? "var(--nx-on-dark)" : "var(--nx-primary)" }} />
-      <div className="relative w-[64%] max-w-[360px]">{children}</div>
+      <div className="relative w-[86%] max-w-[440px]">{children}</div>
     </div>
   );
 }

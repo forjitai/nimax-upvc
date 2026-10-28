@@ -6,7 +6,7 @@ import { business, telHref } from "@/config/business";
 import { categories, categoryHref, installation } from "@/config/products";
 import { benefits } from "@/config/benefits";
 import { PageHeader } from "@/components/PageHeader";
-import { ProductIllustration } from "@/components/ProductIllustration";
+import Image from "next/image";
 import { ButtonLink } from "@/components/Button";
 
 export const ensureStatic = "navigation";
@@ -66,8 +66,8 @@ export default function AboutPage() {
       {/* 2. Visual break */}
       <div aria-hidden className="nx-container">
         <div className="grid grid-cols-3 gap-4 rounded-brand-lg bg-bg-dark p-8 sm:grid-cols-6 sm:p-10">
-          {(["profile-frames", "profile-sashes", "profile-mullions", "sliding", "casement", "combination"] as const).map((t) => (
-            <div key={t} className="rounded-brand bg-on-dark/95 p-3"><ProductIllustration type={t} className="aspect-square w-full" /></div>
+          {["62mm-two-track-window-frame", "57mm-sliding-sash", "t-mullion", "sliding-windows", "casement-windows", "combination-windows"].map((t) => (
+            <div key={t} className="relative aspect-square overflow-hidden rounded-brand bg-white"><Image src={`/images/renders/${t}.webp`} alt="" fill sizes="(min-width:640px) 15vw, 30vw" className="object-contain p-1" /></div>
           ))}
         </div>
       </div>

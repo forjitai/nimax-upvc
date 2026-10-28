@@ -4,28 +4,36 @@
 import * as THREE from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 const S = 1200;
-const r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+const r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: true });
 r.setSize(S, S); r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
 r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 0.92; r.outputColorSpace = THREE.SRGBColorSpace;
 document.body.appendChild(r.domElement);
 const scene = new THREE.Scene(); scene.background = new THREE.Color("#ffffff");
 scene.environment = new THREE.PMREMGenerator(r).fromScene(new RoomEnvironment(), 0.04).texture;
 
-window.renderProfile = ({ outline, holes, depth = 70, cam = [1, 0.8, 1.25] }) => {
-  for (const o of [...scene.children]) scene.remove(o);
+function extrude({ outline, holes, depth }) {
   const sh = new THREE.Shape(outline.map(([x, y]) => new THREE.Vector2(x, y)));
   for (const h of holes) sh.holes.push(new THREE.Path(h.map(([x, y]) => new THREE.Vector2(x, y))));
   const g = new THREE.ExtrudeGeometry(sh, { depth, bevelEnabled: true, bevelThickness: 0.25, bevelSize: 0.25, bevelSegments: 2, curveSegments: 8 });
-  g.center(); g.rotateY(-Math.PI / 2 * 0); 
+  g.computeBoundingBox(); const bb = g.boundingBox;
+  g.translate(-(bb.min.x + bb.max.x) / 2, -bb.min.y, -(bb.min.z + bb.max.z) / 2);
   const m = new THREE.MeshPhysicalMaterial({ color: "#eeeeea", roughness: 0.32, clearcoat: 0.5, clearcoatRoughness: 0.3 });
-  const mesh = new THREE.Mesh(g, m); mesh.castShadow = true; mesh.receiveShadow = true;
-  g.computeBoundingBox(); const bb = g.boundingBox; const size = new THREE.Vector3(); bb.getSize(size);
-  mesh.position.y = size.y / 2; scene.add(mesh);
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.ShadowMaterial({ opacity: 0.22 }));
+  const mesh = new THREE.Mesh(g, m); mesh.castShadow = true; mesh.receiveShadow = true; return mesh;
+}
+/** One profile, or a group: items = [{outline, holes, depth, x, z, ry}] */
+window.renderProfile = ({ outline, holes, depth = 70, items, transparent = false, cam = [1, 0.8, 1.25] }) => {
+  for (const o of [...scene.children]) scene.remove(o);
+  scene.background = transparent ? null : new THREE.Color("#ffffff"); r.setClearColor(0xffffff, transparent ? 0 : 1);
+  const grp = new THREE.Group();
+  for (const it of items ?? [{ outline, holes, depth }]) { const m = extrude(it); m.position.set(it.x ?? 0, 0, it.z ?? 0); m.rotation.y = it.ry ?? 0; grp.add(m); }
+  scene.add(grp);
+  const gb = new THREE.Box3().setFromObject(grp); grp.position.x -= (gb.min.x + gb.max.x) / 2; grp.position.z -= (gb.min.z + gb.max.z) / 2;
+  const size = new THREE.Vector3(); new THREE.Box3().setFromObject(grp).getSize(size);
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(4000, 4000), new THREE.ShadowMaterial({ opacity: 0.22 }));
   ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
   scene.add(new THREE.HemisphereLight("#ffffff", "#b9bcc8", 0.55));
   const d = new THREE.DirectionalLight("#fffaf2", 2.4); d.position.set(-140, 200, 60); d.castShadow = true;
-  d.shadow.mapSize.set(2048, 2048); d.shadow.radius = 8; Object.assign(d.shadow.camera, { left: -250, right: 250, top: 250, bottom: -250, near: 1, far: 600 });
+  d.shadow.mapSize.set(2048, 2048); d.shadow.radius = 8; Object.assign(d.shadow.camera, { left: -400, right: 400, top: 400, bottom: -400, near: 1, far: 600 });
   scene.add(d);
   const fill = new THREE.DirectionalLight("#eef0ff", 0.5); fill.position.set(120, 60, 80); scene.add(fill);
   const c = new THREE.PerspectiveCamera(28, 1, 1, 8000);

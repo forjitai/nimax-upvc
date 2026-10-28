@@ -4,7 +4,7 @@
 import * as THREE from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 const S = 1200;
-const r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+const r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: true });
 r.setSize(S, S); r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
 r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 0.95; r.outputColorSpace = THREE.SRGBColorSpace;
 document.body.appendChild(r.domElement);
@@ -59,7 +59,21 @@ function hinge(obj, w, h, edge, angle) {
 }
 const at = (o, x, y, z = 0) => { o.position.x += x; o.position.y += y; o.position.z += z; return o; };
 
+const plaster = new THREE.MeshStandardMaterial({ color: "#c8b9a6", roughness: 0.95 });
+const stone = new THREE.MeshStandardMaterial({ color: "#c9c3b8", roughness: 0.7 });
+/** Wall section with an opening (ow×oh, sill at sy) and a window built by builders[inner]. */
+function inWall(inner, ow, oh, WW = 2500, WH = 2300, sy = 600, T = 230) {
+  const g = new THREE.Group(); const top = WH - sy - oh, side = (WW - ow) / 2;
+  g.add(bx(WW, sy, T, plaster, 0, sy / 2, 0), bx(WW, top, T, plaster, 0, WH - top / 2, 0),
+        bx(side, oh, T, plaster, -ow / 2 - side / 2, sy + oh / 2, 0), bx(side, oh, T, plaster, ow / 2 + side / 2, sy + oh / 2, 0),
+        bx(ow + 160, 40, T + 90, stone, 0, sy - 20, 45));
+  const win = builders[inner](); const wb = new THREE.Box3().setFromObject(win); const ws = wb.getSize(new THREE.Vector3());
+  win.scale.setScalar(Math.min(ow / ws.x, oh / ws.y)); win.position.set(0, sy + oh / 2, 0); g.add(win);
+  return g;
+}
 const builders = {
+  "installed-sliding"() { return inWall("sliding", 1500, 1200, 2100, 1900, 400); },
+  "installed-casement"() { return inWall("casement", 1200, 1200, 1800, 1900, 400); },
   sliding() { const W = 1500, H = 1200, g = new THREE.Group(); g.add(frame(W, H, 70, 90));
     const sw = (W - 140) / 2 + 40, sh = H - 140;
     g.add(at(sash(sw, sh, { handle: "pull" }), -W / 2 + 70 + sw / 2, 0, 20));
@@ -119,9 +133,9 @@ function fit(c, box) {
   const corners = []; for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) corners.push(new THREE.Vector3(x, y, z));
   return corners;
 }
-window.renderWindow = ({ type, cam = [0.42, 0.12, 1], out }) => {
+window.renderWindow = ({ type, cam = [0.42, 0.12, 1], transparent = false }) => {
   for (const o of [...scene.children]) scene.remove(o);
-  scene.background = new THREE.Color("#ffffff"); scene.environment = env;
+  scene.background = transparent ? null : new THREE.Color("#ffffff"); r.setClearColor(0xffffff, transparent ? 0 : 1); scene.environment = env;
   const g = builders[type](); scene.add(g);
   let box = new THREE.Box3().setFromObject(g); g.position.y -= box.min.y; g.position.x -= (box.min.x + box.max.x) / 2; g.position.z -= (box.min.z + box.max.z) / 2;
   box = new THREE.Box3().setFromObject(g); const size = box.getSize(new THREE.Vector3());

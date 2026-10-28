@@ -21,6 +21,7 @@ Website for **NIMAX UPVC** — UPVC profiles and UPVC windows, Kittanahalli, Kad
 | Homepage UPVC benefits | `src/config/benefits.ts` | Shared with About page |
 | Gallery photos | `src/config/gallery.ts` + `public/images/gallery/` | Gallery stays hidden from Google until photos are added |
 | Logo | `public/icons/logo-nimax.png` and `logo-nimax-white.png` | Keep file names; transparent PNG, ratio about 3 : 1 |
+| Homepage / header 3D pictures | `public/images/scenes/` + `src/components/Scene.tsx` | Transparent 3D illustrations; replace with real photos when available |
 | Share image (WhatsApp/Facebook preview) | `public/og/nimax-share.png` | 1200 × 630 |
 
 Editing on GitHub works fine: open the file on github.com → pencil icon → change → **Commit changes**. Vercel publishes it.

@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import type { Category, Product } from "@/config/products";
 import { categoryHref, productHref } from "@/config/products";
 import { ProductIllustration } from "./ProductIllustration";
+import { Scene } from "./Scene";
 
 /** Product card: photo or labelled 3D illustration when available, otherwise the drawing. Whole card is one link. */
 export function ProductCard({ product, categorySlug, headingLevel = 3 }: { product: Product; categorySlug: string; headingLevel?: 2 | 3 }) {
@@ -36,7 +37,7 @@ export function ProductCard({ product, categorySlug, headingLevel = 3 }: { produ
   );
 }
 
-/** Category card: drawing, name, summary and up to 4 product links. */
+/** Category card: 3D illustration, name, summary and up to 4 product links. */
 export function CategoryCard({ category }: { category: Category }) {
   const shown = category.products.slice(0, 4);
   const more = category.products.length - shown.length;
@@ -44,7 +45,7 @@ export function CategoryCard({ category }: { category: Category }) {
     <article className="flex min-w-0 flex-col rounded-brand-lg border border-line bg-bg">
       <Link href={categoryHref(category.slug)} className="group block">
         <div className="relative aspect-[4/3] overflow-hidden rounded-t-brand-lg bg-bg-alt">
-          <ProductIllustration type={category.illustration} className="absolute inset-0 m-auto h-[80%] w-[80%] transition-transform duration-300 group-hover:scale-[1.03]" />
+          <div className="absolute inset-0 m-auto h-[92%] w-[92%] transition-transform duration-300 group-hover:scale-[1.03] [&_img]:h-full [&_img]:object-contain"><Scene name={category.slug === "upvc-profiles" ? "profiles-group" : "combination"} decorative sizes="(min-width:768px) 45vw, 90vw" /></div>
         </div>
         <div className="px-5 pt-5">
           <h3 className="nx-h3 group-hover:text-primary">{category.name}</h3>

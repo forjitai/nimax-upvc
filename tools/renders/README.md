@@ -13,3 +13,11 @@ python3 shot.py wjobs.json window.html   # 11 windows  -> wout/*.png
 ```
 - Profile shapes: `shapes.py` (`build()` picks a shape from the slug).
 - Window styles: `builders` in `window.html`.
+
+## Homepage scenes (transparent background)
+
+```bash
+python3 scenes.py && mkdir -p scenes
+python3 shot.py scene_profiles.json profile.html && python3 shot.py scene_windows.json window.html
+# convert scenes/*.png to 1000px WebP (keep transparency) into public/images/scenes/
+```

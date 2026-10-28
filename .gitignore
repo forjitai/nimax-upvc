@@ -43,3 +43,6 @@ tools/renders/node_modules/
 tools/renders/out/
 tools/renders/wout/
 tools/renders/jobs.json
+tools/renders/scenes/
+tools/renders/scenes_sheet.png
+tools/renders/sw2.json
