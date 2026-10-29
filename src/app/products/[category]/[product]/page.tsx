@@ -90,7 +90,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[cate
           {product.photos[0]?.render ? (
             <figure className="overflow-hidden rounded-brand-lg border border-line bg-white">
               <div className="relative aspect-square">
-                <Image src={product.photos[0].src} alt={product.photos[0].alt} fill priority sizes="(min-width:1024px) 45vw, 100vw" className="object-contain p-3" />
+                <Image src={product.photos[0].src} alt={product.photos[0].alt} fill priority sizes="(min-width:1024px) 45vw, 100vw" className={isProfile ? "object-contain p-3" : "object-cover"} />
               </div>
               <figcaption className="nx-caption border-t border-line bg-bg-alt px-5 py-3 text-center">
                 {isProfile

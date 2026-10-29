@@ -79,7 +79,7 @@ const windowMeta: Record<string, { g: WindowGroup; madeWith: string[] }> = {
   "ventilator-windows": { g: "fixed-special", madeWith: ["45mm-small-casement-frame", "5mm-casement-single-glazing-bead"] },
 };
 
-/** Real photos from public/images/products/, otherwise 3D illustrations from public/images/renders/ (see scripts/photos.mjs). */
+/** Real photos from public/images/products/, otherwise 3D illustrations from public/images/3d/ (see scripts/photos.mjs). */
 const photosFor = (slug: string, name: string): Product["photos"] => {
   const real = productPhotos[slug];
   if (real?.length) return real.map((src, i) => ({ src, alt: i ? `${name}, photo ${i + 1}` : name, width: 1200, height: 1200 }));

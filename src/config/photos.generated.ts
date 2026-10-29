@@ -2,168 +2,168 @@
 export const productPhotos: Record<string, string[]> = {};
 export const productRenders: Record<string, string[]> = {
   "2-5-track": [
-    "/images/renders/2-5-track.webp"
+    "/images/3d/2-5-track.webp"
   ],
   "5mm-casement-single-glazing-bead": [
-    "/images/renders/5mm-casement-single-glazing-bead.webp"
+    "/images/3d/5mm-casement-single-glazing-bead.webp"
   ],
   "5mm-glazing-bead-90-series": [
-    "/images/renders/5mm-glazing-bead-90-series.webp"
+    "/images/3d/5mm-glazing-bead-90-series.webp"
   ],
   "5mm-sliding-bead": [
-    "/images/renders/5mm-sliding-bead.webp"
+    "/images/3d/5mm-sliding-bead.webp"
   ],
   "20-150mm-door-panel": [
-    "/images/renders/20-150mm-door-panel.webp"
+    "/images/3d/20-150mm-door-panel.webp"
   ],
   "45mm-small-casement-frame": [
-    "/images/renders/45mm-small-casement-frame.webp"
+    "/images/3d/45mm-small-casement-frame.webp"
   ],
   "52mm-mesh-sliding": [
-    "/images/renders/52mm-mesh-sliding.webp"
+    "/images/3d/52mm-mesh-sliding.webp"
   ],
   "55mm-sliding": [
-    "/images/renders/55mm-sliding.webp"
+    "/images/3d/55mm-sliding.webp"
   ],
   "57mm-sash": [
-    "/images/renders/57mm-sash.webp"
+    "/images/3d/57mm-sash.webp"
   ],
   "57mm-sliding-sash": [
-    "/images/renders/57mm-sliding-sash.webp"
+    "/images/3d/57mm-sliding-sash.webp"
   ],
   "60-45mm-two-track": [
-    "/images/renders/60-45mm-two-track.webp"
+    "/images/3d/60-45mm-two-track.webp"
   ],
   "60-out-swing-door-sash": [
-    "/images/renders/60-out-swing-door-sash.webp"
+    "/images/3d/60-out-swing-door-sash.webp"
   ],
   "60mm-bay-pole": [
-    "/images/renders/60mm-bay-pole.webp"
+    "/images/3d/60mm-bay-pole.webp"
   ],
   "60mm-blend-lower": [
-    "/images/renders/60mm-blend-lower.webp"
+    "/images/3d/60mm-blend-lower.webp"
   ],
   "60mm-casement": [
-    "/images/renders/60mm-casement.webp"
+    "/images/3d/60mm-casement.webp"
   ],
   "60mm-coupler": [
-    "/images/renders/60mm-coupler.webp"
+    "/images/3d/60mm-coupler.webp"
   ],
   "62mm-big-door-mesh": [
-    "/images/renders/62mm-big-door-mesh.webp"
+    "/images/3d/62mm-big-door-mesh.webp"
   ],
   "62mm-two-track-window-frame": [
-    "/images/renders/62mm-two-track-window-frame.webp"
+    "/images/3d/62mm-two-track-window-frame.webp"
   ],
   "65mm-sash-mullion": [
-    "/images/renders/65mm-sash-mullion.webp"
+    "/images/3d/65mm-sash-mullion.webp"
   ],
   "72mm-out-swing-window-sash": [
-    "/images/renders/72mm-out-swing-window-sash.webp"
+    "/images/3d/72mm-out-swing-window-sash.webp"
   ],
   "80-60mm-bay-corner": [
-    "/images/renders/80-60mm-bay-corner.webp"
+    "/images/3d/80-60mm-bay-corner.webp"
   ],
   "80-series-5mm-glazing-bead": [
-    "/images/renders/80-series-5mm-glazing-bead.webp"
+    "/images/3d/80-series-5mm-glazing-bead.webp"
   ],
   "80-series-66mm-sliding-sash": [
-    "/images/renders/80-series-66mm-sliding-sash.webp"
+    "/images/3d/80-series-66mm-sliding-sash.webp"
   ],
   "82mm-2-5-track-window": [
-    "/images/renders/82mm-2-5-track-window.webp"
+    "/images/3d/82mm-2-5-track-window.webp"
   ],
   "82mm-2-5-track": [
-    "/images/renders/82mm-2-5-track.webp"
+    "/images/3d/82mm-2-5-track.webp"
   ],
   "86mm-sliding-sash": [
-    "/images/renders/86mm-sliding-sash.webp"
+    "/images/3d/86mm-sliding-sash.webp"
   ],
   "88-60-coupler": [
-    "/images/renders/88-60-coupler.webp"
+    "/images/3d/88-60-coupler.webp"
   ],
   "88mm-sash-connector": [
-    "/images/renders/88mm-sash-connector.webp"
+    "/images/3d/88mm-sash-connector.webp"
   ],
   "88mm-sash-mullion": [
-    "/images/renders/88mm-sash-mullion.webp"
+    "/images/3d/88mm-sash-mullion.webp"
   ],
   "88mm-sliding-sash-cover": [
-    "/images/renders/88mm-sliding-sash-cover.webp"
+    "/images/3d/88mm-sliding-sash-cover.webp"
   ],
   "90-66mm-sliding-sash": [
-    "/images/renders/90-66mm-sliding-sash.webp"
+    "/images/3d/90-66mm-sliding-sash.webp"
   ],
   "90-series-85mm-sliding-sash": [
-    "/images/renders/90-series-85mm-sliding-sash.webp"
+    "/images/3d/90-series-85mm-sliding-sash.webp"
   ],
   "90mm-2-5-track": [
-    "/images/renders/90mm-2-5-track.webp"
+    "/images/3d/90mm-2-5-track.webp"
   ],
   "90mm-2-track": [
-    "/images/renders/90mm-2-track.webp"
+    "/images/3d/90mm-2-track.webp"
   ],
   "90mm-frame": [
-    "/images/renders/90mm-frame.webp"
+    "/images/3d/90mm-frame.webp"
   ],
   "112mm-3-track": [
-    "/images/renders/112mm-3-track.webp"
+    "/images/3d/112mm-3-track.webp"
   ],
   "112mm-door-sash-cover": [
-    "/images/renders/112mm-door-sash-cover.webp"
+    "/images/3d/112mm-door-sash-cover.webp"
   ],
   "bay-windows": [
-    "/images/renders/bay-windows.webp"
+    "/images/3d/bay-windows.webp"
   ],
   "casement-windows": [
-    "/images/renders/casement-windows.webp"
+    "/images/3d/casement-windows.webp"
   ],
   "combination-windows": [
-    "/images/renders/combination-windows.webp"
+    "/images/3d/combination-windows.webp"
   ],
   "fixed-windows": [
-    "/images/renders/fixed-windows.webp"
+    "/images/3d/fixed-windows.webp"
   ],
   "folding-windows": [
-    "/images/renders/folding-windows.webp"
+    "/images/3d/folding-windows.webp"
   ],
   "french-windows": [
-    "/images/renders/french-windows.webp"
+    "/images/3d/french-windows.webp"
   ],
   "lower-glazing-bead-hole": [
-    "/images/renders/lower-glazing-bead-hole.webp"
+    "/images/3d/lower-glazing-bead-hole.webp"
   ],
   "mesh-add-track": [
-    "/images/renders/mesh-add-track.webp"
+    "/images/3d/mesh-add-track.webp"
   ],
   "mesh-mullion": [
-    "/images/renders/mesh-mullion.webp"
+    "/images/3d/mesh-mullion.webp"
   ],
   "mesh-window-track": [
-    "/images/renders/mesh-window-track.webp"
+    "/images/3d/mesh-window-track.webp"
   ],
   "mesh-windows": [
-    "/images/renders/mesh-windows.webp"
+    "/images/3d/mesh-windows.webp"
   ],
   "round-bead": [
-    "/images/renders/round-bead.webp"
+    "/images/3d/round-bead.webp"
   ],
   "sliding-windows": [
-    "/images/renders/sliding-windows.webp"
+    "/images/3d/sliding-windows.webp"
   ],
   "t-mullion": [
-    "/images/renders/t-mullion.webp"
+    "/images/3d/t-mullion.webp"
   ],
   "tilt-and-turn-windows": [
-    "/images/renders/tilt-and-turn-windows.webp"
+    "/images/3d/tilt-and-turn-windows.webp"
   ],
   "top-hung-windows": [
-    "/images/renders/top-hung-windows.webp"
+    "/images/3d/top-hung-windows.webp"
   ],
   "tube-adaptor": [
-    "/images/renders/tube-adaptor.webp"
+    "/images/3d/tube-adaptor.webp"
   ],
   "ventilator-windows": [
-    "/images/renders/ventilator-windows.webp"
+    "/images/3d/ventilator-windows.webp"
   ]
 };

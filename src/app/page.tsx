@@ -10,7 +10,7 @@ import { ProductCard } from "@/components/Cards";
 import { HeroWindow } from "@/components/HeroWindow";
 import { JsonLd } from "@/components/JsonLd";
 import { Scene } from "@/components/Scene";
-import { FeatureBlock, VisualPanel } from "@/components/FeatureBlock";
+import { FeatureBlock, PhotoPanel, VisualPanel } from "@/components/FeatureBlock";
 import { Slideshow, type Slide } from "@/components/Slideshow";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
@@ -92,7 +92,7 @@ export default function Home() {
       {/* 2–4. Feature blocks */}
       <FeatureBlock id="f-windows" eyebrow="UPVC windows"
         title={<>Windows for <em>every room</em></>}
-        visual={<VisualPanel><Scene name="combination" /></VisualPanel>}
+        visual={<PhotoPanel><Scene name="combination" /></PhotoPanel>}
         actions={<>
           <ButtonLink href={categoryHref(windows.slug)}>Explore windows</ButtonLink>
           <ButtonLink href={whatsappHref(business.primaryPhone, `Hello ${business.name}, I would like to discuss UPVC windows for my project.`)} variant="outline">Discuss your project</ButtonLink>
@@ -113,7 +113,7 @@ export default function Home() {
 
       <FeatureBlock id="f-plan" eyebrow="New build or renovation"
         title={<>Planning a project? <em>Start with a call.</em></>}
-        visual={<VisualPanel><Scene name="installed-casement" /></VisualPanel>}
+        visual={<PhotoPanel><Scene name="installed-casement" /></PhotoPanel>}
         actions={<>
           <ButtonLink href="/contact">Request a quotation</ButtonLink>
           <ButtonLink href="/about" variant="outline">About {business.name}</ButtonLink>

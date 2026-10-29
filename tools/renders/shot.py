@@ -9,7 +9,7 @@ with sync_playwright() as p:
     pg = b.new_page(viewport={"width": 1200, "height": 1200}); pg.on("console", lambda m: print("console:", m.text))
     pg.goto("http://127.0.0.1:8765/" + (sys.argv[2] if len(sys.argv) > 2 else "profile.html")); pg.wait_for_function("window.ready")
     for j in jobs:
-        url = pg.evaluate("j => (j.type ? renderWindow(j) : renderProfile(j))", j)
+        url = pg.evaluate("j => (j.room ? renderRoom(j) : j.type ? renderWindow(j) : renderProfile(j))", j)
         open(j["out"], "wb").write(base64.b64decode(url.split(",")[1])); print("wrote", j["out"])
     b.close()
 srv.shutdown()

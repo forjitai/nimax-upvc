@@ -34,3 +34,8 @@ export function VisualPanel({ children, dark = false }: { children: ReactNode; d
     </div>
   );
 }
+
+/** Full-bleed picture panel (same 4:3 shape as VisualPanel) for room scenes and photos. */
+export function PhotoPanel({ children }: { children: ReactNode }) {
+  return <div className="relative aspect-[4/3] overflow-hidden rounded-brand-lg bg-secondary [&_img]:absolute [&_img]:inset-0 [&_img]:h-full [&_img]:rounded-none [&_img]:object-cover">{children}</div>;
+}

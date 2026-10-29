@@ -21,7 +21,7 @@ Website for **NIMAX UPVC** — UPVC profiles and UPVC windows, Kittanahalli, Kad
 | Homepage UPVC benefits | `src/config/benefits.ts` | Shared with About page |
 | Gallery photos | `src/config/gallery.ts` + `public/images/gallery/` | Gallery stays hidden from Google until photos are added |
 | Logo | `public/icons/logo-nimax.png` and `logo-nimax-white.png` | Keep file names; transparent PNG, ratio about 3 : 1 |
-| Homepage / header 3D pictures | `public/images/scenes/` + `src/components/Scene.tsx` | Transparent 3D illustrations; replace with real photos when available |
+| Homepage / header 3D pictures | `public/images/3d-scenes/` + `src/components/Scene.tsx` | Transparent 3D illustrations; replace with real photos when available |
 | Share image (WhatsApp/Facebook preview) | `public/og/nimax-share.png` | 1200 × 630 |
 
 Editing on GitHub works fine: open the file on github.com → pencil icon → change → **Commit changes**. Vercel publishes it.
@@ -50,7 +50,7 @@ Groups: `frames`, `sashes`, `mullions`, `beads`, `mesh`, `panels`. Leave width o
    `/products/upvc-profiles/82mm-2-5-track` → `82mm-2-5-track.jpg`. Extra photos: `82mm-2-5-track-2.jpg`, `-3.jpg` …
 2. Put it in `public/images/products/` (JPG, PNG or WebP, ideally square, at least 1000 px, white background for profiles).
 3. Commit. The photo replaces the 3D illustration on the card and the product page automatically (`scripts/photos.mjs` runs before every build).
-   Until then each product shows a labelled **3D illustration** from `public/images/renders/` (made with `tools/renders/`).
+   Until then each product shows a labelled **3D illustration** from `public/images/3d/` (made with `tools/renders/`).
    Full list of names: `docs/photo-names.md`.
 
 ### Add gallery photos

@@ -15,7 +15,7 @@ export function ProductCard({ product, categorySlug, headingLevel = 3 }: { produ
       <div className="relative aspect-square bg-bg-alt">
         {photo ? (
           <>
-            <Image src={photo.src} alt={photo.alt} fill sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw" className="bg-white object-contain p-3" />
+            <Image src={photo.src} alt={photo.alt} fill sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw" className={product.group ? "bg-white object-contain p-3" : "object-cover"} />
             {photo.render && <span className="absolute bottom-2 left-2 rounded-full bg-bg/90 px-2 py-0.5 text-[0.7rem] font-semibold text-muted ring-1 ring-line">3D illustration</span>}
           </>
         ) : (
@@ -45,7 +45,7 @@ export function CategoryCard({ category }: { category: Category }) {
     <article className="flex min-w-0 flex-col rounded-brand-lg border border-line bg-bg">
       <Link href={categoryHref(category.slug)} className="group block">
         <div className="relative aspect-[4/3] overflow-hidden rounded-t-brand-lg bg-bg-alt">
-          <div className="absolute inset-0 m-auto h-[92%] w-[92%] transition-transform duration-300 group-hover:scale-[1.03] [&_img]:h-full [&_img]:object-contain"><Scene name={category.slug === "upvc-profiles" ? "profiles-group" : "combination"} decorative sizes="(min-width:768px) 45vw, 90vw" /></div>
+          <div className={`absolute inset-0 m-auto transition-transform ${category.slug === "upvc-profiles" ? "h-[92%] w-[92%]" : "h-full w-full"} duration-300 group-hover:scale-[1.03] [&_img]:h-full ${category.slug === "upvc-profiles" ? "[&_img]:object-contain" : ""}`}><Scene name={category.slug === "upvc-profiles" ? "profiles-group" : "combination"} decorative sizes="(min-width:768px) 45vw, 90vw" className={category.slug === "upvc-profiles" ? "" : "!rounded-none object-cover"} /></div>
         </div>
         <div className="px-5 pt-5">
           <h3 className="nx-h3 group-hover:text-primary">{category.name}</h3>

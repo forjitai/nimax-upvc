@@ -18,7 +18,21 @@ gx.fillStyle = grd; gx.fillRect(0, 0, 512, 512);
 gx.globalAlpha = 0.28; gx.fillStyle = "#ffffff"; gx.beginPath(); gx.moveTo(120, 0); gx.lineTo(260, 0); gx.lineTo(90, 512); gx.lineTo(-50, 512); gx.fill();
 gx.globalAlpha = 0.16; gx.beginPath(); gx.moveTo(300, 0); gx.lineTo(340, 0); gx.lineTo(170, 512); gx.lineTo(130, 512); gx.fill();
 const gtex = new THREE.CanvasTexture(gc); gtex.colorSpace = THREE.SRGBColorSpace;
-const glass = new THREE.MeshPhysicalMaterial({ map: gtex, roughness: 0.05, clearcoat: 1, transparent: true, opacity: 0.88, envMapIntensity: 0.6, side: THREE.DoubleSide });
+const glassStudio = new THREE.MeshPhysicalMaterial({ map: gtex, roughness: 0.05, clearcoat: 1, transparent: true, opacity: 0.88, envMapIntensity: 0.6, side: THREE.DoubleSide });
+// Room mode: nearly clear glass with soft reflection streaks
+const cc = document.createElement("canvas"); cc.width = cc.height = 512; const cx2 = cc.getContext("2d");
+cx2.fillStyle = "rgba(205,225,232,0.10)"; cx2.fillRect(0, 0, 512, 512);
+cx2.fillStyle = "rgba(255,255,255,0.20)"; cx2.beginPath(); cx2.moveTo(150, 0); cx2.lineTo(250, 0); cx2.lineTo(80, 512); cx2.lineTo(-20, 512); cx2.fill();
+cx2.fillStyle = "rgba(255,255,255,0.12)"; cx2.beginPath(); cx2.moveTo(290, 0); cx2.lineTo(320, 0); cx2.lineTo(150, 512); cx2.lineTo(120, 512); cx2.fill();
+const ctex = new THREE.CanvasTexture(cc); ctex.colorSpace = THREE.SRGBColorSpace;
+const glassRoom = new THREE.MeshBasicMaterial({ map: ctex, transparent: true, depthWrite: false, side: THREE.DoubleSide });
+let glass = glassStudio;
+const gasket = new THREE.MeshStandardMaterial({ color: "#1d1f24", roughness: 0.8 });
+/** Glass pane with a black rubber gasket around its edge. */
+function pane(w, h) {
+  const g = new THREE.Group(); const p = new THREE.Mesh(new THREE.PlaneGeometry(w, h), glass); p.renderOrder = 2; g.add(p);
+  g.add(frame(w + 4, h + 4, 9, 8, gasket)); return g;
+}
 const frosted = new THREE.MeshPhysicalMaterial({ color: "#e4ecef", roughness: 0.6, transparent: true, opacity: 0.85, side: THREE.DoubleSide });
 const meshMat = new THREE.MeshStandardMaterial({ color: "#555a63", roughness: 0.9, transparent: true, opacity: 0.38, side: THREE.DoubleSide });
 const metal = new THREE.MeshStandardMaterial({ color: "#c9ccd2", roughness: 0.25, metalness: 0.9 });
@@ -34,11 +48,12 @@ function frame(w, h, b, d, mat = upvc) {
   return g;
 }
 /** A sash: frame + glass (+ handle). Returned group is centred. */
-function sash(w, h, { pane = glass, handle = null, b = 62, d = 58, mesh = false } = {}) {
+function sash(w, h, { handle = null, b = 62, d = 58, mesh = false } = {}) {
   const g = frame(w, h, b, d);
   // glazing bead step
   g.add(frame(w - 2 * b + 16, h - 2 * b + 16, 8, 10).translateZ(d / 2 - 5));
-  const p = new THREE.Mesh(new THREE.PlaneGeometry(w - 2 * b + 4, h - 2 * b + 4), mesh ? meshMat : pane); p.renderOrder = 2; g.add(p);
+  if (mesh) { const p = new THREE.Mesh(new THREE.PlaneGeometry(w - 2 * b + 4, h - 2 * b + 4), meshMat); g.add(p); }
+  else g.add(pane(w - 2 * b + 4, h - 2 * b + 4));
   if (handle === "side-r" || handle === "side-l") {
     const x = (handle === "side-r" ? 1 : -1) * (w / 2 - b / 2);
     g.add(bx(14, 36, 14, metal, x, 0, d / 2 + 7), bx(14, 110, 12, metal, x, -55, d / 2 + 18));
@@ -79,6 +94,10 @@ const builders = {
     g.add(at(sash(sw, sh, { handle: "pull" }), -W / 2 + 70 + sw / 2, 0, 20));
     g.add(at(sash(sw, sh, { handle: "pull" }), W / 2 - 70 - sw / 2 - 260, 0, -20));
     return g; },
+  "sliding3"() { const W = 1800, H = 1500, g = new THREE.Group(); g.add(frame(W, H, 70, 120));
+    const n = 3, ov = 50, sw = (W - 140 + ov * (n - 1)) / n, sh = H - 140;
+    [[-1, 30, "side-l"], [0, -10, null], [1, 30, "side-r"]].forEach(([i, z, hd]) => g.add(at(sash(sw, sh, { handle: hd }), i * (sw - ov), 0, z)));
+    return g; },
   mesh() { const W = 1500, H = 1200, g = new THREE.Group(); g.add(frame(W, H, 70, 120));
     const sw = (W - 140) / 2 + 40, sh = H - 140;
     g.add(at(sash(sw, sh, { handle: "pull" }), -W / 2 + 70 + sw / 2 + 300, 0, -35));
@@ -94,7 +113,7 @@ const builders = {
     g.add(hinge(sash(W - 132, H - 132, { handle: "side-r" }), W - 132, H - 132, "bottom", 0.16));
     return g; },
   fixed() { const W = 1400, H = 1100, g = new THREE.Group(); g.add(frame(W, H, 66, 70));
-    const p = new THREE.Mesh(new THREE.PlaneGeometry(W - 120, H - 120), glass); g.add(p); g.add(frame(W - 116, H - 116, 10, 10).translateZ(30)); return g; },
+    g.add(pane(W - 120, H - 120)); g.add(frame(W - 116, H - 116, 10, 10).translateZ(30)); return g; },
   "top-hung"() { const W = 900, H = 800, g = new THREE.Group(); g.add(frame(W, H, 66, 70));
     g.add(hinge(sash(W - 132, H - 132, { handle: "bottom" }), W - 132, H - 132, "top", -0.42)); return g; },
   french() { const W = 1300, H = 1400, g = new THREE.Group(); g.add(frame(W, H, 66, 70));
@@ -103,11 +122,11 @@ const builders = {
     g.add(at(hinge(sash(sw, sh, { handle: "side-l" }), sw, sh, "right", -0.5), sw / 2, 0, 0)); return g; },
   combination() { const W = 1800, H = 1500, g = new THREE.Group(); g.add(frame(W, H, 66, 70));
     const topH = 420; g.add(bx(W - 132, 66, 70, upvc, 0, H / 2 - 66 - topH - 33, 0));
-    const tp = new THREE.Mesh(new THREE.PlaneGeometry(W - 132, topH), glass); tp.position.y = H / 2 - 66 - topH / 2; g.add(tp);
+    const tp = pane(W - 132, topH); tp.position.y = H / 2 - 66 - topH / 2; g.add(tp);
     const bh = H - 132 - topH - 66, by = -H / 2 + 66 + bh / 2, cw = (W - 132 - 132) / 3;
     g.add(bx(66, bh, 70, upvc, -cw / 2 - 33, by, 0), bx(66, bh, 70, upvc, cw / 2 + 33, by, 0));
     g.add(at(hinge(sash(cw, bh, { handle: "side-r" }), cw, bh, "left", -0.6), -cw - 66, by, 0));
-    const fp = new THREE.Mesh(new THREE.PlaneGeometry(cw, bh), glass); fp.position.y = by; g.add(fp);
+    const fp = pane(cw, bh); fp.position.y = by; g.add(fp);
     g.add(at(sash(cw, bh, { handle: "side-l" }), cw + 66, by, 0)); return g; },
   folding() { const W = 1800, H = 1200, g = new THREE.Group(); g.add(frame(W, H, 66, 90));
     const pw = (W - 132) / 4, ph = H - 132; const a = 0.9;
@@ -134,6 +153,7 @@ function fit(c, box) {
   return corners;
 }
 window.renderWindow = ({ type, cam = [0.42, 0.12, 1], transparent = false }) => {
+  glass = glassStudio;
   for (const o of [...scene.children]) scene.remove(o);
   scene.background = transparent ? null : new THREE.Color("#ffffff"); r.setClearColor(0xffffff, transparent ? 0 : 1); scene.environment = env;
   const g = builders[type](); scene.add(g);
@@ -156,6 +176,89 @@ window.renderWindow = ({ type, cam = [0.42, 0.12, 1], transparent = false }) => 
   c.position.copy(target).addScaledVector(dir, dist); c.lookAt(target); c.updateMatrixWorld(); c.updateProjectionMatrix();
   const lo = new THREE.Vector2(9, 9), hi = new THREE.Vector2(-9, -9); for (const p of corners) { const v = p.clone().project(c); lo.min(v); hi.max(v); }
   c.setViewOffset(S, S, (lo.x + hi.x) / 2 * S / 2, -(lo.y + hi.y) / 2 * S / 2, S, S);
+  r.render(scene, c); return r.domElement.toDataURL("image/png");
+};
+
+/* ---------- Room mode: window seen from inside, set in a wall, garden view outside ---------- */
+function rng(seed) { return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+function landscape(seed = 7) {
+  const W = 3072, H = 1536, c = document.createElement("canvas"); c.width = W; c.height = H; const x = c.getContext("2d"); const R = rng(seed);
+  const sky = x.createLinearGradient(0, 0, 0, H * 0.55); sky.addColorStop(0, "#b9cfdf"); sky.addColorStop(1, "#edf1ef"); x.fillStyle = sky; x.fillRect(0, 0, W, H);
+  for (let i = 0; i < 40; i++) { const cx = R() * W, cy = R() * H * 0.3; for (let k = 0; k < 8; k++) { x.fillStyle = "rgba(255,255,255,0.18)"; x.beginPath(); x.ellipse(cx + (R() - 0.5) * 160, cy + (R() - 0.5) * 30, 40 + R() * 70, 14 + R() * 18, 0, 0, 7); x.fill(); } }
+  const pal = [[52, 82, 38], [64, 96, 44], [78, 112, 52], [92, 126, 60], [108, 140, 70], [44, 70, 34], [120, 150, 78]];
+  const leaf = (cx, cy, r, s = 1) => { const p = pal[Math.floor(R() * pal.length)];
+    x.fillStyle = `rgb(${p[0] * s},${p[1] * s},${p[2] * s})`; x.beginPath(); x.arc(cx, cy, r, 0, 7); x.fill();
+    x.fillStyle = `rgba(${Math.min(255, p[0] * 1.6)},${Math.min(255, p[1] * 1.5)},${Math.min(255, p[2] * 1.3)},0.55)`; x.beginPath(); x.arc(cx - r * 0.3, cy - r * 0.35, r * 0.55, 0, 7); x.fill(); };
+  // distant hazy hills and tree line
+  x.fillStyle = "#a9b8b0"; x.beginPath(); x.moveTo(0, H * 0.5); for (let i = 0; i <= 20; i++) x.lineTo(i * W / 20, H * (0.44 + R() * 0.05)); x.lineTo(W, H * 0.6); x.lineTo(0, H * 0.6); x.fill();
+  for (let i = 0; i < 1400; i++) { x.fillStyle = `rgba(${95 + R() * 30},${120 + R() * 25},${100 + R() * 20},0.85)`; x.beginPath(); x.arc(R() * W, H * 0.52 + R() * 50, 5 + R() * 12, 0, 7); x.fill(); }
+  // trees, back to front
+  for (let layer = 0; layer < 2; layer++) for (let t = 0; t < 14; t++) {
+    const tx = (t + R()) * W / 14, top = H * (0.08 + R() * 0.22 + layer * 0.08), bot = H * (0.64 + layer * 0.02), wid = 90 + R() * 120, sh = layer ? 1 : 0.85;
+    x.strokeStyle = "#4a3a2a"; x.lineWidth = 8 + R() * 8; x.beginPath(); x.moveTo(tx, bot); x.quadraticCurveTo(tx + (R() - 0.5) * 40, (top + bot) / 2, tx + (R() - 0.5) * 30, top + (bot - top) * 0.3); x.stroke();
+    for (let i = 0; i < 700; i++) { const yy = top + R() * (bot - top) * 0.82; const f = (yy - top) / (bot - top); const spread = wid * (0.25 + 0.75 * Math.sin(Math.min(1, f * 1.3) * Math.PI / 2));
+      leaf(tx + (R() - 0.5) * 2 * spread, yy, 4 + R() * 9, sh * (0.8 + 0.4 * (1 - f))); }
+  }
+  // water with reflections
+  const wtop = H * 0.665, wbot = H * 0.83; const wg = x.createLinearGradient(0, wtop, 0, wbot); wg.addColorStop(0, "#90a7ad"); wg.addColorStop(1, "#5d7a84");
+  x.fillStyle = wg; x.fillRect(0, wtop, W, wbot - wtop);
+  for (let i = 0; i < 1500; i++) { x.fillStyle = R() < 0.55 ? `rgba(60,90,55,${0.1 + R() * 0.2})` : `rgba(235,242,244,${0.15 + R() * 0.25})`; x.fillRect(R() * W, wtop + R() * (wbot - wtop), 10 + R() * 70, 1 + R() * 3); }
+  // far bank and near shore
+  for (let i = 0; i < 900; i++) leaf(R() * W, H * 0.645 + R() * 32, 3 + R() * 8, 0.8);
+  x.fillStyle = "#4d6a36"; x.fillRect(0, wbot, W, H - wbot);
+  for (let i = 0; i < 2200; i++) leaf(R() * W, wbot - 10 + R() * (H - wbot), 5 + R() * 13, 0.95 + R() * 0.2);
+  for (let i = 0; i < 300; i++) { x.fillStyle = `rgba(${200 + R() * 40},${190 + R() * 40},${110 + R() * 60},0.7)`; x.beginPath(); x.arc(R() * W, wbot + R() * (H - wbot), 2 + R() * 3, 0, 7); x.fill(); }
+  x.filter = "blur(1.6px)"; x.drawImage(c, 0, 0); x.filter = "none";
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+}
+function wallTexture() {
+  const c = document.createElement("canvas"); c.width = c.height = 1024; const x = c.getContext("2d");
+  x.fillStyle = "#cdb48d"; x.fillRect(0, 0, 1024, 1024);
+  for (const cx of [240, 784]) { const g = x.createRadialGradient(cx, -40, 20, cx, -40, 620); g.addColorStop(0, "rgba(255,244,222,0.95)"); g.addColorStop(1, "rgba(255,244,222,0)"); x.fillStyle = g; x.fillRect(0, 0, 1024, 1024); }
+  const v = x.createLinearGradient(0, 0, 0, 1024); v.addColorStop(0, "rgba(0,0,0,0)"); v.addColorStop(1, "rgba(80,50,20,0.18)"); x.fillStyle = v; x.fillRect(0, 0, 1024, 1024);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+const LAND = landscape(), WALLTEX = wallTexture();
+window.renderRoom = ({ type, cam = [0.05, 0.02, 1], seed }) => {
+  for (const o of [...scene.children]) scene.remove(o);
+  glass = glassRoom; scene.environment = env; scene.background = new THREE.Color("#cdb48d"); r.setClearColor(0xcdb48d, 1);
+  const win = builders[type](); if (type === "bay") win.scale.z = -1;
+  scene.add(win); let wb = new THREE.Box3().setFromObject(win);
+  win.position.sub(new THREE.Vector3((wb.min.x + wb.max.x) / 2, (wb.min.y + wb.max.y) / 2, wb.max.z));   // front of window at z=0, centred
+  wb = new THREE.Box3().setFromObject(win); const ws = wb.getSize(new THREE.Vector3());
+  const ow = ws.x + 6, oh = ws.y + 6, T = 260, front = 45;            // window sits 45mm back from the wall face
+  const WW = Math.max(ow, oh) * 3.2, WH = WW;
+  // wall face with opening
+  const shp = new THREE.Shape([new THREE.Vector2(-WW / 2, -WH / 2), new THREE.Vector2(WW / 2, -WH / 2), new THREE.Vector2(WW / 2, WH / 2), new THREE.Vector2(-WW / 2, WH / 2)]);
+  shp.holes.push(new THREE.Path([new THREE.Vector2(-ow / 2, -oh / 2), new THREE.Vector2(-ow / 2, oh / 2), new THREE.Vector2(ow / 2, oh / 2), new THREE.Vector2(ow / 2, -oh / 2)]));
+  const wg = new THREE.ShapeGeometry(shp); const pos = wg.attributes.position, uv = wg.attributes.uv;
+  for (let i = 0; i < pos.count; i++) uv.setXY(i, (pos.getX(i) + WW / 2) / WW, (pos.getY(i) + WH / 2) / WH);
+  const wallMat = new THREE.MeshStandardMaterial({ map: WALLTEX, roughness: 0.95 });
+  const wall = new THREE.Mesh(wg, wallMat); wall.position.z = front; wall.receiveShadow = true; scene.add(wall);
+  // reveals (depth of the opening) and a marble sill
+  const rev = new THREE.MeshStandardMaterial({ color: "#c4a982", roughness: 0.95 });
+  const depth = T, zc = front - depth / 2;
+  scene.add(bx(ow, 4, depth, rev, 0, oh / 2 + 2, zc), bx(4, oh, depth, rev, -ow / 2 - 2, 0, zc), bx(4, oh, depth, rev, ow / 2 + 2, 0, zc));
+  const sill = bx(ow + 140, 30, 150, new THREE.MeshStandardMaterial({ color: "#ece7df", roughness: 0.35 }), 0, -oh / 2 - 15, front + 40); scene.add(sill);
+  scene.add(bx(ow, 4, depth, rev, 0, -oh / 2 - 2, zc));
+  // garden view far outside
+  const far = 9000, land = new THREE.Mesh(new THREE.PlaneGeometry(13000, 6500), new THREE.MeshBasicMaterial({ map: LAND }));
+  land.position.set((seed ?? 0) * 500, -500, -far); scene.add(land);
+  // lights: warm room light from front-left-above, daylight from outside
+  scene.add(new THREE.HemisphereLight("#fff6e8", "#a08a6a", 0.75));
+  const d = new THREE.DirectionalLight("#fff3e0", 1.5); d.position.set(-1600, 2200, 3200); d.castShadow = true; d.shadow.mapSize.set(2048, 2048); d.shadow.radius = 6; d.shadow.bias = -0.0005;
+  Object.assign(d.shadow.camera, { left: -3000, right: 3000, top: 3000, bottom: -3000, near: 10, far: 12000 }); scene.add(d);
+  const day = new THREE.DirectionalLight("#eaf2ff", 0.5); day.position.set(0, 800, -3000); scene.add(day);
+  // camera: nearly straight on, wall visible around the window
+  const c = new THREE.PerspectiveCamera(32, 1, 10, 60000); const dir = new THREE.Vector3(...cam).normalize();
+  const mx = ow * 0.05 + 70, my = oh * 0.05 + 70;
+  const corners = []; for (const xx of [-ow / 2 - mx, ow / 2 + mx]) for (const yy of [-oh / 2 - my, oh / 2 + my]) corners.push(new THREE.Vector3(xx, yy, front));
+  const target = new THREE.Vector3(0, 0, front); let dist = Math.max(ow, oh) * 3;
+  for (let k = 0; k < 14; k++) {
+    c.position.copy(target).addScaledVector(dir, dist); c.lookAt(target); c.updateMatrixWorld(); c.updateProjectionMatrix();
+    const lo = new THREE.Vector2(9, 9), hi = new THREE.Vector2(-9, -9); for (const p of corners) { const v = p.clone().project(c); lo.min(v); hi.max(v); }
+    dist *= Math.max(hi.x - lo.x, hi.y - lo.y) / 2 / 0.98;
+  }
   r.render(scene, c); return r.domElement.toDataURL("image/png");
 };
 window.ready = true;

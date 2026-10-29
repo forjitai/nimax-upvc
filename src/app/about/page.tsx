@@ -67,7 +67,7 @@ export default function AboutPage() {
       <div aria-hidden className="nx-container">
         <div className="grid grid-cols-3 gap-4 rounded-brand-lg bg-bg-dark p-8 sm:grid-cols-6 sm:p-10">
           {["62mm-two-track-window-frame", "57mm-sliding-sash", "t-mullion", "sliding-windows", "casement-windows", "combination-windows"].map((t) => (
-            <div key={t} className="relative aspect-square overflow-hidden rounded-brand bg-white"><Image src={`/images/renders/${t}.webp`} alt="" fill sizes="(min-width:640px) 15vw, 30vw" className="object-contain p-1" /></div>
+            <div key={t} className="relative aspect-square overflow-hidden rounded-brand bg-white"><Image src={`/images/3d/${t}.webp`} alt="" fill sizes="(min-width:640px) 15vw, 30vw" className="object-contain p-1" /></div>
           ))}
         </div>
       </div>
